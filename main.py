@@ -1,5 +1,11 @@
-import flask from flask, render_template
+from flask import Flask, render_template, redirect, url_for
+from flask_bootstrap import Bootstrap
+from flask_moment import Moment
+from flask_wtf import FlaskForm
+from wtforms import StringField, SubmitField, IntegerField, PasswordField, SelectField
+from wtforms.validators import DataRequired, NumberRange
 import pymysql
+
 
 @app.route('/')
 def connectHome():
