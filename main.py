@@ -12,6 +12,9 @@ app.config['SECRET_KEY'] = 'TheConnect is the best string'    #various flask ext
 bootstrap = Bootstrap(app)                                    #invokes bootstrap
 moment = Moment(app)                                          #invokes bootstrap
 
+@app.route('/base')                                           #This is the base.html that every webpages uses.
+def base():
+    return render_template('base.html')
 
 @app.errorhandler(404)
 def page_not_found(e):
@@ -23,9 +26,9 @@ def internal_server_error(e):
     return render_template('500.html'), 500
 
 
-@app.route('/home')
+@app.route('/')
 def home():
-    return render_template('index.html')
+    return render_template('landing.html')
 
 
 @app.route('/login', methods=['GET', 'POST'])
