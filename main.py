@@ -25,7 +25,7 @@ def internal_server_error(e):
 
 @app.route('/home')
 def home():
-    return render_template('landing.html')
+    return render_template('index.html')
 
 
 @app.route('/login', methods=['GET', 'POST'])
