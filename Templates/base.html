@@ -7,7 +7,7 @@
     <meta name="description" content="">
     <meta name="author" content="BluTeam">
 
-    <title>TheConnect</title>
+    <title>{% block title %} {{title}} {% endblock %} </title>
 
     <!-- Bootstrap core CSS -->
     <link href="/static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -16,6 +16,9 @@
     <link href="/static/css/modern-business.css" rel="stylesheet">
 
   </head>
+
+
+{% block navbar %}
 
   <body>
 
@@ -28,54 +31,60 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-              <a class="nav-link" href="/help">Help</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="test.html">Test your html</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="contact.html">Contact</a>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownPortfolio" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Portfolio
-              </a>
-              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownPortfolio">
-                <a class="dropdown-item" href="portfolio-1-col.html">1 Column Portfolio</a>
-                <a class="dropdown-item" href="portfolio-2-col.html">2 Column Portfolio</a>
-                <a class="dropdown-item" href="portfolio-3-col.html">3 Column Portfolio</a>
-                <a class="dropdown-item" href="portfolio-4-col.html">4 Column Portfolio</a>
-                <a class="dropdown-item" href="portfolio-item.html">Single Portfolio Item</a>
-              </div>
-            </li>
+            <!--<li class="nav-item">-->
+              <!--<a class="nav-link" href={{nav1_link}}>{{nav1}}</a>-->
+            <!--</li>-->
+            <!--<li class="nav-item">-->
+              <!--<a class="nav-link" href="test.html">Test your html</a>-->
+            <!--</li>-->
+            <!--<li class="nav-item">-->
+              <!--<a class="nav-link" href="contact.html">Contact</a>-->
+            <!--</li>-->
+            <!--<li class="nav-item dropdown">-->
+              <!--<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownPortfolio" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
+                <!--Drop Down #3-->
+              <!--</a>-->
+              <!--<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownPortfolio">-->
+                <!--<a class="dropdown-item" href="portfolio-1-col.html">1 Column Portfolio</a>-->
+                <!--&lt;!&ndash;<a class="dropdown-item" href="portfolio-2-col.html">2 Column Portfolio</a>&ndash;&gt;-->
+                <!--&lt;!&ndash;<a class="dropdown-item" href="portfolio-3-col.html">3 Column Portfolio</a>&ndash;&gt;-->
+                <!--&lt;!&ndash;<a class="dropdown-item" href="portfolio-4-col.html">4 Column Portfolio</a>&ndash;&gt;-->
+                <!--&lt;!&ndash;<a class="dropdown-item" href="portfolio-item.html">Single Portfolio Item</a>&ndash;&gt;-->
+              <!--&lt;!&ndash;</div>&ndash;&gt;-->
+            <!--</li>-->
+            <!--<li class="nav-item dropdown">-->
+              <!--<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownBlog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
+                <!--Drop Down #2-->
+              <!--</a>-->
+              <!--<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">-->
+                <!--<a class="dropdown-item" href="blog-home-1.html">Blog Home 1</a>-->
+                <!--&lt;!&ndash;<a class="dropdown-item" href="blog-home-2.html">Blog Home 2</a>&ndash;&gt;-->
+                <!--&lt;!&ndash;<a class="dropdown-item" href="blog-post.html">Blog Post</a>&ndash;&gt;-->
+              <!--</div>-->
+            <!--</li>-->
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownBlog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Blog
+                Services
               </a>
               <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">
-                <a class="dropdown-item" href="blog-home-1.html">Blog Home 1</a>
-                <a class="dropdown-item" href="blog-home-2.html">Blog Home 2</a>
-                <a class="dropdown-item" href="blog-post.html">Blog Post</a>
-              </div>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownBlog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Other Pages
-              </a>
-              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">
-                <a class="dropdown-item" href="full-width.html">Full Width Page</a>
-                <a class="dropdown-item" href="sidebar.html">Sidebar Page</a>
+                <!--<a class="dropdown-item" href="full-width.html">Full Width Page</a>-->
+                <!--<a class="dropdown-item" href="sidebar.html">Sidebar Page</a>-->
                 <a class="dropdown-item" href="faq.html">FAQ</a>
-                <a class="dropdown-item" href="404.html">404</a>
-                <a class="dropdown-item" href="pricing.html">Pricing Table</a>
+                <!--<a class="dropdown-item" href="404.html">404</a>-->
+                <!--<a class="dropdown-item" href="pricing.html">Pricing Table</a>-->
               </div>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href={{nav1_link}}>{{nav1}}</a>
             </li>
           </ul>
+
         </div>
       </div>
     </nav>
+{% endblock%}
 
+{% block head %}
     <header>
       <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
         <ol class="carousel-indicators">
@@ -103,11 +112,13 @@
         </a>
       </div>
     </header>
+{% endblock %}
 
+{% block content %}
     <!-- Page Content -->
     <div class="container">
 
-      <h1 class="my-4">Welcome to TheConnect</h1>
+      <h1 class="my-4 card text-center" >Welcome to TheConnect</h1>
 
       <!-- Marketing Icons Section -->
       <div class="row">
@@ -147,8 +158,8 @@
       </div>
       <!-- /.row -->
 
-
-
+{% endblock %}
+{% block body %}
 
       <hr>
 
@@ -168,7 +179,7 @@
     <!-- Footer -->
     <footer class="py-5 bg-dark">
       <div class="container">
-        <p class="m-0 text-center text-white">Copyright &copy; Your Website 2018</p>
+        <p class="m-0 text-center text-white">Copyright &copy; of the Blu Team</p>
       </div>
       <!-- /.container -->
     </footer>
@@ -180,3 +191,4 @@
   </body>
 
 </html>
+{% endblock %}

@@ -5,6 +5,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, IntegerField, PasswordField, SelectField
 from wtforms.validators import DataRequired, NumberRange
 import pymysql
+from flask_user import roles_required   # we will have three roles; admin, intern, sponsor
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'TheConnect is the best string'    #various flask extensions need a "secret key"
@@ -33,12 +34,18 @@ def internal_server_error(e):
 
 @app.route('/')
 def home():
-    return render_template('landing.html')
+    title = "TheConnect"
+    nav1= "Login"
+    nav1_link = '/login'
+    return render_template('landing.html', title=title, nav1=nav1, nav1_link=nav1_link)
 
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    return render_template('login.html')
+    title = "Login"
+    nav1 = "Home"
+    nav1_link = "/"
+    return render_template('login.html', title=title, nav1=nav1, nav1_link=nav1_link)
 
 
 @app.route('/profile')
@@ -46,9 +53,11 @@ def profile():
     return render_template('profile.html')
 
 
-@app.route('/admin/home')
+@app.route('/admin/home')   #doesnt work yet, needs to define the class.
+@roles_required('admin')
 def admin_home():
-    return render_template('admin_home.html')
+    title = "admin home"
+    return render_template('admin_home.html', title=title)
 
 
 @app.route('/admin/login')
