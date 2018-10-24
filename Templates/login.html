@@ -3,9 +3,9 @@
 
 {% block title %}{{title}}{% endblock %}
 
- {% block head %}
+{% block head %}
+{% endblock %}
 
- {% endblock %}
 
 {% block navbar %}
  {{ super() }}
@@ -14,10 +14,12 @@
 
 
 {% block content %}
+<div class="container">
 <div class="card text-center">
   <div class="card-header" >
 	{{ wtf.quick_form(form) }}
   </div>
+</div>
 </div>
 {% endblock %}
 
