@@ -101,6 +101,11 @@ def notifications():
 def sponsor_profile():
     return render_template('sponsor_profile.html')
 
+@app.route('/about')
+def about():
+    title="about"
+    return render_template('about.html', title=title)
+
 
 if __name__ == '__main__':                                   #You can run the main.py and type "localhost:8080" in your
     app.run(host='0.0.0.0', port=8080, debug=True)           #broswer to test the main.py in your computer.
