@@ -1,5 +1,4 @@
 #The Connect
-
 from flask import Flask, render_template, redirect, url_for
 from flask_bootstrap import Bootstrap
 from flask_moment import Moment
@@ -9,12 +8,23 @@ from wtforms.validators import DataRequired, NumberRange
 import pymysql
 from flask_user import roles_required   # we will have three roles; admin, intern, sponsor
 
+
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'TheConnect is the best string'    #various flask extensions need a "secret key"
 
 bootstrap = Bootstrap(app)                                    #invokes bootstrap
-moment = Moment(app)                                          #invokes bootstrap
+moment = Moment(app)#invokes bootstrap
 
+db = pymysql.connect(host='35.231.51.121',user='root',password='connect1234', db ='theConnect')
+c = db.cursor()
+
+
+
+class loginForm(FlaskForm):
+        username = StringField('Username:',validators=[DataRequired()])
+        password = StringField('Password:', validators=[DataRequired()])
+        submit = SubmitField('Log in')
+        
 @app.route('/base')                                           #This is the base.html that every webpages uses.
 def base():
     return render_template('base.html')
@@ -39,15 +49,17 @@ def home():
     title = "TheConnect"
     nav1= "Login"
     nav1_link = '/login'
-    return render_template('landing.html', title=title, nav1=nav1, nav1_link=nav1_link)
+    return render_template('landing.html', title=title, nav1=nav1, nav1_link=nav1_link,)
 
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    form = loginForm()
     title = "Login"
     nav1 = "Home"
+    nav2 = 'Register'
     nav1_link = "/"
-    return render_template('login.html', title=title, nav1=nav1, nav1_link=nav1_link)
+    return render_template('login.html', form=form, title=title, nav1=nav1, nav1_link=nav1_link)
 
 
 @app.route('/profile')
