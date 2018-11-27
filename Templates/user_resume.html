@@ -1,0 +1,31 @@
+{% extends "base_profile.html" %}
+{% block title %}{{title}}{% endblock %}
+
+{% block doc %}
+{{super()}}
+{% endblock %}
+
+{% block navbar %}
+{{ super() }}
+{% endblock %}
+
+{% block head %}
+
+{% endblock %}
+
+
+{% block content %}
+
+<div class="container-fluid center-block">
+    <div class="container-fluid" style="margin-top: 25px">
+        <a onclick="history.back()" class="btn btn-primary text-white">Back</a>
+    </div>
+    <img src={{resume}} class="img-fluid" onerror="this.src='../static/img/v.jpg'">
+    </div>
+{% endblock %}
+
+
+
+{% block body %}
+{{ super() }}
+{% endblock %}

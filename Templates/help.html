@@ -1,11 +1,39 @@
 {% extends "base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 
-{% block title %}Flasky{% endblock %}
+<!------------------Add this portion to the main.py-------------------->
+<!--@app.route('/(your route)')-->
+<!--def (def_name) ():-->
+    <!--title = ("title")-->
+    <!--return render_template('(name_of_your).html', titile=title)-->
+<!------------------Add this portion to the main.py------------------>
 
-{% block page_content %}
-<div class="page-header">
-    <h1>Hello, {% if name %}{{ name }}{% else %}Stranger{% endif %}!</h1>
-</div>
+<!-------- Your title for the webpage goes here------------->
+{% block title %}{{title}}{% endblock %}
 
+{% block doc %}
+{{super()}}
+{% endblock %}
+
+
+<!--This contains the navbar elements-->
+{% block navbar %}
+ {{ super() }}                          <!--Keep the {{super()}} if you want to keep the code from the base.html-->
+{% endblock %}
+
+<!--This contains the TheConnect image-->
+{% block head %}
+{{ super() }}
+{% endblock %}
+
+
+<!--This contains the three Cards below the TheConnect image-->
+{% block content %}
+{{ super() }}
+{% endblock %}
+
+
+<!--This contains the latin text and the call to arms button-->
+{% block body %}
+{{ super() }}
 {% endblock %}

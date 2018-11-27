@@ -1,34 +1,45 @@
-<!DOCTYPE html>
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
 
-<html>
-	<form>
-	  <div class="form-row align-items-center">
-			<div class="col-auto my-1">
-			  <label class="mr-sm-2 sr-only" for="inlineFormCustomSelect">Error Type</label>
-			  <select class="custom-select mr-sm-2" id="inlineFormCustomSelect" required>
-				<option selected>Select</option>
-				<option value="1">One</option>
-				<option value="2">Two</option>
-				<option value="3">Three</option>
-			  </select>
-			</div>
-			
-			<div class="form-group">
-				<label for="exampleFormControlInput1">Email address</label>
-				<input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com" required>
-			</div>
-			
-			<div class="form-group">
-				<label for="exampleFormControlTextarea1">Describe Error</label>
-				<textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-			</div>
-			
-			<div class="col-auto my-1">
-			  <button type="submit" class="btn btn-primary">Submit</button>
-			</div>
-	  </div>
-	</form>
+<!------------------Add this portion to the main.py-------------------->
+<!--@app.route('/(your route)')-->
+<!--def (def_name) ():-->
+    <!--title = ("title")-->
+    <!--return render_template('(name_of_your).html', titile=title)-->
+<!------------------Add this portion to the main.py------------------>
+
+<!-------- Your title for the webpage goes here------------->
+{% block title %}{{title}}{% endblock %}
 
 
+{% block doc %}
+{{super()}}
+{% endblock %}
 
-</html>
+<!--This contains the navbar elements-->
+{% block navbar %}
+ {{ super() }}                          
+{% endblock %}
+
+<!--This contains the TheConnect image-->
+{% block head %}
+{{ super() }}
+{% endblock %}
+
+
+{% block content %}
+	<div class="container-fluid col-8" style="margin-top: 30px">
+	<h1>Report Issue</h1>
+	<div class="card text-left">
+		<div class="card-header" >
+			{{ wtf.quick_form(form) }}
+		</div>
+	</div>
+	</div>
+{% endblock %}
+
+
+<!--This contains the latin text and the call to arms button-->
+{% block body %}
+{{ super() }}
+{% endblock %}

@@ -27,3 +27,11 @@ body {
 .portfolio-item {
   margin-bottom: 30px;
 }
+
+.no-padding{
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.jumbotron {background-image: 100% 100%; }
+

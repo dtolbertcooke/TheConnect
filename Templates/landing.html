@@ -1,29 +1,51 @@
 {% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
 {% block title %}{{title}}{% endblock %}
+
+{% block doc %}
+{{super()}}
+{% endblock %}
 
 {% block navbar %}
 {{ super() }}
 {% endblock %}
 
 {% block head %}
-{{ super() }}
+    <header>
+		<div class="page-header">
+			<div class="jumbotron jumbotron-fluid" style="background-image: url('http://www.scsujournalism.org/wp-content/uploads/2017/07/owlandmorrill_crop2.jpg')">
+				<div class="container">
+					<p class="lead text-white">A way to connect Southern Connecticut students with internship opportunities.</p>
+				</div>
+			</div>
+		</div>
+    </header>
 {% endblock %}
 
 
 {% block content %}
 	<!-- Call to Action Section -->
-	<div class="container">
-	 <!-- Call to Action Section -->
-      <div class="row mb-4">
-        <div class="col-md-8">
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Molestias, expedita, saepe, vero rerum deleniti beatae veniam harum neque nemo praesentium cum alias asperiores commodi.</p>
-        </div>
-        <div class="col-md-4">
-          <a class="btn btn-lg btn-secondary btn-block" href="#">Register</a>
-        </div>
-      </div>
-	
-	</div>
+		  <div class="row mr-2 ml-2 my-2">
+				<div class="col-4">
+				  <a class="btn btn-lg btn-primary btn-block text-center" href="/create_sponsor">Sponsor Register</a>
+				</div>
+				<div class="col-4">
+				  <a class="btn btn-lg btn-primary btn-block text-center" href="/create_student">Intern Register</a>
+				</div>
+				<div class="col-4">
+					<div class="w-100">
+					<div class="text-left">
+						<div class="page-header text-center">
+						<h1>User Login</h1>
+						</div>
+						<div class="card-header" >
+							{{ wtf.quick_form(form) }}
+							<a href="/forgot_password">Forgot Password?</a>
+						</div>
+					</div>
+					</div>
+				</div>
+			</div>
 {% endblock %}
 
 

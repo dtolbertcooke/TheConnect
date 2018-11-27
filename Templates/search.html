@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+<!------------------Add this portion to the main.py-------------------->
+<!--@app.route('/(your route)')-->
+<!--def (def_name) ():-->
+    <!--title = ("title")-->
+    <!--return render_template('(name_of_your).html', titile=title)-->
+<!------------------Add this portion to the main.py------------------>
+
+<!-------- Your title for the webpage goes here------------->
+{% block title %}{{title}}{% endblock %}
+
+{% block doc %}
+{{super()}}
+{% endblock %}
+
+<!--This contains the navbar elements-->
+{% block navbar %}
+{{super()}}
+{% endblock %}
+
+<!--This contains the TheConnect image-->
+{% block head %}
+
+<div class="container-fluid" style="margin: 5px; border:1px solid #00bfff;">
+<div class="text-center"><h1>SearchFunction</h1></div>
+    <div class="row">
+    <div class="col-6" style="margin-top:8px;">
+        <div class="active-cyan-3 active-cyan-4 mb-4">
+            <input class="form-control" type="text" placeholder="Internship" aria-label="Internship">
+        </div>
+    </div>
+    <div class="col-4" style="margin-top:8px;">
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <label class="input-group-text" for="inputGroupSelect01">Degree</label>
+            <select class="custom-select" id="inputGroupSelect01">
+                <option selected>Business</option>
+                <option value="1">Business</option>
+                <option value="2">Computer Science</option>
+                <option value="3">Mathmatics</option>
+                <option value="4">Language</option>
+                <option value="5">Physics</option>
+                <option value="6">Social Science</option>
+            </select>
+        </div>
+    </div>
+
+    </div>
+                <div class="col-1" style="margin-top:8px;">
+        <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        <div class="col-1" style="margin-top:8px;">
+        <button type="submit" class="btn btn-primary">Refresh</button>
+            </div>
+</div>
+    <table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">First</th>
+      <th scope="col">Last</th>
+      <th scope="col">Handle</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">1</th>
+      <td>Mark</td>
+      <td>Otto</td>
+      <td>@mdo</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+{% endblock %}
+
+
+<!--This contains the three Cards below the TheConnect image-->
+{% block content %}
+{% endblock %}
+
+
+<!--This contains the latin text and the call to arms button-->
+{% block body %}
+{{super()}}
+{% endblock %}
+<!--For some reason, if     </snt {{super()}} the navbar dropdown doesnt work-->

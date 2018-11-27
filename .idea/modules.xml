@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/The-Connect.iml" filepath="$PROJECT_DIR$/.idea/The-Connect.iml" />
+      <module fileurl="file://$USER_HOME$/Desktop/Scripts/flask-login/flask-login/.idea/flask-login.iml" filepath="$USER_HOME$/Desktop/Scripts/flask-login/flask-login/.idea/flask-login.iml" />
     </modules>
   </component>
 </project>

@@ -1,3 +1,6 @@
+<title>{% block title %} {{title}} {% endblock %} </title>
+
+{% block doc %}
 <html lang="en">
 
   <head>
@@ -7,112 +10,109 @@
     <meta name="description" content="">
     <meta name="author" content="BluTeam">
 
-    <title>{% block title %} {{title}} {% endblock %} </title>
+
 
     <!-- Bootstrap core CSS -->
     <link href="/static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
     <link href="/static/css/modern-business.css" rel="stylesheet">
+	
+	<!-- Bootstrap core JavaScript -->
+    <script src="/static/vendor/jquery/jquery.min.js"></script>
+    <script src="/static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
   </head>
-
+ {% endblock %}
 
 {% block navbar %}
-
-  <body>
-
     <!-- Navigation -->
-    <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary fixed-top" role ="navigation">
       <div class="container">
-        <a class="navbar-brand" href="/">TheConnect</a>  <!-- TheConnect on the top left redir to '\' route, with landing.html-->
+        <a class="navbar-brand" href={{logo_link}}>The Connect</a>  <!-- TheConnect on the top left redir to '\' route, with landing.html-->
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
+          <span class="navbar-toggler-icon bg-"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
-            <!--<li class="nav-item">-->
-              <!--<a class="nav-link" href={{nav1_link}}>{{nav1}}</a>-->
-            <!--</li>-->
-            <!--<li class="nav-item">-->
-              <!--<a class="nav-link" href="test.html">Test your html</a>-->
-            <!--</li>-->
-            <!--<li class="nav-item">-->
-              <!--<a class="nav-link" href="contact.html">Contact</a>-->
-            <!--</li>-->
-            <!--<li class="nav-item dropdown">-->
-              <!--<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownPortfolio" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
-                <!--Drop Down #3-->
-              <!--</a>-->
-              <!--<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownPortfolio">-->
-                <!--<a class="dropdown-item" href="portfolio-1-col.html">1 Column Portfolio</a>-->
-                <!--&lt;!&ndash;<a class="dropdown-item" href="portfolio-2-col.html">2 Column Portfolio</a>&ndash;&gt;-->
-                <!--&lt;!&ndash;<a class="dropdown-item" href="portfolio-3-col.html">3 Column Portfolio</a>&ndash;&gt;-->
-                <!--&lt;!&ndash;<a class="dropdown-item" href="portfolio-4-col.html">4 Column Portfolio</a>&ndash;&gt;-->
-                <!--&lt;!&ndash;<a class="dropdown-item" href="portfolio-item.html">Single Portfolio Item</a>&ndash;&gt;-->
-              <!--&lt;!&ndash;</div>&ndash;&gt;-->
-            <!--</li>-->
-            <!--<li class="nav-item dropdown">-->
-              <!--<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownBlog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
-                <!--Drop Down #2-->
-              <!--</a>-->
-              <!--<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">-->
-                <!--<a class="dropdown-item" href="blog-home-1.html">Blog Home 1</a>-->
-                <!--&lt;!&ndash;<a class="dropdown-item" href="blog-home-2.html">Blog Home 2</a>&ndash;&gt;-->
-                <!--&lt;!&ndash;<a class="dropdown-item" href="blog-post.html">Blog Post</a>&ndash;&gt;-->
-              <!--</div>-->
-            <!--</li>-->
+			<li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdownBlog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                About The Connect
+              </a>
+			  
+              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">
+                
+                <a class="dropdown-item" href="/about">About</a>
+				<a class="dropdown-item" href="/contact">Contact</a>
+              </div>
+	
+            </li>
             <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownBlog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Services
+              <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdownBlog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                {Testing}
               </a>
               <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">
-                <!--<a class="dropdown-item" href="full-width.html">Full Width Page</a>-->
-                <!--<a class="dropdown-item" href="sidebar.html">Sidebar Page</a>-->
-                <a class="dropdown-item" href="faq.html">FAQ</a>
-                <!--<a class="dropdown-item" href="404.html">404</a>-->
-                <!--<a class="dropdown-item" href="pricing.html">Pricing Table</a>-->
+                <a class="dropdown-item" href="/404">404.html</a>
+                <a class="dropdown-item" href="/500">500.html</a>
+                <a class="dropdown-item" href="/about">About</a>
+                <a class="dropdown-item" href="/admin/home">Admin Home</a>
+                <a class="dropdown-item" href="/admin_login">Admin Login</a>
+                <a class="dropdown-item" href="/base">Base</a>
+                <a class="dropdown-item" href="/create_internship">create_internship</a>
+                <a class="dropdown-item" href="/create_ticket">create_ticket</a>
+                <a class="dropdown-item" href="/faq">faq</a>
+                <a class="dropdown-item" href="/help">help</a>
+                <a class="dropdown-item" href="/landing">Landing</a>
+                <a class="dropdown-item" href="/notifications">notifications</a>
+                <a class="dropdown-item" href="/sponsor">Sponsor profile</a>
+                <a class="dropdown-item" href="/intern">Intern profile</a>
+                <a class="dropdown-item" href="/test">test</a>
               </div>
             </li>
-            <li class="nav-item">
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdownBlog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Help
+              </a>
+              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">
+                
+                <a class="dropdown-item" href="/faq">FAQ</a>
+				<a class="dropdown-item" href="/create_ticket">Report Error</a>
+                
+              </div>
+	
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdownBlog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Register
+              </a>
+              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">
+               
+                <a class="dropdown-item" href="create_student">Student</a>
+                <a class="dropdown-item" href="create_sponsor">Sponsor</a>
+              </div>
+            </li>
+            <li class="nav-item text-white">
               <a class="nav-link" href={{nav1_link}}>{{nav1}}</a>
             </li>
           </ul>
-
-        </div>
+		</div>
       </div>
     </nav>
 {% endblock%}
 
 {% block head %}
     <header>
-      <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-        <ol class="carousel-indicators">
-          <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-
-        </ol>
-        <div class="carousel-inner" role="listbox">
-          <!-- Slide One - Set the background image for this slide in the line below -->
-          <div class="carousel-item active" style="background-image: url('http://www.scsujournalism.org/wp-content/uploads/2017/07/owlandmorrill_crop2.jpg')">
-            <div class="carousel-caption d-none d-md-block">
-              <h3>TheConnect</h3>
-              <p>How many times can we write TheConnect?</p>
-            </div>
-          </div>
-
-          </div>
-        </div>
-        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-          <span class="sr-only">Previous</span>
-        </a>
-        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-          <span class="carousel-control-next-icon" aria-hidden="true"></span>
-          <span class="sr-only">Next</span>
-        </a>
-      </div>
+		<div class="page-header">
+			<div class="jumbotron jumbotron-fluid" style="background-image: url('http://www.scsujournalism.org/wp-content/uploads/2017/07/owlandmorrill_crop2.jpg')">
+				<div class="container">
+					<p class="lead text-white">A way to connect Southern Connecticut students with internship opportunities.</p>
+				</div>
+			</div>
+		</div>
     </header>
 {% endblock %}
+
+
 
 {% block content %}
     <!-- Page Content -->
@@ -126,7 +126,7 @@
           <div class="card h-100">
             <h4 class="card-header">Card Title</h4>
             <div class="card-body">
-              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente esse necessitatibus neque.</p>
+              <p class="card-text"></p>
             </div>
             <div class="card-footer">
               <a href="#" class="btn btn-primary">Learn More</a>
@@ -137,7 +137,7 @@
           <div class="card h-100">
             <h4 class="card-header">Card Title</h4>
             <div class="card-body">
-              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis ipsam eos, nam perspiciatis natus commodi similique totam consectetur praesentium molestiae atque exercitationem ut consequuntur, sed eveniet, magni nostrum sint fuga.</p>
+              <p class="card-text"></p>
             </div>
             <div class="card-footer">
               <a href="#" class="btn btn-primary">Learn More</a>
@@ -148,7 +148,7 @@
           <div class="card h-100">
             <h4 class="card-header">Card Title</h4>
             <div class="card-body">
-              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente esse necessitatibus neque.</p>
+              <p class="card-text"></p>
             </div>
             <div class="card-footer">
               <a href="#" class="btn btn-primary">Learn More</a>
@@ -160,25 +160,37 @@
 	</div>
 	 <!-- /.container -->
 {% endblock %}
+
+
+{% block page_content %}
+{% endblock %}
+
 {% block body %}
-
-
-
-    
-    <!-- Footer -->
-    <footer class="py-5 bg-dark">
+    <footer class="py-5 bg-light">
       <div class="container">
-        <p class="m-0 text-center text-white">Copyright &copy; of the Blu Team</p>
+        <p class="text-center text-primary">Product of the Blu Team</p>
+        <ul class="list-inline text-center">
+          <li class="list-inline-item"></li>
+                <a href="/about">About</a>
+              </li>
+              <li class="list-inline-item">&sdot;</li>
+          <li class="list-inline-item ">
+                <a href="/faq">FAQ</a>
+              </li>
+              <li class="list-inline-item">&sdot;</li>
+          <li class="list-inline-item">
+                <a href="/help">Help</a>
+              </li>
+              <li class="list-inline-item">&sdot;</li>
+          <li class="list-inline-item">
+                <a href="/create/ticket">Ticket</a>
+              </li>
+              <li class="list-inline-item">&sdot;</li>
+        </ul>
       </div>
       <!-- /.container -->
     </footer>
 
-    <!-- Bootstrap core JavaScript -->
-    <script src="/static/vendor/jquery/jquery.min.js"></script>
-    <script src="/static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-  </body>
-
-</html>
 {% endblock %}
+
 

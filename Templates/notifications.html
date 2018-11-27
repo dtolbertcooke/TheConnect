@@ -1,6 +1,39 @@
-<!DOCTYPE html>
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
 
-<html>
+<!------------------Add this portion to the main.py-------------------->
+<!--@app.route('/(your route)')-->
+<!--def (def_name) ():-->
+    <!--title = ("title")-->
+    <!--return render_template('(name_of_your).html', titile=title)-->
+<!------------------Add this portion to the main.py------------------>
+
+<!-------- Your title for the webpage goes here------------->
+{% block title %}{{title}}{% endblock %}
 
 
-</html>
+{% block doc %}
+{{super()}}
+{% endblock %}
+
+<!--This contains the navbar elements-->
+{% block navbar %}
+ {{ super() }}                          <!--Keep the {{super()}} if you want to keep the code from the base.html-->
+{% endblock %}
+
+<!--This contains the TheConnect image-->
+{% block head %}
+{{ super() }}
+{% endblock %}
+
+
+<!--This contains the three Cards below the TheConnect image-->
+{% block content %}
+{{ super() }}
+{% endblock %}
+
+
+<!--This contains the latin text and the call to arms button-->
+{% block body %}
+{{ super() }}
+{% endblock %}
