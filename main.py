@@ -215,8 +215,11 @@ def sponsor_profile():
 # @login_required
 # @roles_required('admin')
 def admin_home():
-    title = "Admin Home"
-    return render_template('admin_home.html', title=title)
+    c.execute('Select * from Internship')
+    data = c.fetchall()
+
+
+    return render_template('admin_home.html', data=data)
 
 
 '''
