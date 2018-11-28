@@ -1,5 +1,5 @@
 {% extends "base_admin.html" %}
-{% block title %}{{title}}{% endblock %}
+{% block title %}Admin Home{% endblock %}
 
 {% block doc %}
 {{super()}}
@@ -36,27 +36,29 @@
             <div class="collapse multi-collapse" id="Manage">
                 <div class="card-header">
                     <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
-						<a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#Itern">Intern</a>
-						<a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile">Sponsor</a>
-						<a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact">Posting</a>
-					</div>
-				<div class="tab-content py-3 px-3 px-sm-0" id="nav-tabContent">
-					<div class="tab-pane fade show active" id="Itern" >
-                        Intern Text
+                        <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#Itern">Intern</a>
+                        <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab"
+                           href="#nav-profile">Sponsor</a>
+                        <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab"
+                           href="#nav-contact">Posting</a>
+                    </div>
+                    <div class="tab-content py-3 px-3 px-sm-0" id="nav-tabContent">
+                        <div class="tab-pane fade show active" id="Itern">
+                            Intern Text
 
-                        More <br>
-                        More <br>
-                        sdfsd <br>
-                        fsdfsd <br>
-                        fsdfds <br>
+                            More <br>
+                            More <br>
+                            sdfsd <br>
+                            fsdfsd <br>
+                            fsdfds <br>
+                        </div>
+                        <div class="tab-pane fade" id="nav-profile">
+                            Sponsor Text
+                        </div>
+                        <div class="tab-pane fade" id="nav-contact">
+                            Iternship Posting
+                        </div>
                     </div>
-					<div class="tab-pane fade" id="nav-profile">
-                        Sponsor Text
-                    </div>
-					<div class="tab-pane fade" id="nav-contact">
-                        Iternship Posting
-                    </div>
-				</div>
                 </div>
             </div>
         </div>
@@ -188,26 +190,33 @@
                     <h4> Approve Sponsorship</h4>
                     <thead>
                     <tr>
-                        <th scope="col">#</th>
                         <th scope="col">Sponsor</th>
-                        <th scope="col">Sponsorship</th>
+                        <th scope="col">Title</th>
                         <th scope="col">Approve</th>
                         <th scope="col">Deny</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <th scope="row">1</th>
-                        <td><a href="https://www.microsoft.com/en-us/">Microsoft</a></td>
-                        <td><a href="localhost:8080/sponsorship">Sponsorship Example</a></td>
-                        <td>
-                            <button type="button" class="btn btn-primary btn-sm">Approve <i class="oi oi-check"></i>
-                            </button>
-                        </td>
-                        <td>
-                            <button type="button" class="btn btn-danger btn-sm">Deny <i class="oi oi-x"></i></button>
-                        </td>
-                    </tr>
+                    <table>
+
+                            {% for row in data %}
+                        <tr>
+                            <td><a href="https://www.microsoft.com/en-us/">{{row[0]}}</a></td>
+
+                            <td><a href="localhost:8080/sponsorship">{{row[1]}}</a></td>
+
+                            <td>
+                                <button type="button" class="btn btn-primary btn-sm">Approve <i class="oi oi-check"></i>
+                                </button>
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-danger btn-sm">Deny <i class="oi oi-x"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+
                     </tbody>
                 </table>
             </div>
@@ -220,7 +229,6 @@
                     <h4>Referrals</h4>
                     <thead>
                     <tr>
-                        <th scope="col">#</th>
                         <th scope="col">Sponsor</th>
                         <th scope="col">Intern</th>
                         <th scope="col">Sponsorship</th>
