@@ -110,4 +110,9 @@ class contactForm(FlaskForm):
 #Internship Application
 
 	
-#
+class Approve(FlaskForm):
+    approve = SubmitField("Approve")
+
+class Deny(FlaskForm):
+    deny = SubmitField("Deny")
+
