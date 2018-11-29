@@ -42,7 +42,7 @@ login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 db = pymysql.connect(host='35.231.51.121', user='root', password='connect1234', db='theConnect')
 c = db.cursor()
-
+user_db = {}
 
 # user roles
 def is_admin():
@@ -79,8 +79,8 @@ def is_student():
 # Function does a lookup by id and returns the User object if
 # it exists, None otherwise.		
 @login_manager.user_loader
-def load_user(user):
-    return user
+def load_user(id):
+    return user_db.get(id)
 
 
 @app.route('/base')  # This is the base.html that every webpages uses.
@@ -125,9 +125,9 @@ def home():
         data = c.fetchall()
 
         for row in data:
-            userID, email, password, role = row[0], row[1], row[2], row[3]
-
-            user = User(userID, email, password, role)
+            userID,email,password,role = row[0],row[1],row[2],row[3]
+            user = User(userID,email,password,role)
+            user_db[userID] = user
             valid_password = check_password_hash(user.pass_hash, form.password.data)
             if user is None or not valid_password:
                 print('Invalid username or password', file=sys.stderr)
@@ -169,11 +169,12 @@ def login():
 
 
 @app.route('/intern')
+@login_required
 def intern_profile():
     title = "Profile"
-
+    name = current_user.id
     # profile_pic = "..\static\img\s_profile.png"  testing out profile pic
-    c.execute('Select * from Student where UserID ')
+    c.execute('Select * from Student where UserID = %s' %(name))
     data = c.fetchall()
 
     for row in data:
@@ -192,6 +193,7 @@ def intern_profile():
 
 
 @app.route('/sponsor')
+@login_required
 def sponsor_profile():
     title = "Profile"
     # profile_pic = "..\static\img\s_profile.png"  testing out profile pic
