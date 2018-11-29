@@ -117,17 +117,17 @@ def home():
 
     if current_user.is_authenticated:
         return redirect(url_for('profile'))
-	
+
     form = loginForm()
     if form.validate_on_submit():
         email = form.email.data
-        c.execute('SELECT * FROM User WHERE UserID = %s;' %(email))
+        c.execute('SELECT * FROM User WHERE UserID = %s;' % (email))
         data = c.fetchall()
 
         for row in data:
-            userID,email,password,role = row[0],row[1],row[2],row[3]
-		
-            user = User(userID,email,password,role)
+            userID, email, password, role = row[0], row[1], row[2], row[3]
+
+            user = User(userID, email, password, role)
             valid_password = check_password_hash(user.pass_hash, form.password.data)
             if user is None or not valid_password:
                 print('Invalid username or password', file=sys.stderr)
@@ -141,7 +141,8 @@ def home():
                 else:
                     return redirect(url_for('intern_profile'))
     return render_template('landing.html', form=form, title=title, logo_link=logo_link)
-	
+
+
 '''
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -182,7 +183,7 @@ def intern_profile():
         gpa = row[7]
         email = row[4]
         phone = row[5]
-        
+
     school = "Southern"
     profile_pic = "https://raw.githubusercontent.com/scsu-csc330-400/blu-test/help_jason/Static/img/b.jpg?token=AoQ7TSJDqVpIdxBM_4hwk9J2QSluOd47ks5b7GhvwA%3D%3D"
 
@@ -208,15 +209,31 @@ def sponsor_profile():
                            degree=degree, school=school, gpa=gpa, email=email, phone=phone)
 
 
-@app.route('/admin_home')  # doesnt work yet, needs to define the class.
+@app.route('/admin_home', methods=['GET', 'POST'])  # doesnt work yet, needs to define the class.
 # @login_required
 # @roles_required('admin')
 def admin_home():
-    c.execute('Select * from Internship')
-    data = c.fetchall()
+    c.execute('Select * from Internship WHERE approved = 0')
+    approve_internship_data = c.fetchall()
+    c.execute('Select * from Internship WHERE referral = 1')
+    referral_requested_data = c.fetchall()
+    c.execute('Select * from Student')
+    intern_data = c.fetchall()
+    c.execute('Select * from Sponsor')
+    sponsor_data = c.fetchall()
+    form_app = Approve()
+    form_den = Deny()
+    unq_id = 0
+    if form_app.validate_on_submit():
+        print("hiii")
+        # c.execute('INSERT INTO User values("
+    elif form_den.validate_on_submit():
+        print("bye")
+        # c.execute('INSERT INTO User values("
 
-
-    return render_template('admin_home.html', data=data)
+    return render_template('admin_home.html', approve_internship_data=approve_internship_data, form_app=form_app,
+                           form_den=form_den, unq_id=unq_id, intern_data=intern_data, sponsor_data=sponsor_data,
+                           referral_requested_data=referral_requested_data)
 
 
 '''
@@ -272,7 +289,7 @@ def create_internship():
         approved = 0
 
         c.execute('INSERT INTO Internships values("%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s")' % (
-        email, address, address2, city, state, zipcode, startDate, endDate, major, gpa, pay, description))
+            email, address, address2, city, state, zipcode, startDate, endDate, major, gpa, pay, description))
 
         db.commit()
         return render_template('successful_internship.html', title=title, nav1=nav1, logo_link=logo_link)
@@ -302,7 +319,7 @@ def create_sponsor():
 
         c.execute('INSERT INTO User values("%s","%s","%s","%s")' % (sponsorID, email, password, role))
         c.execute('INSERT INTO Sponsor values("%s","%s","%s","%s","%s","%s","%s","%s","%s")' % (
-        sponsorID, company, address, website, phone, zipcode, city, description, state))
+            sponsorID, company, address, website, phone, zipcode, city, description, state))
 
         db.commit()
         return redirect(url_for('home'))
@@ -333,7 +350,7 @@ def create_student():
 
         c.execute('INSERT INTO User values("%s","%s","%s","%s")' % (studentID, email, password, role))
         c.execute('INSERT INTO Student values("%s","%s","%s","%s","%s","%s","%s",%s,"%s","%s","%s","%s")' % (
-        studentID, fname, lname, address, email, phone, major, gpa, state, address2, city, zipcode))
+            studentID, fname, lname, address, email, phone, major, gpa, state, address2, city, zipcode))
 
         db.commit()
         return redirect(url_for('home'))
