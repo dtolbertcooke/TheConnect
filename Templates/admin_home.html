@@ -1,12 +1,13 @@
 {% extends "base_admin.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
 {% block title %}Admin Home{% endblock %}
 
 {% block doc %}
-{{super()}}
+    {{ super() }}
 {% endblock %}
 
 {% block navbar %}
-{{ super() }}
+    {{ super() }}
 {% endblock %}
 
 {% block head %}
@@ -15,294 +16,363 @@
 
 
 {% block content %}
-<div class="container-fluid">
-    <div class="container-fluid border-dark mb-3" style="max-width: 18rem;"></div>
-    <h1 class="my-4 card-header border-dark mb-3 text-center">Welcome Admin</h1>
-    <div class="card-body bg-light border-dark mb-3 text-center"><h3>Tools</h3>
-        <p>
-            <button class="btn btn-primary" type="button" href="#Manage" data-toggle="collapse" data-target="#Manage">
-                Manage <i class="oi oi-expand-down"></i>
-            </button>
-            <button class="btn btn-primary" type="button" href="#Advance_Search" data-toggle="collapse"
-                    data-target="#Advance_Search">
-                Advance Search <i class="oi oi-expand-down"></i>
-            </button>
-            <button class="btn btn-primary" type="button" href="#Intern_Suggestion" data-toggle="collapse"
-                    data-target="#Intern_Suggestion">
-                Intern Suggestion <i class="oi oi-expand-down"></i>
-            </button>
-        </p>
-        <div class="col card text-center ">
-            <div class="collapse multi-collapse" id="Manage">
-                <div class="card-header">
-                    <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
-                        <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#Itern">Intern</a>
-                        <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab"
-                           href="#nav-profile">Sponsor</a>
-                        <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab"
-                           href="#nav-contact">Posting</a>
-                    </div>
-                    <div class="tab-content py-3 px-3 px-sm-0" id="nav-tabContent">
-                        <div class="tab-pane fade show active" id="Itern">
-                            Intern Text
+    <div class="container-fluid">
+        <div class="container-fluid border-dark mb-3" style="max-width: 18rem;"></div>
+        <h1 class="my-4 card-header border-dark mb-3 text-center">Welcome Admin</h1>
+        <div class="card-body bg-light border-dark mb-3 text-center"><h3>Tools</h3>
+            <p>
+                <button class="btn btn-primary" type="button" href="#Manage" data-toggle="collapse"
+                        data-target="#Manage">
+                    Manage <i class="oi oi-expand-down"></i>
+                </button>
+                <button class="btn btn-primary" type="button" href="#Advance_Search" data-toggle="collapse"
+                        data-target="#Advance_Search">
+                    Advance Search <i class="oi oi-expand-down"></i>
+                </button>
+                <button class="btn btn-primary" type="button" href="#Intern_Suggestion" data-toggle="collapse"
+                        data-target="#Intern_Suggestion">
+                    Intern Suggestion <i class="oi oi-expand-down"></i>
+                </button>
+            </p>
+            <div class="col card text-center ">
+                <div class="collapse multi-collapse" id="Manage">
+                    <div class="card-header">
+                        <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+                            <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab"
+                               href="#Itern">Intern</a>
+                            <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab"
+                               href="#nav-profile">Sponsor</a>
+                            <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab"
+                               href="#nav-contact">Posting</a>
+                        </div>
+                        <div class="tab-content py-3 px-3 px-sm-0" id="nav-tabContent">
+                            <div class="tab-pane fade show active" id="Itern">
+                                Intern Text
 
-                            More <br>
-                            More <br>
-                            sdfsd <br>
-                            fsdfsd <br>
-                            fsdfds <br>
-                        </div>
-                        <div class="tab-pane fade" id="nav-profile">
-                            Sponsor Text
-                        </div>
-                        <div class="tab-pane fade" id="nav-contact">
-                            Iternship Posting
+                                More <br>
+                                More <br>
+                                sdfsd <br>
+                                fsdfsd <br>
+                                fsdfds <br>
+                            </div>
+                            <div class="tab-pane fade" id="nav-profile">
+                                Sponsor Text
+                            </div>
+                            <div class="tab-pane fade" id="nav-contact">
+                                Iternship Posting
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div class="collapse multi-collapse" id="Advance_Search" style="margin-top: 10px">
-            <div class="card-header">
-                <h3>ADVANCED SEARCH</h3>
+            <div class="collapse multi-collapse" id="Advance_Search" style="margin-top: 10px">
+                <div class="card-header">
+                    <h3>ADVANCED SEARCH</h3>
+                </div>
+                <div class="card-body bg-white">
+                    "Im thinking for advance search we can do...."
+                    <li>
+                        Name (Form)
+                    </li>
+                    <li>
+                        ID (Form)
+                    </li>
+                    <li>
+                        Email (Form)
+                    </li>
+                    <li>
+                        GPA (Form)
+                    </li>
+                    <li>
+                        Degree (Form)
+                    </li>
+                    ECT...
+                </div>
             </div>
-            <div class="card-body bg-white">
-                "Im thinking for advance search we can do...."
-                <li>
-                    Name (Form)
-                </li>
-                <li>
-                    ID (Form)
-                </li>
-                <li>
-                    Email (Form)
-                </li>
-                <li>
-                    GPA (Form)
-                </li>
-                <li>
-                    Degree (Form)
-                </li>
-                ECT...
-            </div>
-        </div>
 
 
-        <div class="collapse multi-collapse" id="Intern_Suggestion" style="margin-top: 10px">
-            <div class="card card-body">
-                <table class="table">
-                    <h4> Intern Suggestion</h4>
-                    The dummy data needs to be deleted after sql. For how we do suggestions, top 5 gpa?
-                    <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">First</th>
-                        <th scope="col">Last</th>
-                        <th scope="col">Account</th>
-                        <th scope="col">Type</th>
-                        <th scope="col">Suggestion</th>
-
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <!--Variable documentation-->
-                        <!--a_s_counter = counter for the advance search row-->
-                        <!--a_s_fname = first name for advance search-->
-                        <!--a_s_lname = last name for advance search-->
-                        <!--a_s_account = account(can be switched for Unique ID) for advance search-->
-                        <!--a_s_type = lists intern/sponsor for advance search-->
-                        <th scope="row">1 {{a_s_counter}}</th>
-                        <td>Mark{{a_s_fname}}</td>
-                        <td>Occulus{{a_s_lname}}</td>
-                        <td>Something@Southernct.edu{{a_s_account}}</td>
-                        <td>Intern{{a_s_type}}</td>
-                        <td>
-                            <button type="button" class="btn btn-primary btn-sm">Notify <i class="oi oi-check"></i>
-                            </button>
-                        </td>
-
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-<div class="container-fluid text-center card-header border-dark mb-3">
-    <div class="text-center border-dark mb-3"><h3>Verifcication</h3></div>
-    <p>
-        <button class="btn btn-primary" data-toggle="collapse" href="#Verify_User" role="button" aria-expanded="false"
-                aria-controls="multiCollapseExample1">Verify User <i class="oi oi-expand-down"></i></button>
-        <button class="btn btn-primary" type="button" href="#Approve_Sponsorship" data-toggle="collapse"
-                data-target="#Approve_Sponsorship" aria-expanded="false" aria-controls="multiCollapseExample2">Approve
-            Sponsorship <i class="oi oi-expand-down"></i></button>
-        <button class="btn btn-primary" type="button" href="#Referrals" data-toggle="collapse" data-target="#Referrals"
-                aria-expanded="false" aria-controls="multiCollapseExample2">Referrals <i class="oi oi-expand-down"></i>
-        </button>
-        <button class="btn btn-primary" type="button" href="#Add_New_Admin" data-toggle="collapse"
-                data-target="#Add_New_Admin" aria-expanded="false" aria-controls="multiCollapseExample2">Add New Admin
-            <i class="oi oi-expand-down"></i></button>
-    </p>
-    <div class="row justify-content-center">
-        <div class="collapse multi-collapse" id="Verify_User">
-            <div class="card card-body ">
-                <table class="table">
-                    <h4> Verify User</h4>
-                    <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">First</th>
-                        <th scope="col">Last</th>
-                        <th scope="col">Account</th>
-                        <th scope="col">Type</th>
-                        <th scope="col">Approve</th>
-                        <th scope="col">Deny</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <th scope="row">1</th>
-                        <td>Mark</td>
-                        <td>Occulus</td>
-                        <td>Something@Southernct.edu</td>
-                        <td>Intern</td>
-                        <td>
-                            <button type="button" class="btn btn-primary btn-sm">Approve <i class="oi oi-check"></i>
-                            </button>
-                        </td>
-                        <td>
-                            <button type="button" class="btn btn-danger btn-sm">Deny <i class="oi oi-x"></i></button>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-    <div class="row justify-content-center">
-        <div class="collapse multi-collapse" id="Approve_Sponsorship">
-            <div class="card card-body ">
-                <table class="table">
-                    <h4> Approve Sponsorship</h4>
-                    <thead>
-                    <tr>
-                        <th scope="col">Sponsor</th>
-                        <th scope="col">Title</th>
-                        <th scope="col">Approve</th>
-                        <th scope="col">Deny</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <table>
-
-                            {% for row in data %}
+            <div class="collapse multi-collapse" id="Intern_Suggestion" style="margin-top: 10px">
+                <div class="card card-body">
+                    <table class="table">
+                        <h4> Intern Suggestion</h4>
+                        The dummy data needs to be deleted after sql. For how we do suggestions, top 5 gpa?
+                        <thead>
                         <tr>
-                            <td><a href="https://www.microsoft.com/en-us/">{{row[0]}}</a></td>
+                            <th scope="col">#</th>
+                            <th scope="col">First</th>
+                            <th scope="col">Last</th>
+                            <th scope="col">Account</th>
+                            <th scope="col">Type</th>
+                            <th scope="col">Suggestion</th>
 
-                            <td><a href="localhost:8080/sponsorship">{{row[1]}}</a></td>
-
-                            <td>
-                                <button type="button" class="btn btn-primary btn-sm">Approve <i class="oi oi-check"></i>
-                                </button>
-                            </td>
-                            <td>
-                                <button type="button" class="btn btn-danger btn-sm">Deny <i class="oi oi-x"></i>
-                                </button>
-                            </td>
                         </tr>
-                        {% endfor %}
-                    </table>
-
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-    <div class="row justify-content-center">
-        <div class="collapse multi-collapse" id="Referrals">
-            <div class="card card-body ">
-                <table class="table">
-                    <h4>Referrals</h4>
-                    <thead>
-                    <tr>
-                        <th scope="col">Sponsor</th>
-                        <th scope="col">Intern</th>
-                        <th scope="col">Sponsorship</th>
-                        <th scope="col">Approve</th>
-                        <th scope="col">Deny</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <th scope="row"><i class="oi oi-minus"></i></th>
-                        <td><a href="https://www.microsoft.com/en-us/">Microsoft</a></td>
-                        <td><a href="localhost:8080/intern">Intern Profile</a></td>
-                        <td><a href="localhost:8080/sponsorship">Sponsorship Link</a></td>
-                        <td>
-                            <button type="button" class="btn btn-primary btn-sm">Approve <i class="oi oi-check"></i>
-                            </button>
-                        </td>
-                        <td>
-                            <button type="button" class="btn btn-danger btn-sm">Deny <i class="oi oi-x"></i></button>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-    <div class="row justify-content-center">
-        <div class="collapse multi-collapse" id="Add_New_Admin">
-            <div class="card card-body ">
-                <table class="table">
-                    <h4> Add New Admin </h4>
-                    <thead>
-                    <tr>
-                        <th scope="col">First</th>
-                        <th scope="col">Last</th>
-                        <th scope="col">Account</th>
-                        <th scope="col">Approve</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-
-                        <form>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <!--Variable documentation-->
+                            <!--a_s_counter = counter for the advance search row-->
+                            <!--a_s_fname = first name for advance search-->
+                            <!--a_s_lname = last name for advance search-->
+                            <!--a_s_account = account(can be switched for Unique ID) for advance search-->
+                            <!--a_s_type = lists intern/sponsor for advance search-->
+                            <th scope="row">1 {{ a_s_counter }}</th>
+                            <td>Mark{{ a_s_fname }}</td>
+                            <td>Occulus{{ a_s_lname }}</td>
+                            <td>Something@Southernct.edu{{ a_s_account }}</td>
+                            <td>Intern{{ a_s_type }}</td>
                             <td>
-                                <div class="form-group">
-                                    <input type="text" class="form-control" id="InputFirst" placeholder="First Name...">
-                                </div>
-                            </td>
-                            <td>
-                                <div class="form-group">
-                                    <input type="text" class="form-control" id="InputLast" placeholder="Last Name...">
-                                </div>
-                            </td>
-                            <td>
-                                <div class="form-group">
-                                    <input type="email" class="form-control" id="InputEmail"
-                                           placeholder="Snuffy@Southernct.edu">
-                                </div>
-                            </td>
-                            <td>
-                                <button type="button" class="btn btn-primary btn-sm">Approve <i class="oi oi-check"></i>
+                                <button type="button" class="btn btn-primary btn-sm">Notify <i class="oi oi-check"></i>
                                 </button>
                             </td>
-                        </form>
-                    </tr>
-                    </tbody>
-                </table>
+
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
-    <div class="row">
+
+
+    <div class="container-fluid text-center card-header border-dark mb-3">
+        <div class="text-center border-dark mb-3"><h3>Verifcication</h3></div>
+        <p>
+            <button class="btn btn-primary" data-toggle="collapse" href="#Verify_User" role="button"
+                    aria-expanded="false"
+                    aria-controls="multiCollapseExample1">Verify User <i class="oi oi-expand-down"></i></button>
+            <button class="btn btn-primary" type="button" href="#Approve_Sponsorship" data-toggle="collapse"
+                    data-target="#Approve_Sponsorship" aria-expanded="false" aria-controls="multiCollapseExample2">
+                Approve
+                Sponsorship <i class="oi oi-expand-down"></i></button>
+            <button class="btn btn-primary" type="button" href="#Referrals" data-toggle="collapse"
+                    data-target="#Referrals"
+                    aria-expanded="false" aria-controls="multiCollapseExample2">Referrals <i
+                    class="oi oi-expand-down"></i>
+            </button>
+            <button class="btn btn-primary" type="button" href="#Add_New_Admin" data-toggle="collapse"
+                    data-target="#Add_New_Admin" aria-expanded="false" aria-controls="multiCollapseExample2">Add New
+                Admin
+                <i class="oi oi-expand-down"></i></button>
+        </p>
+        <div class="row justify-content-center">
+            <div class="collapse multi-collapse" id="Verify_User">
+                <div class="card card-body ">
+                    <table class="table">
+                        <h4> Verify Student</h4>
+                        <thead>
+                        <tr>
+                            <th scope="col">UID</th>
+                            <th scope="col">First</th>
+                            <th scope="col">Last</th>
+                            <th scope="col">Account</th>
+                            <th scope="col">Type</th>
+                            <th scope="col">Approve</th>
+                            <th scope="col">Major</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for row in intern_data %}
+                            <tr>
+                                <th scope="row">{{ row[0] }}</th>
+                                <td>{{ row[1] }}</td>
+                                <td>{{ row[2] }}</td>
+                                <td>{{ row[4] }}</td>
+                                <td>{{ row[6] }}</td>
+                                <td>
+                                    <button type="button" class="btn btn-primary btn-sm">Approve <i
+                                            class="oi oi-check"></i>
+                                    </button>
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-danger btn-sm">Deny <i class="oi oi-x"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    <table class="table">
+                        <h4> Verify Sponsor</h4>
+                        <thead>
+                        <tr>
+                            <th scope="col">UID</th>
+                            <th scope="col">Company</th>
+                            <th scope="col">Address</th>
+                            <th scope="col">Website</th>
+                            <th scope="col">Phone</th>
+                            <th scope="col">City</th>
+                            <th scope="col">Description</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for row in sponsor_data %}
+                            <tr>
+                                <th scope="row">{{ row[0] }}</th>
+                                <td>{{ row[1] }}</td>
+                                <td>{{ row[2] }}</td>
+                                <td>{{ row[3] }}</td>
+                                <td>{{ row[4] }}</td>
+                                <td>{{ row[5] }}</td>
+                                <td>{{ row[6] }}</td>
+                                <td>{{ row[8] }}</td>
+                                <td>{{ row[9] }}</td>
+                                <td>
+                                    <button type="button" class="btn btn-primary btn-sm">Approve <i
+                                            class="oi oi-check"></i>
+                                    </button>
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-danger btn-sm">Deny <i class="oi oi-x"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="collapse multi-collapse" id="Approve_Sponsorship">
+                <div class="card card-body ">
+                    <table class="table">
+                        <h4> Approve Sponsorship</h4>
+                        <thead>
+                        <tr>
+                            <th scope="col">Sponsor</th>
+                            <th scope="col">Title</th>
+                            <th scope="col">Approve</th>
+                            <th scope="col">Deny</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <table>
+                            {#This is for the sponsorship posting, for approving and denying#}
+                            {% for row in approve_internship_data %}
+                                <tr>
+                                    <td><a href="https://www.microsoft.com/en-us/">{{ row[0] }}</a></td>
+                                    <td><a href="localhost:8080/sponsorship">{{ row[1] }}</a></td>
+                                    <td>
+                                        {{ wtf.quick_form(form_app) }}
+                                    </td>
+                                    <td>
+                                        {{ wtf.quick_form(form_den) }}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </table>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="collapse multi-collapse" id="Referrals">
+                <div class="card card-body ">
+                    <table class="table">
+                        <h4>Referrals</h4>
+                        <thead>
+                        <tr>
+                            <th scope="col">Sponsor</th>
+                            <th scope="col">Sponsorship</th>
+                            <th scope="col">Students Requesting</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for row in referral_requested_data %}
+                            <tr>
+                                <td><a href="https://www.microsoft.com/en-us/">{{ row[0] }}</a></td>
+                                <td><a href="localhost:8080/intern">{{ row[1] }}</a></td>
+                                <td>
+                                    <button type="button" class="btn btn-primary" data-toggle="modal"
+                                            data-target="#Students">
+                                        Requesting
+                                    </button>
+                                    <div class="modal fade" id="Students" tabindex="-1" role="dialog"
+                                         aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                            aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    ...
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                            data-dismiss="modal">Close
+                                                    </button>
+                                                    <button type="button" class="btn btn-primary">Save changes</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="collapse multi-collapse" id="Add_New_Admin">
+                <div class="card card-body ">
+                    <table class="table">
+                        <h4> Add New Admin </h4>
+                        <thead>
+                        <tr>
+                            <th scope="col">First</th>
+                            <th scope="col">Last</th>
+                            <th scope="col">Account</th>
+                            <th scope="col">Approve</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+
+                            <form>
+                                <td>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" id="InputFirst"
+                                               placeholder="First Name...">
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" id="InputLast"
+                                               placeholder="Last Name...">
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="form-group">
+                                        <input type="email" class="form-control" id="InputEmail"
+                                               placeholder="Snuffy@Southernct.edu">
+                                    </div>
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-primary btn-sm">Approve <i
+                                            class="oi oi-check"></i>
+                                    </button>
+                                </td>
+                            </form>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+        </div>
     </div>
-</div>
-</div>
+    </div>
 
 
 {% endblock %}
