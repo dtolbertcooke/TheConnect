@@ -77,7 +77,7 @@ def is_student():
 
 # Login manager uses this function to manage user sessions.
 # Function does a lookup by id and returns the User object if
-# it exists, None otherwise.		
+# it exists, None otherwise.
 @login_manager.user_loader
 def load_user(id):
     return user_db.get(id)
@@ -151,11 +151,11 @@ def login():
 
 	if current_user.is_authenticated:
 		return redirect(url_for('profile'))
-    
+
 	form = loginForm()
 	if form.validate_on_submit():
 		user = db[form.email.data]
-		
+
 		valid_password = check_password_hash(user.pass_hash, form.password.data)
 		if email is None or not valid_password:
 			print('Invalid username or password', file=sys.stderr)
@@ -184,12 +184,13 @@ def intern_profile():
         gpa = row[7]
         email = row[4]
         phone = row[5]
+        interest = row[12]
 
     school = "Southern"
     profile_pic = "https://raw.githubusercontent.com/scsu-csc330-400/blu-test/help_jason/Static/img/b.jpg?token=AoQ7TSJDqVpIdxBM_4hwk9J2QSluOd47ks5b7GhvwA%3D%3D"
 
     return render_template('intern_profile.html', profile_pic=profile_pic, first_name=f_name, last_name=l_name, \
-                           degree=degree, school=school, gpa=gpa, email=email, phone=phone)
+                           degree=degree, school=school, gpa=gpa, email=email, phone=phone, interest=interest)
 
 
 @app.route('/sponsor')
@@ -245,7 +246,7 @@ def admin_login():
 	logo_link = '/'
 	if current_user.is_authenticated:
 		return redirect(url_for('profile'))
-    
+
 	form = loginForm()
 	if form.validate_on_submit():
 		user = db[form.username.data]
@@ -290,7 +291,7 @@ def create_internship():
         description = form.description.data
         approved = 0
 
-        c.execute('INSERT INTO Internships values("%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s")' % (
+        c.execute('INSERT INTO Internship values("%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s")' % (
             email, address, address2, city, state, zipcode, startDate, endDate, major, gpa, pay, description))
 
         db.commit()
@@ -349,10 +350,12 @@ def create_student():
         zipcode = form.zipcode.data
         major = form.major.data
         gpa = form.gpa.data
+        interest = form.interest.data
+        availability = form.availability.data
 
         c.execute('INSERT INTO User values("%s","%s","%s","%s")' % (studentID, email, password, role))
-        c.execute('INSERT INTO Student values("%s","%s","%s","%s","%s","%s","%s",%s,"%s","%s","%s","%s")' % (
-            studentID, fname, lname, address, email, phone, major, gpa, state, address2, city, zipcode))
+        c.execute('INSERT INTO Student values("%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s")' % (
+            studentID, fname, lname, address, email, phone, major, gpa, state, address2, city, zipcode, interest))
 
         db.commit()
         return redirect(url_for('home'))
