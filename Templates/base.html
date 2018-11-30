@@ -21,6 +21,9 @@
 	<!-- Bootstrap core JavaScript -->
     <script src="/static/vendor/jquery/jquery.min.js"></script>
     <script src="/static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+	
+    <!-- Bootstrap font for icons -->
+    <link href="/static/open-iconic-master/font/css/open-iconic-bootstrap.css" rel="stylesheet">
 
   </head>
  {% endblock %}
@@ -52,6 +55,7 @@
                 {Testing}
               </a>
               <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">
+				<a class="dropdown-item" href="/logout">Logout</a>
                 <a class="dropdown-item" href="/404">404.html</a>
                 <a class="dropdown-item" href="/500">500.html</a>
                 <a class="dropdown-item" href="/about">About</a>
@@ -118,7 +122,7 @@
     <!-- Page Content -->
     <div class="container">
 
-      <h1 class="my-4 card text-center" >Welcome to TheConnect</h1>
+      <h1 class="my-4 card text-center border-0" >Welcome to TheConnect</h1>
 
       <!-- Marketing Icons Section -->
       <div class="row">
@@ -166,7 +170,7 @@
 {% endblock %}
 
 {% block body %}
-    <footer class="py-5 bg-light">
+    <footer class="page-footer py-1 bg-light">
       <div class="container">
         <p class="text-center text-primary">Product of the Blu Team</p>
         <ul class="list-inline text-center">
