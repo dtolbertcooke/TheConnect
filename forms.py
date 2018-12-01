@@ -7,7 +7,8 @@ from flask_login import LoginManager, UserMixin, login_user, logout_user, \
     current_user, login_required
 from werkzeug.urls import url_parse
 from werkzeug.security import check_password_hash, generate_password_hash
-from wtforms import Form, StringField, SubmitField, IntegerField, PasswordField, SelectField, DecimalField, TextAreaField, DateField, validators, SelectMultipleField
+from wtforms import Form, StringField, SubmitField, IntegerField, PasswordField, \
+SelectField, DecimalField, TextAreaField, DateField, validators, SelectMultipleField, FileField
 import pymysql
 from flask_user import roles_required   # we will have three roles; admin, intern, sponsor
 import sys
@@ -66,6 +67,7 @@ class createStudent(FlaskForm):
     gpa = DecimalField('GPA',places=1,validators=[DataRequired()])
     interest = StringField('Interests', validators=[DataRequired()])
     availability = SelectMultipleField('Availability', choices=[('M', 'Monday'), ('T', 'Tuesday'), ('W', 'Wednesday'), ('Th', 'Thursday'), ('F', 'Friday'), ('S', 'Saturday'), ('S', 'Sunday')])
+    bio = TextAreaField('Biogrpahy', validators=[DataRequired()])
     submit = SubmitField('Submit')
 
 #new admin

@@ -8,7 +8,7 @@ from flask_login import LoginManager, UserMixin, login_user, logout_user, curren
 from werkzeug.urls import url_parse
 from werkzeug.security import check_password_hash, generate_password_hash
 from wtforms import Form, StringField, SubmitField, IntegerField, PasswordField, SelectField, DecimalField, \
-    TextAreaField, validators
+    TextAreaField, validators, FileField
 from wtforms.validators import DataRequired, NumberRange, EqualTo, Email
 import pymysql
 from flask_user import roles_required  # we will have three roles; admin, intern, sponsor
@@ -185,12 +185,13 @@ def intern_profile():
         email = row[4]
         phone = row[5]
         interest = row[12]
+        bio = row[13]
 
     school = "Southern"
     profile_pic = "https://raw.githubusercontent.com/scsu-csc330-400/blu-test/help_jason/Static/img/b.jpg?token=AoQ7TSJDqVpIdxBM_4hwk9J2QSluOd47ks5b7GhvwA%3D%3D"
 
     return render_template('intern_profile.html', profile_pic=profile_pic, first_name=f_name, last_name=l_name, \
-                           degree=degree, school=school, gpa=gpa, email=email, phone=phone, interest=interest)
+                           degree=degree, school=school, gpa=gpa, email=email, phone=phone, interest=interest, bio=bio)
 
 
 @app.route('/sponsor')
@@ -352,10 +353,11 @@ def create_student():
         gpa = form.gpa.data
         interest = form.interest.data
         availability = form.availability.data
+        bio = form.bio.data
 
         c.execute('INSERT INTO User values("%s","%s","%s","%s")' % (studentID, email, password, role))
-        c.execute('INSERT INTO Student values("%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s")' % (
-            studentID, fname, lname, address, email, phone, major, gpa, state, address2, city, zipcode, interest))
+        c.execute('INSERT INTO Student values("%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s")' % (
+            studentID, fname, lname, address, email, phone, major, gpa, state, address2, city, zipcode, interest, bio))
 
         db.commit()
         return redirect(url_for('home'))
