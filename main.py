@@ -12,6 +12,7 @@ from wtforms import Form, StringField, SubmitField, IntegerField, PasswordField,
 from wtforms.validators import DataRequired, NumberRange, EqualTo, Email
 import pymysql
 from flask_user import roles_required  # we will have three roles; admin, intern, sponsor
+from flask_table import Table, Col
 from forms import *
 import sys
 import random
@@ -409,26 +410,36 @@ def internships():
 	c.execute('SELECT * FROM Internship')
 	data = c.fetchall()
 	
-#	if request.method == 'POST':
-#       return search_results(form)
+	if request.method == 'POST':
+		return search_results(form)
 	
 		
-	
 	return render_template('internships.html',title=title, data=data, form=form)
-'''	
+
+@app.route('/internship/search')
 def search_results(search):
-    results = []
-    search_string = search.data['search']
+	results = []
+	search_string = search.data['search']
  
-    if search.data['search'] == '':
-        qry = db_session.query(Album)
-        results = qry.all()
+	if search.data['search'] == '':
+		qry = db_session.query(Album)
+		results = qry.all()
  
-    if not results:
-        return redirect('/internships')
-    else:
-        # display results
-        return render_template('results.html', results=results)
-'''
+	if not results:
+		flash('No results found!')
+		return redirect('/')
+	else:
+		# display results
+		table = Results(results)
+		table.border = True
+		return render_template('results.html', table=table)
+		
+class Results(Table):
+    company = Col('Id', show=False)
+    title = Col('Title')
+    start = Col('Start')
+    end = Col('End')
+    media_type = Col('Media')
+
 if __name__ == '__main__':  # You can run the main.py and type "localhost:8080" in your
     app.run(host='0.0.0.0', port=8080, debug=True)  # broswer to test the main.py in your computer.

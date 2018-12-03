@@ -103,6 +103,8 @@ class internshipSearch(FlaskForm):
 	choices = [('title', 'Title'),('company', 'Company'),('description', 'Description')]
 	search = StringField("Search")
 	select = SelectField("Search by",choices=choices)
+	
+	
 
 #Profile Edit
 
