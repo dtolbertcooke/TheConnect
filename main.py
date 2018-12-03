@@ -126,7 +126,6 @@ def home():
 
         for row in data:
             userID,email,password,role = row[0],row[1],row[2],row[3]
-		
             user = User(userID,email,password,role)
             user_db[userID] = user
             valid_password = check_password_hash(user.pass_hash, form.password.data)
