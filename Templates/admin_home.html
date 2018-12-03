@@ -122,8 +122,9 @@
                             <td>Something@Southernct.edu{{ a_s_account }}</td>
                             <td>Intern{{ a_s_type }}</td>
                             <td>
-                                <button type="button" class="btn btn-primary btn-sm">Notify <i class="oi oi-check"></i>
+                                <button type="button" class="btn btn-primary btn-sm" >Notify <i class="oi oi-check"></i>
                                 </button>
+                                $(
                             </td>
 
                         </tr>
@@ -180,7 +181,7 @@
                                 <td>{{ row[4] }}</td>
                                 <td>{{ row[6] }}</td>
                                 <td>
-                                    <button type="button" class="btn btn-primary btn-sm">Approve <i
+                                    <button type="submit" class="btn btn-primary btn-sm" id="Approvebtn" formmethod="post" formaction="/approve">Approve <i
                                             class="oi oi-check"></i>
                                     </button>
                                 </td>
@@ -379,4 +380,26 @@
 
 
 {% block body %}
+
+<script type=text/javascript>
+var var1 = "hello"
+    $(function() {
+      $('a#{{ unq_id }}').bind('click', function() {
+          $.ajax({
+              url: '/approve',
+              type: 'get',
+              data: var1,
+          })
+      });
+    });
+</script>
+
+<div class='container'>
+    <form>
+        <a href=# id={{ unq_id }}><button class='btn bg-danger btn-default'>sdfsd</button></a>
+        <a href=# id=asd><button class='btn bg-danger btn-default'>asd</button></a>
+        <a href=# id={{ unq_id }}><button class='btn bg-danger btn-default'>sdfsd</button></a>
+    </form>
+
+</div>
 {% endblock %}

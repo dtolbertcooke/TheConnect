@@ -144,31 +144,6 @@ def home():
     return render_template('landing.html', form=form, title=title, logo_link=logo_link)
 
 
-'''
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-	title = "Sign In"
-	logo_link = '/'
-
-	if current_user.is_authenticated:
-		return redirect(url_for('profile'))
-    
-	form = loginForm()
-	if form.validate_on_submit():
-		user = db[form.email.data]
-		
-		valid_password = check_password_hash(user.pass_hash, form.password.data)
-		if email is None or not valid_password:
-			print('Invalid username or password', file=sys.stderr)
-			redirect(url_for('home'))
-		else:
-			login_user(email)
-			return redirect(url_for('profile'))
-
-	return render_template('login.html', title=title, form=form, logo_link=logo_link)
-'''
-
-
 @app.route('/intern')
 @login_required
 def intern_profile():
@@ -218,12 +193,16 @@ def sponsor_profile():
 def admin_home():
     c.execute('Select * from Internship WHERE approved = 0')
     approve_internship_data = c.fetchall()
+    aid_counter = 0
     c.execute('Select * from Internship WHERE referral = 1')
     referral_requested_data = c.fetchall()
+    rrd_counter = 0
     c.execute('Select * from Student')
     intern_data = c.fetchall()
+    idat_counter = 0
     c.execute('Select * from Sponsor')
     sponsor_data = c.fetchall()
+    sdat_counter = 0
     form_app = Approve()
     form_den = Deny()
     unq_id = 0
@@ -238,28 +217,6 @@ def admin_home():
                            form_den=form_den, unq_id=unq_id, intern_data=intern_data, sponsor_data=sponsor_data,
                            referral_requested_data=referral_requested_data)
 
-
-'''
-@app.route('/admin_login')
-def admin_login():
-	title = "Admin Login"
-	logo_link = '/'
-	if current_user.is_authenticated:
-		return redirect(url_for('profile'))
-    
-	form = loginForm()
-	if form.validate_on_submit():
-		user = db[form.username.data]
-		valid_password = check_password_hash(user.pass_hash, form.password.data)
-		if user is None or not valid_password:
-			print('Invalid username or password', file=sys.stderr)
-			redirect(url_for('home'))
-		else:
-			login_user(user)
-			return redirect(url_for('profile'))
-
-	return render_template('admin_login.html', title=title, form=form, logo_link=logo_link)
-'''
 
 
 @app.route('/logout')
@@ -448,6 +405,14 @@ def register():
 
 @app.route('/search')
 def search():
+    return render_template('search.html')
+
+
+@app.route('/approve', methods=['GET', 'Post'])
+def approve():
+    print("hi")
+    text = request.data
+    print(text)
     return render_template('search.html')
 
 
