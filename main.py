@@ -188,7 +188,8 @@ def intern_profile():
         bio = row[13]
 
     school = "Southern"
-    profile_pic = "https://raw.githubusercontent.com/scsu-csc330-400/blu-test/help_jason/Static/img/b.jpg?token=AoQ7TSJDqVpIdxBM_4hwk9J2QSluOd47ks5b7GhvwA%3D%3D"
+    profile_pic = "https://raw.githubusercontent.com/scsu-csc330-400/blu-test/help_jason/Static/\
+    img/b.jpg?token=AoQ7TSJDqVpIdxBM_4hwk9J2QSluOd47ks5b7GhvwA%3D%3D"
 
     return render_template('intern_profile.html', profile_pic=profile_pic, first_name=f_name, last_name=l_name, \
                            degree=degree, school=school, gpa=gpa, email=email, phone=phone, interest=interest, bio=bio)
@@ -207,7 +208,8 @@ def sponsor_profile():
     gpa = "4.2"
     email = "boyv@southernct.edu"
     phone = "203-911-9111"
-    profile_pic = "https://raw.githubusercontent.com/scsu-csc330-400/blu-test/help_jason/Static/img/b.jpg?token=AoQ7TSJDqVpIdxBM_4hwk9J2QSluOd47ks5b7GhvwA%3D%3D"
+    profile_pic = "https://raw.githubusercontent.com/scsu-csc330-400/blu-test/help_jason/Static/img/\
+    b.jpg?token=AoQ7TSJDqVpIdxBM_4hwk9J2QSluOd47ks5b7GhvwA%3D%3D"
 
     return render_template('sponsor_profile.html', profile_pic=profile_pic, first_name=f_name, last_name=l_name, \
                            degree=degree, school=school, gpa=gpa, email=email, phone=phone)
