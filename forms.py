@@ -100,7 +100,7 @@ class contactForm(FlaskForm):
 	
 #Internship Search Form
 class internshipSearch(FlaskForm):
-	choices = [('title', 'Title'),('company', 'Company'),('description', 'Description')]
+	choices = [('Heading', 'Heading'),('Company', 'Company'),('Start', 'Start'),('End','End'),('GPA','GPA'),('Pay','Pay')]
 	search = StringField("Search")
 	select = SelectField("Search by",choices=choices)
 	
