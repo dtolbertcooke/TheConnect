@@ -418,16 +418,18 @@ def internships():
 
 @app.route('/results', methods=["GET","POST"])
 def search_results(search):
-	title = "Opportunities"
-	logoLink = "/"
+#	title = "Opportunities"
+#	logoLink = "/"
 	form = internshipSearch()
 	search_string = request.form.get('search')
 	category = request.form.get('select')
-	form = internshipSearch()
 	sql = 'SELECT * FROM Internship WHERE {} LIKE "%{}%"'.format(category,search_string)
 	c.execute(sql)
 	data = c.fetchall()
-	return render_template('internships.html', data=data, form=form, title=title, logoLink=logoLink)
+	if not data:
+		flash('No Results')
+		return redirect(url_for('internships'))
+	return render_template('internships.html', data=data, form=form)
 		
 
 
