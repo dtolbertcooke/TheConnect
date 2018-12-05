@@ -382,23 +382,26 @@
 {% block body %}
 
 <script type=text/javascript>
-var var1 = "hello"
+    var value1 = {{unq_id }};
     $(function() {
       $('a#{{ unq_id }}').bind('click', function() {
           $.ajax({
-              url: '/approve',
-              type: 'get',
-              data: var1,
+              url: '/approve/',
+              type: 'POST',
+              data: JSON.stringify(value1),
+              contentType: "application/json",
+              dataType: "json",
+
           })
       });
+      console.log(value1)
     });
 </script>
 
 <div class='container'>
     <form>
-        <a href=# id={{ unq_id }}><button class='btn bg-danger btn-default'>sdfsd</button></a>
-        <a href=# id=asd><button class='btn bg-danger btn-default'>asd</button></a>
-        <a href=# id={{ unq_id }}><button class='btn bg-danger btn-default'>sdfsd</button></a>
+        <a href="#" id="{{ unq_id }}" value="value1"><button class='btn bg-danger btn-default'>sdfsd</button></a>
+        <a href="/approve"><button class='btn bg-danger btn-default'>asd</button></a>
     </form>
 
 </div>

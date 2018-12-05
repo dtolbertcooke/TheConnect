@@ -1,5 +1,5 @@
 # The Connect
-from flask import Flask, render_template, redirect, url_for, flash, request
+from flask import Flask, render_template, redirect, url_for, flash, request, jsonify
 from flask_bootstrap import Bootstrap
 from flask_moment import Moment
 from flask_wtf import FlaskForm
@@ -186,7 +186,7 @@ def sponsor_profile():
                            degree=degree, school=school, gpa=gpa, email=email, phone=phone)
 
 
-@app.route('/admin_home', methods=['GET', 'POST'])  # doesnt work yet, needs to define the class.
+@app.route('/admin_home/', methods=['GET', 'POST'])  # doesnt work yet, needs to define the class.
 # @login_required
 # @roles_required('admin')
 def admin_home():
@@ -204,7 +204,7 @@ def admin_home():
     sdat_counter = 0
     form_app = Approve()
     form_den = Deny()
-    unq_id = 0
+    unq_id = 132
     if form_app.validate_on_submit():
         print("hiii")
         # c.execute('INSERT INTO User values("
@@ -407,12 +407,17 @@ def search():
     return render_template('search.html')
 
 
-@app.route('/approve', methods=['GET', 'Post'])
+@app.route('/approve/', methods=['GET', 'POST'])
 def approve():
-    print("hi")
-    text = request.data
-    print(text)
-    return render_template('search.html')
+    s = request.get_json()
+    print("Approve is called")
+    print(s)
+    if request.method == "GET":
+        print("Get")
+    elif request.method == "POST":
+        print("Post")
+    return 'hi'
+
 
 
 if __name__ == '__main__':  # You can run the main.py and type "localhost:8080" in your
