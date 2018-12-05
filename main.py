@@ -8,7 +8,7 @@ from flask_login import LoginManager, UserMixin, login_user, logout_user, curren
 from werkzeug.urls import url_parse
 from werkzeug.security import check_password_hash, generate_password_hash
 from wtforms import Form, StringField, SubmitField, IntegerField, PasswordField, SelectField, DecimalField, \
-    TextAreaField, validators
+    TextAreaField, validators, FileField
 from wtforms.validators import DataRequired, NumberRange, EqualTo, Email
 import pymysql
 from flask_user import roles_required  # we will have three roles; admin, intern, sponsor
@@ -79,7 +79,7 @@ def is_student():
 
 # Login manager uses this function to manage user sessions.
 # Function does a lookup by id and returns the User object if
-# it exists, None otherwise.		
+# it exists, None otherwise.
 @login_manager.user_loader
 def load_user(id):
     return user_db.get(id)
@@ -136,56 +136,94 @@ def home():
                 redirect(url_for('home'))
             else:
                 login_user(user)
-                if user.getRole == 'Sponsor':
-                    return redirect(url_for('sponsor_profile'))
-                elif user.getRole == 'Faculty':
+                if role == 'Sponsor':
+                    return redirect('sponsor/%s'%(userID))
+                elif role == 'Faculty':
                     return redirect(url_for('admin_home'))
                 else:
-                    return redirect(url_for('intern_profile'))
+                    return redirect('intern/%s'%(userID))
     return render_template('landing.html', form=form, title=title, logo_link=logo_link)
 
 
-@app.route('/intern')
+'''
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+	title = "Sign In"
+	logo_link = '/'
+
+	if current_user.is_authenticated:
+		return redirect(url_for('profile'))
+
+	form = loginForm()
+	if form.validate_on_submit():
+		user = db[form.email.data]
+
+		valid_password = check_password_hash(user.pass_hash, form.password.data)
+		if email is None or not valid_password:
+			print('Invalid username or password', file=sys.stderr)
+			redirect(url_for('home'))
+		else:
+			login_user(email)
+			return redirect(url_for('profile'))
+
+	return render_template('login.html', title=title, form=form, logo_link=logo_link)
+'''
+
+
+@app.route('/intern/<UserID>')
 @login_required
-def intern_profile():
+def intern_profile(UserID):
     title = "Profile"
-    name = current_user.id
+    name = UserID
     # profile_pic = "..\static\img\s_profile.png"  testing out profile pic
     c.execute('Select * from Student where UserID = %s' %(name))
     data = c.fetchall()
 
     for row in data:
+        UserID = row[0]
         f_name = row[1]
         l_name = row[2]
         degree = row[6]
         gpa = row[7]
         email = row[4]
         phone = row[5]
+        interest = row[12]
+        bio = row[13]
 
     school = "Southern"
-    profile_pic = "https://raw.githubusercontent.com/scsu-csc330-400/blu-test/help_jason/Static/img/b.jpg?token=AoQ7TSJDqVpIdxBM_4hwk9J2QSluOd47ks5b7GhvwA%3D%3D"
+    profile_pic = "https://raw.githubusercontent.com/scsu-csc330-400/blu-test/help_jason/Static/\
+    img/b.jpg?token=AoQ7TSJDqVpIdxBM_4hwk9J2QSluOd47ks5b7GhvwA%3D%3D"
 
     return render_template('intern_profile.html', profile_pic=profile_pic, first_name=f_name, last_name=l_name, \
-                           degree=degree, school=school, gpa=gpa, email=email, phone=phone)
+                           degree=degree, school=school, gpa=gpa, email=email, phone=phone, interest=interest, \
+                           bio=bio)
 
 
-@app.route('/sponsor')
+@app.route('/sponsor/<UserID>')
 @login_required
-def sponsor_profile():
+def sponsor_profile(UserID):
     title = "Profile"
+    name = UserID
     # profile_pic = "..\static\img\s_profile.png"  testing out profile pic
-    profile_pic = None
-    f_name = "First Name"
-    l_name = "Last Name"
-    degree = "Business"
-    school = "Southern"
-    gpa = "4.2"
-    email = "boyv@southernct.edu"
-    phone = "203-911-9111"
-    profile_pic = "https://raw.githubusercontent.com/scsu-csc330-400/blu-test/help_jason/Static/img/b.jpg?token=AoQ7TSJDqVpIdxBM_4hwk9J2QSluOd47ks5b7GhvwA%3D%3D"
+    c.execute('Select * from Sponsor where UserID = %s' %(name))
+    data = c.fetchall()
 
-    return render_template('sponsor_profile.html', profile_pic=profile_pic, first_name=f_name, last_name=l_name, \
-                           degree=degree, school=school, gpa=gpa, email=email, phone=phone)
+    for row in data:
+        UserID = row[0]
+        company = row[1]
+        address = row[2]
+        website = row[3]
+        phone = row[4]
+        zipcode = row[5]
+        city = row[6]
+        description = row[7]
+        state = row[8]
+
+    profile_pic = "https://raw.githubusercontent.com/scsu-csc330-400/blu-test/help_jason/Static/img/\
+    b.jpg?token=AoQ7TSJDqVpIdxBM_4hwk9J2QSluOd47ks5b7GhvwA%3D%3D"
+
+    return render_template('sponsor_profile.html', profile_pic=profile_pic, company=company, address=address, \
+                           website=website, phone=phone, zipcode=zipcode, city=city, description=description, state=state)
 
 
 @app.route('/admin_home', methods=['GET', 'POST'])  # doesnt work yet, needs to define the class.
@@ -215,6 +253,28 @@ def admin_home():
                            referral_requested_data=referral_requested_data)
 
 
+'''
+@app.route('/admin_login')
+def admin_login():
+	title = "Admin Login"
+	logo_link = '/'
+	if current_user.is_authenticated:
+		return redirect(url_for('profile'))
+
+	form = loginForm()
+	if form.validate_on_submit():
+		user = db[form.username.data]
+		valid_password = check_password_hash(user.pass_hash, form.password.data)
+		if user is None or not valid_password:
+			print('Invalid username or password', file=sys.stderr)
+			redirect(url_for('home'))
+		else:
+			login_user(user)
+			return redirect(url_for('profile'))
+
+	return render_template('admin_login.html', title=title, form=form, logo_link=logo_link)
+'''
+
 
 @app.route('/logout')
 def logout():
@@ -231,7 +291,7 @@ def create_internship():
 	logo_link = "/"
 
 	if form.validate_on_submit():
-		
+
 		company = company
 		heading = heading
 		body = body
@@ -241,11 +301,12 @@ def create_internship():
 		pay = pay
 		approved = 0
 		referral = referral
-		postID = str(random.randrange(100000,1000000)) 
+		postID = str(random.randrange(100000,1000000))
 		#postID needs loop to check for duplicates
 
-		c.execute('INSERT INTO Internship values("%s","%s","%s","%s","%s","%s","%s","s","s")' % (company,heading,body,startDate,endDate,gpa,pay,approved, referral, postID))
-		db.commit()
+		c.execute('INSERT INTO Internship values("%s","%s","%s","%s","%s","%s","%s","s","s")' % (
+        company,heading,body,startDate,endDate,gpa,pay,approved, referral, postID))
+        db.commit()
 		return render_template('successful_internship.html', title=title, nav1=nav1, logo_link=logo_link)
 
 	return render_template('create_internship.html', form=form, title=title, logo_link=logo_link)
@@ -301,10 +362,13 @@ def create_student():
         zipcode = form.zipcode.data
         major = form.major.data
         gpa = form.gpa.data
+        interest = form.interest.data
+        availability = form.availability.data
+        bio = form.bio.data
 
         c.execute('INSERT INTO User values("%s","%s","%s","%s")' % (studentID, email, password, role))
-        c.execute('INSERT INTO Student values("%s","%s","%s","%s","%s","%s","%s",%s,"%s","%s","%s","%s")' % (
-            studentID, fname, lname, address, email, phone, major, gpa, state, address2, city, zipcode))
+        c.execute('INSERT INTO Student values("%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s")' % (
+            studentID, fname, lname, address, email, phone, major, gpa, state, address2, city, zipcode, interest, bio))
 
         db.commit()
         return redirect(url_for('home'))
@@ -400,20 +464,20 @@ def register():
 @app.route('/search')
 def search():
     return render_template('search.html')
-	
+
 @app.route('/internships', methods=["GET","POST"])
 def internships():
 	title = "Opportunities"
 	logoLink = "/"
 	form = internshipSearch()
-	#need to set approved to 1 once internships begin to be approved		
+	#need to set approved to 1 once internships begin to be approved
 	c.execute('SELECT * FROM Internship')
 	data = c.fetchall()
-	
+
 	if request.method == 'POST':
 		return search_results(form)
-	
-		
+
+
 	return render_template('internships.html',title=title, data=data, form=form)
 
 @app.route('/results', methods=["GET","POST"])
@@ -430,7 +494,7 @@ def search_results(search):
 		flash('No Results')
 		return redirect(url_for('internships'))
 	return render_template('internships.html', data=data, form=form)
-		
+
 
 
 if __name__ == '__main__':  # You can run the main.py and type "localhost:8080" in your

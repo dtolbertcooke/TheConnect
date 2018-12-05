@@ -7,7 +7,8 @@ from flask_login import LoginManager, UserMixin, login_user, logout_user, \
     current_user, login_required
 from werkzeug.urls import url_parse
 from werkzeug.security import check_password_hash, generate_password_hash
-from wtforms import Form, StringField, SubmitField, IntegerField, PasswordField, SelectField, DecimalField, TextAreaField, DateField, validators
+from wtforms import Form, StringField, SubmitField, IntegerField, PasswordField, \
+SelectField, DecimalField, TextAreaField, DateField, validators, SelectMultipleField, FileField
 import pymysql
 from flask_user import roles_required   # we will have three roles; admin, intern, sponsor
 import sys
@@ -17,8 +18,8 @@ from wtforms.validators import DataRequired, NumberRange, EqualTo, Email
 class loginForm(FlaskForm):
     email = StringField('Email',validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
-    submit = SubmitField('Submit')	
-	
+    submit = SubmitField('Submit')
+
 #new internship
 class createInternship(FlaskForm):
 
@@ -64,6 +65,9 @@ class createStudent(FlaskForm):
     zipcode = StringField('Zip' ,validators=[DataRequired()])
     major = StringField('Major',validators=[DataRequired()])
     gpa = DecimalField('GPA',places=1,validators=[DataRequired()])
+    interest = StringField('Interests', validators=[DataRequired()])
+    availability = SelectMultipleField('Availability', choices=[('M', 'Monday'), ('T', 'Tuesday'), ('W', 'Wednesday'), ('Th', 'Thursday'), ('F', 'Friday'), ('S', 'Saturday'), ('S', 'Sunday')])
+    bio = TextAreaField('Biogrpahy', validators=[DataRequired()])
     submit = SubmitField('Submit')
 
 #new admin
@@ -80,16 +84,16 @@ class createAdmin(FlaskForm):
 	city = StringField('City',validators=[DataRequired()])
 	state = SelectField('State',choices=[('ct', 'Connecticut'), ('ma', 'Massachussets'), ('ny', 'New York')])
 	zipcode = StringField('Zip' ,validators=[DataRequired()])
-	submit = SubmitField('Submit')	
- 	
+	submit = SubmitField('Submit')
+
 #error report
 class createTicket(FlaskForm):
 	errType = SelectField(u'Error Type', choices=[('', ''), ('', ''), ('', '')])
 	email = StringField('Email address', validators=[DataRequired(), Email()])
 	errDescription = TextAreaField('Error Description ' , validators=[DataRequired()])
 	submit = SubmitField("Submit")
-	
-#Contact	
+
+#Contact
 class contactForm(FlaskForm):
 	name = StringField("Name")
 	email = StringField("Email")
@@ -97,7 +101,7 @@ class contactForm(FlaskForm):
 	message = TextAreaField("Message")
 	submit = SubmitField("Send")
 
-	
+
 #Internship Search Form
 class internshipSearch(FlaskForm):
 	choices = [('Heading', 'Heading'),('Company', 'Company'),('Start', 'Start'),('End','End'),('GPA','GPA'),('Pay','Pay')]
@@ -114,10 +118,9 @@ class internshipSearch(FlaskForm):
 
 #Internship Application
 
-	
+
 class Approve(FlaskForm):
     approve = SubmitField("Approve")
 
 class Deny(FlaskForm):
     deny = SubmitField("Deny")
-
