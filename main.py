@@ -416,30 +416,22 @@ def internships():
 		
 	return render_template('internships.html',title=title, data=data, form=form)
 
-@app.route('/internship/search')
+@app.route('/results', methods=["GET","POST"])
 def search_results(search):
-	results = []
-	search_string = search.data['search']
- 
-	if search.data['search'] == '':
-		qry = db_session.query(Album)
-		results = qry.all()
- 
-	if not results:
-		flash('No results found!')
-		return redirect('/')
-	else:
-		# display results
-		table = Results(results)
-		table.border = True
-		return render_template('results.html', table=table)
+#	title = "Opportunities"
+#	logoLink = "/"
+	form = internshipSearch()
+	search_string = request.form.get('search')
+	category = request.form.get('select')
+	sql = 'SELECT * FROM Internship WHERE {} LIKE "%{}%"'.format(category,search_string)
+	c.execute(sql)
+	data = c.fetchall()
+	if not data:
+		flash('No Results')
+		return redirect(url_for('internships'))
+	return render_template('internships.html', data=data, form=form)
 		
-class Results(Table):
-    company = Col('Id', show=False)
-    title = Col('Title')
-    start = Col('Start')
-    end = Col('End')
-    media_type = Col('Media')
+
 
 if __name__ == '__main__':  # You can run the main.py and type "localhost:8080" in your
     app.run(host='0.0.0.0', port=8080, debug=True)  # broswer to test the main.py in your computer.

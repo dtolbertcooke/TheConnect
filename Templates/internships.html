@@ -40,8 +40,8 @@
 						<table class="table">
 							<thead>
 							<tr>
-								<th scope="col-2 text-left">Company</th>
-								<th scope="col-2">Title</th>
+								<th scope="col-2 text-left">Title</th>
+								<th scope="col-2">Company</th>
 								<th scope="col-2">Start</th>
 								<th scope="col-2">End</th>  
 								<th scope="col-1">GPA</th>
@@ -51,12 +51,12 @@
 							<tbody>
 							{% for row in data %}
 								<tr>
-									<th scope="row">{{ row[0] }}</th>
-									<td>{{ row[1] }}</td>
-									<td>{{ row[2] }}</td>
+									<th><a href=''>{{ row[1] }}</a></th>
+									<th>{{ row[0] }}</th>
 									<td>{{ row[3] }}</td>
 									<td>{{ row[4] }}</td>
 									<td>{{ row[5] }}</td>
+									<td>{{ row[6] }}</td>
 								</tr>
 							{% endfor %}
 							</tbody>
