@@ -134,12 +134,12 @@ def home():
                 redirect(url_for('home'))
             else:
                 login_user(user)
-                if user.getRole == 'Sponsor':
-                    return redirect(url_for('sponsor_profile'))
-                elif user.getRole == 'Faculty':
+                if role == 'Sponsor':
+                    return redirect('sponsor/%s'%(userID))
+                elif role == 'Faculty':
                     return redirect(url_for('admin_home'))
                 else:
-                    return redirect(url_for('intern_profile'))
+                    return redirect('intern/%s'%(userID))
     return render_template('landing.html', form=form, title=title, logo_link=logo_link)
 
 
@@ -168,16 +168,17 @@ def login():
 '''
 
 
-@app.route('/intern')
-@login_required
-def intern_profile():
+@app.route('/intern/<UserID>')
+#@login_required
+def intern_profile(UserID):
     title = "Profile"
-    name = current_user.id
+    name = UserID
     # profile_pic = "..\static\img\s_profile.png"  testing out profile pic
     c.execute('Select * from Student where UserID = %s' %(name))
     data = c.fetchall()
 
     for row in data:
+        UserID = row[0]
         f_name = row[1]
         l_name = row[2]
         degree = row[6]
@@ -196,24 +197,31 @@ def intern_profile():
                            bio=bio)
 
 
-@app.route('/sponsor')
-@login_required
-def sponsor_profile():
+@app.route('/sponsor/<UserID>')
+#@login_required
+def sponsor_profile(UserID):
     title = "Profile"
+    name = UserID
     # profile_pic = "..\static\img\s_profile.png"  testing out profile pic
-    profile_pic = None
-    f_name = "First Name"
-    l_name = "Last Name"
-    degree = "Business"
-    school = "Southern"
-    gpa = "4.2"
-    email = "boyv@southernct.edu"
-    phone = "203-911-9111"
+    c.execute('Select * from Sponsor where UserID = %s' %(name))
+    data = c.fetchall()
+
+    for row in data:
+        UserID = row[0]
+        company = row[1]
+        address = row[2]
+        website = row[3]
+        phone = row[4]
+        zipcode = row[5]
+        city = row[6]
+        description = row[7]
+        state = row[8]
+
     profile_pic = "https://raw.githubusercontent.com/scsu-csc330-400/blu-test/help_jason/Static/img/\
     b.jpg?token=AoQ7TSJDqVpIdxBM_4hwk9J2QSluOd47ks5b7GhvwA%3D%3D"
 
-    return render_template('sponsor_profile.html', profile_pic=profile_pic, first_name=f_name, last_name=l_name, \
-                           degree=degree, school=school, gpa=gpa, email=email, phone=phone)
+    return render_template('sponsor_profile.html', profile_pic=profile_pic, company=company, address=address, \
+                           website=website, phone=phone, zipcode=zipcode, city=city, description=description, state=state)
 
 
 @app.route('/admin_home', methods=['GET', 'POST'])  # doesnt work yet, needs to define the class.

@@ -13,23 +13,10 @@
 <div class="row">
     <div class="col-5">
         <div class="card text-light bg-secondary mb-3" style="width: 25em;margin:50 auto;">
-        <h5 class="card-title">Biography</h5>
+        <h5 class="card-title">Description</h5>
             <div class="card-body bg-white text-dark">
-                djsaghlkdfsjghlfkdjghldksjfhgkfldjhgsdkljhfsdkljghsdkljfhgsdkfljhgkldsfjhg
-                sdjfkghlsdkfjhgsdkjfhgkldfsjhglkjdshfgkljhsdflkjghdslkfjhgkfjdshglkjhfdslkjhg
-                kjsdhflgkjhsdflkjghsdlkjfhglksjdhflkgh
-                [kjsdhfglkjfdhsgklsjdf
-                sdfgodsfijkhgsd
-                f[gsdf'
-                gsd
-                fga
-                df
-                gdfs
-                gdfsgsdfhhdfshdsf
+                {{description}}
             </div>
-            <h5 class="card-title">Resume</h5>
-
-            <a href="/user_resume" class="btn btn-primary">LAUNCH RESUME</a>
         </div>
     </div>
     <div class="card text-dark bg-secondary mb-3 text-nowrap " style="width: 25em;margin:50 auto;">
@@ -37,13 +24,14 @@
         <img src={{profile_pic}} class="card-img rounded-circle" onerror="this.src='../static/img/b.jpg'"
           style="margin-top: 10px;">
         <div class="card-title bg-white text-center" style="margin-top: 20px">
-            <h5>{% if first_name %}{{first_name}} {{last_name}}{% else %} Full Name {% endif %}</h5>
+            <h5>{% if company %}{{company}} {% else %} company {% endif %}</h5>
         <div class="card-body text-left">
-            <p><b>Degree:</b> {{degree}}</p>
-            <p><b>School:</b> {{school}}</p>
-            <p><b>GPA:</b> {{gpa}}</p>
-            <p><b>Email:</b> {{email}}</p>
+            <p><b>Address:</b> {{address}}</p>
+            <p><b>City:</b> {{city}}</p>
+            <p><b>State:</b> {{state}}</p>
+            <p><b>Zipcode:</b> {{zipcode}}</p>
             <p><b>Phone:</b> {{phone}}</p>
+            <p><b>Website:</b> {{website}}</p>
 
         </div>
         </div>
