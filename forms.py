@@ -22,14 +22,14 @@ class loginForm(FlaskForm):
 #new internship
 class createInternship(FlaskForm):
 
-	heading = StringField('Internship Title')
-	description = TextAreaField('Internship description', validators=[DataRequired()])
+	company = StringField('Organization Name', validators=[DataRequired()])
+	heading = StringField('Internship Title', validators=[DataRequired()])
+	body = TextAreaField('Internship Description', validators=[DataRequired()])
 	startDate = DateField('Start Date', format='%m-%d-%Y', validators=[DataRequired()])
 	endDate = DateField('End Date', format='%m-%d-%Y')
-	major = StringField('Desired Major',validators=[DataRequired()])
 	gpa = DecimalField('Minimum GPA',places =1,validators=[DataRequired()])
 	pay = DecimalField('Pay Rate $',places=2)
-	public = SelectField('Make internship publicly viewable or by referral only',choices=[(1, 'Public'),(0, 'Referral-only')])
+	referral = SelectField('Public listing or by referral only ', choices=[('0', 'Public'), ('1', 'Referral')])
 	submit = SubmitField('Submit')
 
 #new sponsor
@@ -99,7 +99,12 @@ class contactForm(FlaskForm):
 
 	
 #Internship Search Form
-
+class internshipSearch(FlaskForm):
+	choices = [('title', 'Title'),('company', 'Company'),('description', 'Description')]
+	search = StringField("Search")
+	select = SelectField("Search by",choices=choices)
+	
+	
 
 #Profile Edit
 

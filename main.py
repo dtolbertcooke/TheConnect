@@ -12,8 +12,10 @@ from wtforms import Form, StringField, SubmitField, IntegerField, PasswordField,
 from wtforms.validators import DataRequired, NumberRange, EqualTo, Email
 import pymysql
 from flask_user import roles_required  # we will have three roles; admin, intern, sponsor
+from flask_table import Table, Col
 from forms import *
 import sys
+import random
 
 
 class User(UserMixin):
@@ -42,7 +44,7 @@ login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 db = pymysql.connect(host='35.231.51.121', user='root', password='connect1234', db='theConnect')
 c = db.cursor()
-
+user_db = {}
 
 # user roles
 def is_admin():
@@ -79,8 +81,8 @@ def is_student():
 # Function does a lookup by id and returns the User object if
 # it exists, None otherwise.		
 @login_manager.user_loader
-def load_user(user):
-    return user
+def load_user(id):
+    return user_db.get(id)
 
 
 @app.route('/base')  # This is the base.html that every webpages uses.
@@ -125,9 +127,9 @@ def home():
         data = c.fetchall()
 
         for row in data:
-            userID, email, password, role = row[0], row[1], row[2], row[3]
-
-            user = User(userID, email, password, role)
+            userID,email,password,role = row[0],row[1],row[2],row[3]
+            user = User(userID,email,password,role)
+            user_db[userID] = user
             valid_password = check_password_hash(user.pass_hash, form.password.data)
             if user is None or not valid_password:
                 print('Invalid username or password', file=sys.stderr)
@@ -143,37 +145,13 @@ def home():
     return render_template('landing.html', form=form, title=title, logo_link=logo_link)
 
 
-'''
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-	title = "Sign In"
-	logo_link = '/'
-
-	if current_user.is_authenticated:
-		return redirect(url_for('profile'))
-    
-	form = loginForm()
-	if form.validate_on_submit():
-		user = db[form.email.data]
-		
-		valid_password = check_password_hash(user.pass_hash, form.password.data)
-		if email is None or not valid_password:
-			print('Invalid username or password', file=sys.stderr)
-			redirect(url_for('home'))
-		else:
-			login_user(email)
-			return redirect(url_for('profile'))
-
-	return render_template('login.html', title=title, form=form, logo_link=logo_link)
-'''
-
-
 @app.route('/intern')
+@login_required
 def intern_profile():
     title = "Profile"
-
+    name = current_user.id
     # profile_pic = "..\static\img\s_profile.png"  testing out profile pic
-    c.execute('Select * from Student where UserID ')
+    c.execute('Select * from Student where UserID = %s' %(name))
     data = c.fetchall()
 
     for row in data:
@@ -192,6 +170,7 @@ def intern_profile():
 
 
 @app.route('/sponsor')
+@login_required
 def sponsor_profile():
     title = "Profile"
     # profile_pic = "..\static\img\s_profile.png"  testing out profile pic
@@ -236,28 +215,6 @@ def admin_home():
                            referral_requested_data=referral_requested_data)
 
 
-'''
-@app.route('/admin_login')
-def admin_login():
-	title = "Admin Login"
-	logo_link = '/'
-	if current_user.is_authenticated:
-		return redirect(url_for('profile'))
-    
-	form = loginForm()
-	if form.validate_on_submit():
-		user = db[form.username.data]
-		valid_password = check_password_hash(user.pass_hash, form.password.data)
-		if user is None or not valid_password:
-			print('Invalid username or password', file=sys.stderr)
-			redirect(url_for('home'))
-		else:
-			login_user(user)
-			return redirect(url_for('profile'))
-
-	return render_template('admin_login.html', title=title, form=form, logo_link=logo_link)
-'''
-
 
 @app.route('/logout')
 def logout():
@@ -269,32 +226,29 @@ def logout():
 # @login_required
 # roles_required('admin','sponsor')
 def create_internship():
-    form = createInternship()
-    title = "Internship"
-    logo_link = "/"
+	form = createInternship()
+	title = "Internship"
+	logo_link = "/"
 
-    if form.validate_on_submit():
-        email = form.email.data
-        address = form.address.data
-        address2 = form.address2.data
-        city = form.city.data
-        state = form.state.data
-        zipcode = form.zipcode.data
-        startDate = form.startDate.data
-        endDate = form.endDate.data
-        major = form.major.data
-        gpa = form.gpa.data
-        pay = form.pay.data
-        description = form.description.data
-        approved = 0
+	if form.validate_on_submit():
+		
+		company = company
+		heading = heading
+		body = body
+		startDate = startDate
+		endDate = endDate
+		gpa = gpa
+		pay = pay
+		approved = 0
+		referral = referral
+		postID = str(random.randrange(100000,1000000)) 
+		#postID needs loop to check for duplicates
 
-        c.execute('INSERT INTO Internships values("%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s")' % (
-            email, address, address2, city, state, zipcode, startDate, endDate, major, gpa, pay, description))
+		c.execute('INSERT INTO Internship values("%s","%s","%s","%s","%s","%s","%s","s","s")' % (company,heading,body,startDate,endDate,gpa,pay,approved, referral, postID))
+		db.commit()
+		return render_template('successful_internship.html', title=title, nav1=nav1, logo_link=logo_link)
 
-        db.commit()
-        return render_template('successful_internship.html', title=title, nav1=nav1, logo_link=logo_link)
-
-    return render_template('create_internship.html', form=form, title=title, logo_link=logo_link)
+	return render_template('create_internship.html', form=form, title=title, logo_link=logo_link)
 
 
 @app.route('/create_sponsor', methods=['GET', 'POST'])
@@ -446,7 +400,46 @@ def register():
 @app.route('/search')
 def search():
     return render_template('search.html')
+	
+@app.route('/internships', methods=["GET","POST"])
+def internships():
+	title = "Opportunities"
+	logoLink = "/"
+	form = internshipSearch()
+	#need to set approved to 1 once internships begin to be approved		
+	c.execute('SELECT * FROM Internship')
+	data = c.fetchall()
+	
+	if request.method == 'POST':
+		return search_results(form)
+	
+		
+	return render_template('internships.html',title=title, data=data, form=form)
 
+@app.route('/internship/search')
+def search_results(search):
+	results = []
+	search_string = search.data['search']
+ 
+	if search.data['search'] == '':
+		qry = db_session.query(Album)
+		results = qry.all()
+ 
+	if not results:
+		flash('No results found!')
+		return redirect('/')
+	else:
+		# display results
+		table = Results(results)
+		table.border = True
+		return render_template('results.html', table=table)
+		
+class Results(Table):
+    company = Col('Id', show=False)
+    title = Col('Title')
+    start = Col('Start')
+    end = Col('End')
+    media_type = Col('Media')
 
 if __name__ == '__main__':  # You can run the main.py and type "localhost:8080" in your
     app.run(host='0.0.0.0', port=8080, debug=True)  # broswer to test the main.py in your computer.
