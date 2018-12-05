@@ -192,7 +192,8 @@ def intern_profile():
     img/b.jpg?token=AoQ7TSJDqVpIdxBM_4hwk9J2QSluOd47ks5b7GhvwA%3D%3D"
 
     return render_template('intern_profile.html', profile_pic=profile_pic, first_name=f_name, last_name=l_name, \
-                           degree=degree, school=school, gpa=gpa, email=email, phone=phone, interest=interest, bio=bio)
+                           degree=degree, school=school, gpa=gpa, email=email, phone=phone, interest=interest, \
+                           bio=bio)
 
 
 @app.route('/sponsor')
