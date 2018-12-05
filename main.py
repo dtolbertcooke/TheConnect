@@ -169,7 +169,7 @@ def login():
 
 
 @app.route('/intern/<UserID>')
-#@login_required
+@login_required
 def intern_profile(UserID):
     title = "Profile"
     name = UserID
@@ -198,7 +198,7 @@ def intern_profile(UserID):
 
 
 @app.route('/sponsor/<UserID>')
-#@login_required
+@login_required
 def sponsor_profile(UserID):
     title = "Profile"
     name = UserID
