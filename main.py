@@ -12,7 +12,7 @@ from wtforms import Form, StringField, SubmitField, IntegerField, PasswordField,
 from wtforms.validators import DataRequired, NumberRange, EqualTo, Email
 import pymysql
 from flask_user import roles_required  # we will have three roles; admin, intern, sponsor
-from flask_table import Table, Col
+#from flask_table import Table, Col
 from forms import *
 import sys
 import random
@@ -227,7 +227,7 @@ def sponsor_profile(UserID):
 
 
 @app.route('/admin_home', methods=['GET', 'POST'])  # doesnt work yet, needs to define the class.
-# @login_required
+@login_required
 # @roles_required('admin')
 def admin_home():
     c.execute('Select * from Internship WHERE approved = 0')
@@ -283,34 +283,29 @@ def logout():
 
 
 @app.route('/create_internship', methods=['GET', 'POST'])
-# @login_required
-# roles_required('admin','sponsor')
 def create_internship():
-	form = createInternship()
-	title = "Internship"
-	logo_link = "/"
+    form = createInternship()
+    title = "Internship"
+    logo_link = "/"
 
-	if form.validate_on_submit():
+    if form.validate_on_submit():
+        company = form.company.data
+        heading = form.heading.data
+        body = form.body.data
+        startDate = form.startData.data
+        endDate = form.endDate.data
+        gpa = form.gpa.data
+        pay = form.pay.data
+        approved = 0
+        referral = form.referral.data
+        postID = str(random.randrange(100000,1000000))
 
-		company = company
-		heading = heading
-		body = body
-		startDate = startDate
-		endDate = endDate
-		gpa = gpa
-		pay = pay
-		approved = 0
-		referral = referral
-		postID = str(random.randrange(100000,1000000))
-		#postID needs loop to check for duplicates
+        c.execute('INSERT INTO Internship values("%s","%s","%s","%s","%s","%s","%s","%s","%s","%s")' % (
+            company, heading, body, startDate, endDate, gpa, pay, approved, referral, postID))
 
-		c.execute('INSERT INTO Internship values("%s","%s","%s","%s","%s","%s","%s","s","s")' % (
-        company,heading,body,startDate,endDate,gpa,pay,approved, referral, postID))
         db.commit()
-		return render_template('successful_internship.html', title=title, nav1=nav1, logo_link=logo_link)
-
-	return render_template('create_internship.html', form=form, title=title, logo_link=logo_link)
-
+        return render_template('successful_internship.html', title=title, nav1=nav1, logo_link=logo_link)
+    return render_template('create_internship.html', form=form, title=title, logo_link=logo_link)
 
 @app.route('/create_sponsor', methods=['GET', 'POST'])
 def create_sponsor():
