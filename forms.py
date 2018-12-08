@@ -8,7 +8,7 @@ from flask_login import LoginManager, UserMixin, login_user, logout_user, \
 from werkzeug.urls import url_parse
 from werkzeug.security import check_password_hash, generate_password_hash
 from wtforms import Form, StringField, SubmitField, IntegerField, PasswordField, \
-SelectField, DecimalField, TextAreaField, DateField, validators, SelectMultipleField, FileField
+SelectField, DecimalField, TextAreaField, DateField, validators, SelectMultipleField, FileField, HiddenField
 import pymysql
 from flask_user import roles_required   # we will have three roles; admin, intern, sponsor
 import sys

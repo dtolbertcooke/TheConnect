@@ -119,11 +119,11 @@ def home():
 
 	if current_user.is_authenticated:
 		if current_user.getRole == 'Sponsor':
-			return redirect(url_for('sponsor_profile'))
+			return redirect(url_for('sponsor_profile/%s'%(UserID)))
 		elif current_user.getRole == 'Faculty':
-			return redirect(url_for('admin_home'))
+			return redirect(url_for('admin_home/%s'%(UserID)))
 		else:
-			return redirect(url_for('intern_profile'))
+			return redirect(url_for('intern_profile/%s'%(UserID)))
 		
 	form = loginForm()
 	if form.validate_on_submit():
@@ -141,12 +141,12 @@ def home():
 				redirect(url_for('home'))
 			else:
 				login_user(user)
-				if user.getRole == 'Sponsor':
-					return redirect(url_for('sponsor_profile'))
-				elif user.getRole == 'Faculty':
-					return redirect(url_for('admin_home'))
+				if role == 'Sponsor':
+					return redirect('sponsor/%s'%(userID))
+				elif role == 'Faculty':
+					return redirect('admin_home/%s'%(userID))
 				else:
-					return redirect(url_for('intern_profile'))
+					return redirect('intern/%s'%(userID))
 	return render_template('landing.html', form=form, title=title, logo_link=logo_link)
 
 
