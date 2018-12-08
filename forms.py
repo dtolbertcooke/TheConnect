@@ -104,11 +104,18 @@ class contactForm(FlaskForm):
 
 #Internship Search Form
 class internshipSearch(FlaskForm):
-	choices = [('Heading', 'Heading'),('Company', 'Company'),('Start', 'Start'),('End','End'),('GPA','GPA'),('Pay','Pay')]
+	choices = [('Heading', 'Heading'),('Company', 'Company'),('startDate', 'startDate'),('endDate','endDate'),('GPA','GPA'),('Pay','Pay')]
 	search = StringField("Search")
 	select = SelectField("Search by",choices=choices)
+	table = HiddenField('Internship')
 	
+class studentSearch(FlaskForm):
+	choices = [('Heading', 'Heading'),('Company', 'Company'),('startDate', 'startDate'),('endDate','endDate'),('GPA','GPA'),('Pay','Pay')]
+	search = StringField("Search")
+	select = SelectField("Search by",choices=choices)
+	table = HiddenField('Student')
 	
+
 
 #Profile Edit
 
