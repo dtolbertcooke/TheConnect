@@ -189,6 +189,7 @@ def intern_profile(UserID):
         phone = row[5]
         interest = row[12]
         bio = row[13]
+        availability = row[14]
 
     school = "Southern"
     profile_pic = "https://raw.githubusercontent.com/scsu-csc330-400/blu-test/help_jason/Static/\
@@ -196,7 +197,23 @@ def intern_profile(UserID):
 
     return render_template('intern_profile.html', profile_pic=profile_pic, first_name=f_name, last_name=l_name, \
                            degree=degree, school=school, gpa=gpa, email=email, phone=phone, interest=interest, \
-                           bio=bio)
+                           bio=bio, availability=availability)
+
+@app.route('/edit_profile', methods=['GET', 'POST'])
+@login_required
+def edit_profile():
+    form = editProfileForm()
+    if form.validate_on_submit():
+        current_user.username = form.username.data
+        current_user.about_me = form.about_me.data
+        db.session.commit()
+        flash('Your changes have been saved.')
+        return redirect(url_for('edit_profile'))
+    elif request.method == 'GET':
+        form.username.data = current_user.username
+        form.about_me.data = current_user.about_me
+    return render_template('edit_profile.html', title='Edit Profile',
+                           form=form)
 
 
 @app.route('/sponsor/<UserID>')
@@ -358,12 +375,12 @@ def create_student():
         major = form.major.data
         gpa = form.gpa.data
         interest = form.interest.data
-        availability = form.availability.data
         bio = form.bio.data
+        availability = form.availability.data
 
         c.execute('INSERT INTO User values("%s","%s","%s","%s")' % (studentID, email, password, role))
-        c.execute('INSERT INTO Student values("%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s")' % (
-            studentID, fname, lname, address, email, phone, major, gpa, state, address2, city, zipcode, interest, bio))
+        c.execute('INSERT INTO Student values("%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s")' % (
+            studentID, fname, lname, address, email, phone, major, gpa, state, address2, city, zipcode, interest, bio, availability))
 
         db.commit()
         return redirect(url_for('home'))

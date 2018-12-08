@@ -12,12 +12,17 @@ SelectField, DecimalField, TextAreaField, DateField, validators, SelectMultipleF
 import pymysql
 from flask_user import roles_required   # we will have three roles; admin, intern, sponsor
 import sys
-from wtforms.validators import DataRequired, NumberRange, EqualTo, Email
+from wtforms.validators import DataRequired, NumberRange, EqualTo, Email, Length
 
 #login
 class loginForm(FlaskForm):
     email = StringField('Email',validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
+    submit = SubmitField('Submit')
+
+class editProfileForm(FlaskForm):
+    username = StringField('Username', validators=[DataRequired()])
+    bio = TextAreaField('Biogrpahy', validators=[Length(min=0, max=500)])
     submit = SubmitField('Submit')
 
 #new internship
@@ -66,8 +71,8 @@ class createStudent(FlaskForm):
     major = StringField('Major',validators=[DataRequired()])
     gpa = DecimalField('GPA',places=1,validators=[DataRequired()])
     interest = StringField('Interests', validators=[DataRequired()])
-    availability = SelectMultipleField('Availability', choices=[('M', 'Monday'), ('T', 'Tuesday'), ('W', 'Wednesday'), ('Th', 'Thursday'), ('F', 'Friday'), ('S', 'Saturday'), ('S', 'Sunday')])
-    bio = TextAreaField('Biogrpahy', validators=[DataRequired()])
+    bio = TextAreaField('Biogrpahy', validators=[Length(min=0, max=500)])
+    availability = TextAreaField('Availability', validators=[DataRequired()])
     submit = SubmitField('Submit')
 
 #new admin
@@ -107,8 +112,8 @@ class internshipSearch(FlaskForm):
 	choices = [('Heading', 'Heading'),('Company', 'Company'),('Start', 'Start'),('End','End'),('GPA','GPA'),('Pay','Pay')]
 	search = StringField("Search")
 	select = SelectField("Search by",choices=choices)
-	
-	
+
+
 
 #Profile Edit
 
