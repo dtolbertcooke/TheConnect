@@ -114,35 +114,40 @@ def internal_server_error(e):
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
-    title = "TheConnect"
-    logo_link = "/"
+	title = "TheConnect"
+	logo_link = "/"
 
-    if current_user.is_authenticated:
-        return redirect(url_for('profile'))
+	if current_user.is_authenticated:
+		if current_user.getRole == 'Sponsor':
+			return redirect(url_for('sponsor_profile'))
+		elif current_user.getRole == 'Faculty':
+			return redirect(url_for('admin_home'))
+		else:
+			return redirect(url_for('intern_profile'))
+		
+	form = loginForm()
+	if form.validate_on_submit():
+		email = form.email.data
+		c.execute('SELECT * FROM User WHERE UserID = %s;' % (email))
+		data = c.fetchall()
 
-    form = loginForm()
-    if form.validate_on_submit():
-        email = form.email.data
-        c.execute('SELECT * FROM User WHERE UserID = %s;' % (email))
-        data = c.fetchall()
-
-        for row in data:
-            userID,email,password,role = row[0],row[1],row[2],row[3]
-            user = User(userID,email,password,role)
-            user_db[userID] = user
-            valid_password = check_password_hash(user.pass_hash, form.password.data)
-            if user is None or not valid_password:
-                print('Invalid username or password', file=sys.stderr)
-                redirect(url_for('home'))
-            else:
-                login_user(user)
-                if user.getRole == 'Sponsor':
-                    return redirect(url_for('sponsor_profile'))
-                elif user.getRole == 'Faculty':
-                    return redirect(url_for('admin_home'))
-                else:
-                    return redirect(url_for('intern_profile'))
-    return render_template('landing.html', form=form, title=title, logo_link=logo_link)
+		for row in data:
+			userID,email,password,role = row[0],row[1],row[2],row[3]
+			user = User(userID,email,password,role)
+			user_db[userID] = user
+			valid_password = check_password_hash(user.pass_hash, form.password.data)
+			if user is None or not valid_password:
+				print('Invalid username or password', file=sys.stderr)
+				redirect(url_for('home'))
+			else:
+				login_user(user)
+				if user.getRole == 'Sponsor':
+					return redirect(url_for('sponsor_profile'))
+				elif user.getRole == 'Faculty':
+					return redirect(url_for('admin_home'))
+				else:
+					return redirect(url_for('intern_profile'))
+	return render_template('landing.html', form=form, title=title, logo_link=logo_link)
 
 
 @app.route('/intern')
@@ -189,7 +194,7 @@ def sponsor_profile():
 
 
 @app.route('/admin_home', methods=['GET', 'POST'])  # doesnt work yet, needs to define the class.
-# @login_required
+@login_required
 # @roles_required('admin')
 def admin_home():
     c.execute('Select * from Internship WHERE approved = 0')
@@ -402,9 +407,10 @@ def search():
     return render_template('search.html')
 	
 @app.route('/internships', methods=["GET","POST"])
+@login_required
 def internships():
 	title = "Opportunities"
-	logoLink = "/"
+	logo_link = "/"
 	form = internshipSearch()
 	#need to set approved to 1 once internships begin to be approved		
 	c.execute('SELECT * FROM Internship')
@@ -414,22 +420,40 @@ def internships():
 		return search_results(form)
 	
 		
-	return render_template('internships.html',title=title, data=data, form=form)
+	return render_template('internships.html',title=title, data=data, form=form, logo_link=logo_link)
+
+@app.route('/students', methods=["GET","POST"])
+@login_required
+def students():
+	title = "Students"
+	logoLink = "/"
+	form = studentSearch()
+	#need to set approved to 1 once internships begin to be approved		
+	c.execute('SELECT * FROM Student')
+	data = c.fetchall()
+	
+	if request.method == 'POST':
+		return search_results(form)
+	
+		
+	return render_template('internships.html',title=title, data=data, form=form, logo_link=logo_link)
 
 @app.route('/results', methods=["GET","POST"])
+@login_required
 def search_results(search):
 #	title = "Opportunities"
-#	logoLink = "/"
-	form = internshipSearch()
+	logoLink = "/"
+	form = request.form
 	search_string = request.form.get('search')
 	category = request.form.get('select')
+	table = request.form.get('table')
 	sql = 'SELECT * FROM Internship WHERE {} LIKE "%{}%"'.format(category,search_string)
 	c.execute(sql)
 	data = c.fetchall()
 	if not data:
 		flash('No Results')
 		return redirect(url_for('internships'))
-	return render_template('internships.html', data=data, form=form)
+	return render_template('internships.html', data=data, form=form, logo_link=logo_link)
 		
 
 
