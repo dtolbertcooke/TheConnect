@@ -196,15 +196,15 @@ def admin_home():
     c.execute('Select * from Internship WHERE referral = 1')
     referral_requested_data = c.fetchall()
     rrd_counter = 0
-    c.execute('Select * from Student')
+    c.execute('Select * from Student WHERE approved = 0')
     intern_data = c.fetchall()
     idat_counter = 0
-    c.execute('Select * from Sponsor')
+    c.execute('Select * from Sponsor WHERE approved = 0')
     sponsor_data = c.fetchall()
     sdat_counter = 0
     form_app = Approve()
     form_den = Deny()
-    unq_id = 0
+    unq_id = 34
     if form_app.validate_on_submit():
         print("hiii")
         # c.execute('INSERT INTO User values("
@@ -415,10 +415,13 @@ def approve():
     if request.method == "GET":
         print("Get")
     elif request.method == "POST":
-        print("Post")
+        if s == 46:
+            print("you got this")
+        else:
+            print("you dont got this")
 
     return 'hi'
 
 
 if __name__ == '__main__':  # You can run the main.py and type "localhost:8080" in your
-    app.run(host='0.0.0.0', port=5000, debug=True)  # broswer to test the main.py in your computer.
+    app.run(host='0.0.0.0', port=8080, debug=True)  # broswer to test the main.py in your computer.
