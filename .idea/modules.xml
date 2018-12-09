@@ -2,8 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/The-Connect.iml" filepath="$PROJECT_DIR$/.idea/The-Connect.iml" />
-      <module fileurl="file://$USER_HOME$/Desktop/Scripts/flask-login/flask-login/.idea/flask-login.iml" filepath="$USER_HOME$/Desktop/Scripts/flask-login/flask-login/.idea/flask-login.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../Ponce_assign2/.idea/Ponce_assign2.iml" filepath="$PROJECT_DIR$/../../Ponce_assign2/.idea/Ponce_assign2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/blu-prod.iml" filepath="$PROJECT_DIR$/.idea/blu-prod.iml" />
+      <module fileurl="file://Z:/Dropbox/Dropbox/smokedwings/.idea/smokedwings.iml" filepath="Z:/Dropbox/Dropbox/smokedwings/.idea/smokedwings.iml" />
     </modules>
   </component>
 </project>
