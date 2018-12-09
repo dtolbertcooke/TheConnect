@@ -204,7 +204,7 @@ def admin_home():
     sdat_counter = 0
     form_app = Approve()
     form_den = Deny()
-    unq_id = 132
+    unq_id = 0
     if form_app.validate_on_submit():
         print("hiii")
         # c.execute('INSERT INTO User values("
@@ -416,9 +416,9 @@ def approve():
         print("Get")
     elif request.method == "POST":
         print("Post")
+
     return 'hi'
 
 
-
 if __name__ == '__main__':  # You can run the main.py and type "localhost:8080" in your
-    app.run(host='0.0.0.0', port=8080, debug=True)  # broswer to test the main.py in your computer.
+    app.run(host='0.0.0.0', port=5000, debug=True)  # broswer to test the main.py in your computer.

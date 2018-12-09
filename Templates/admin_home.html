@@ -39,14 +39,14 @@
                     <div class="card-header">
                         <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
                             <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab"
-                               href="#Itern">Intern</a>
+                               href="#Intern">Intern</a>
                             <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab"
                                href="#nav-profile">Sponsor</a>
                             <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab"
                                href="#nav-contact">Posting</a>
                         </div>
                         <div class="tab-content py-3 px-3 px-sm-0" id="nav-tabContent">
-                            <div class="tab-pane fade show active" id="Itern">
+                            <div class="tab-pane fade show active" id="Intern">
                                 Intern Text
 
                                 More <br>
@@ -59,7 +59,7 @@
                                 Sponsor Text
                             </div>
                             <div class="tab-pane fade" id="nav-contact">
-                                Iternship Posting
+                                Intership Posting
                             </div>
                         </div>
                     </div>
@@ -122,7 +122,7 @@
                             <td>Something@Southernct.edu{{ a_s_account }}</td>
                             <td>Intern{{ a_s_type }}</td>
                             <td>
-                                <button type="button" class="btn btn-primary btn-sm" >Notify <i class="oi oi-check"></i>
+                                <button type="button" class="btn btn-primary btn-sm">Notify <i class="oi oi-check"></i>
                                 </button>
                                 $(
                             </td>
@@ -160,6 +160,7 @@
             <div class="collapse multi-collapse" id="Verify_User">
                 <div class="card card-body ">
                     <table class="table">
+                        {# VERIFY USER TOOL VERIFY USER TOOL VERIFY USER TOOL VERIFY USER TOOL VERIFY USER TOOL VERIFY USER TOOL VERIFY USER TOOL#}
                         <h4> Verify Student</h4>
                         <thead>
                         <tr>
@@ -181,12 +182,14 @@
                                 <td>{{ row[4] }}</td>
                                 <td>{{ row[6] }}</td>
                                 <td>
-                                    <button type="submit" class="btn btn-primary btn-sm" id="Approvebtn" formmethod="post" formaction="/approve">Approve <i
+                                    <button type="submit" class="btn btn-primary btn-sm" id="Approvebtn"
+                                            formmethod="post" value="{{ row[0] }}" formaction="/approve">Approve <i
                                             class="oi oi-check"></i>
                                     </button>
                                 </td>
                                 <td>
-                                    <button type="button" class="btn btn-danger btn-sm">Deny <i class="oi oi-x"></i>
+                                    <button type="button" class="btn btn-danger btn-sm" value="{{ row[0] }}"
+                                            id="Denybtn">Deny <i class="oi oi-x"></i>
                                     </button>
                                 </td>
                             </tr>
@@ -194,6 +197,7 @@
                         </tbody>
                     </table>
                     <table class="table">
+                        {#APPROVE SPONSORSHIP TOOLAPPROVE SPONSORSHIP TOOLAPPROVE SPONSORSHIP TOOLAPPROVE SPONSORSHIP TOOL APPROVE SPONSORSHIP TOOL APPROVE SPONSORSHIP TOOL#}
                         <h4> Verify Sponsor</h4>
                         <thead>
                         <tr>
@@ -209,6 +213,7 @@
                         <tbody>
                         {% for row in sponsor_data %}
                             <tr>
+
                                 <th scope="row">{{ row[0] }}</th>
                                 <td>{{ row[1] }}</td>
                                 <td>{{ row[2] }}</td>
@@ -381,28 +386,32 @@
 
 {% block body %}
 
-<script type=text/javascript>
-    var value1 = {{unq_id }};
-    $(function() {
-      $('a#{{ unq_id }}').bind('click', function() {
-          $.ajax({
-              url: '/approve/',
-              type: 'POST',
-              data: JSON.stringify(value1),
-              contentType: "application/json",
-              dataType: "json",
+    <script type=text/javascript>
+        var value1 = {{unq_id }};
+        $(function () {
+            $('a#{{ unq_id }}').bind('click', function () {
+                $.ajax({
+                    url: '/approve/',
+                    type: 'POST',
+                    data: JSON.stringify(value1),
+                    contentType: "application/json",
+                    dataType: "json",
 
-          })
-      });
-      console.log(value1)
-    });
-</script>
+                })
+            });
+            console.log(value1)
+        });
+    </script>
 
-<div class='container'>
-    <form>
-        <a href="#" id="{{ unq_id }}" value="value1"><button class='btn bg-danger btn-default'>sdfsd</button></a>
-        <a href="/approve"><button class='btn bg-danger btn-default'>asd</button></a>
-    </form>
+    <div class='container'>
+        <form>
+            <a href="#" id="{{ unq_id }}" value="value1">
+                <button class='btn bg-danger btn-default'>sdfsd</button>
+            </a>
+            <a href="/approve">
+                <button class='btn bg-danger btn-default'>asd</button>
+            </a>
+        </form>
 
-</div>
+    </div>
 {% endblock %}
