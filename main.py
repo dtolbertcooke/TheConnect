@@ -1,5 +1,5 @@
 # The Connect
-from flask import Flask, render_template, redirect, url_for, flash, request
+from flask import Flask, render_template, redirect, url_for, flash, request, jsonify
 from flask_bootstrap import Bootstrap
 from flask_moment import Moment
 from flask_wtf import FlaskForm
@@ -150,31 +150,6 @@ def home():
 	return render_template('landing.html', form=form, title=title, logo_link=logo_link)
 
 
-'''
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-	title = "Sign In"
-	logo_link = '/'
-
-	if current_user.is_authenticated:
-		return redirect(url_for('profile'))
-
-	form = loginForm()
-	if form.validate_on_submit():
-		user = db[form.email.data]
-
-		valid_password = check_password_hash(user.pass_hash, form.password.data)
-		if email is None or not valid_password:
-			print('Invalid username or password', file=sys.stderr)
-			redirect(url_for('home'))
-		else:
-			login_user(email)
-			return redirect(url_for('profile'))
-
-	return render_template('login.html', title=title, form=form, logo_link=logo_link)
-'''
-
-
 @app.route('/intern/<UserID>')
 @login_required
 def intern_profile(UserID):
@@ -231,21 +206,24 @@ def sponsor_profile(UserID):
                            website=website, phone=phone, zipcode=zipcode, city=city, description=description, state=state)
 
 
-@app.route('/admin_home', methods=['GET', 'POST'])  # doesnt work yet, needs to define the class.
-@login_required
+@app.route('/admin_home/', methods=['GET', 'POST'])  # doesnt work yet, needs to define the class.
 # @roles_required('admin')
 def admin_home():
     c.execute('Select * from Internship WHERE approved = 0')
     approve_internship_data = c.fetchall()
+    aid_counter = 0
     c.execute('Select * from Internship WHERE referral = 1')
     referral_requested_data = c.fetchall()
-    c.execute('Select * from Student')
+    rrd_counter = 0
+    c.execute('Select * from Student WHERE approved = 0')
     intern_data = c.fetchall()
-    c.execute('Select * from Sponsor')
+    idat_counter = 0
+    c.execute('Select * from Sponsor WHERE approved = 0')
     sponsor_data = c.fetchall()
+    sdat_counter = 0
     form_app = Approve()
     form_den = Deny()
-    unq_id = 0
+    unq_id = 34
     if form_app.validate_on_submit():
         print("hiii")
         # c.execute('INSERT INTO User values("
@@ -257,28 +235,6 @@ def admin_home():
                            form_den=form_den, unq_id=unq_id, intern_data=intern_data, sponsor_data=sponsor_data,
                            referral_requested_data=referral_requested_data)
 
-
-'''
-@app.route('/admin_login')
-def admin_login():
-	title = "Admin Login"
-	logo_link = '/'
-	if current_user.is_authenticated:
-		return redirect(url_for('profile'))
-
-	form = loginForm()
-	if form.validate_on_submit():
-		user = db[form.username.data]
-		valid_password = check_password_hash(user.pass_hash, form.password.data)
-		if user is None or not valid_password:
-			print('Invalid username or password', file=sys.stderr)
-			redirect(url_for('home'))
-		else:
-			login_user(user)
-			return redirect(url_for('profile'))
-
-	return render_template('admin_login.html', title=title, form=form, logo_link=logo_link)
-'''
 
 
 @app.route('/logout')
@@ -514,6 +470,48 @@ def search_results(search):
 		return redirect(url_for('internships'))
 	return render_template('internships.html', data=data, form=form, logo_link=logo_link)
 		
+
+
+@app.route('/approve/', methods=['GET', 'POST'])
+def approve():
+    cursor = db.cursor()
+    approval_list = request.get_json()
+    UID = str(approval_list[0])
+    valuee = float(approval_list[1])
+    approved = 1
+    denied = 3
+    if request.method == "POST":
+        # 100000+ is tr range (not used, but for reference)
+        # 1-999 is approval range for students
+        # 1000-99900 is approval range for sponsor
+        # -1-(-999) is denial range for students
+        # -1000-(-99900) is denial range for sponsor
+
+        #approval
+        if 1 <= valuee <= 999:
+            sql_approve = "UPDATE Student SET approved=%s WHERE UserID=%s"
+            cursor.execute(sql_approve,(approved,UID))
+            db.commit()
+            cursor.close()
+        elif 1000 <= valuee <= 99900:
+            sql_approve = "UPDATE Sponsor SET approved=%s WHERE UserID=%s"
+            cursor.execute(sql_approve,(approved,UID))
+            db.commit()
+            cursor.close()
+        #denied
+        elif -1 >= valuee >= -999:
+            sql_denied = "UPDATE Student SET approved=%s WHERE UserID=%s"
+            cursor.execute(sql_denied,(denied,UID))
+            db.commit()
+            cursor.close()
+            print("Denied sucker")
+        elif -1000 >= valuee >= -99900:
+            sql_denied = "UPDATE Sponsor SET approved=%s WHERE UserID=%s"
+            cursor.execute(sql_denied,(denied,UID))
+            db.commit()
+            cursor.close()
+            print("Denied sucker")
+    return 'hi'
 
 
 if __name__ == '__main__':  # You can run the main.py and type "localhost:8080" in your
