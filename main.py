@@ -44,6 +44,7 @@ db = pymysql.connect(host='35.231.51.121', user='root', password='connect1234', 
 c = db.cursor()
 user_db = {}
 
+
 # user roles
 def is_admin():
     if current_user:
@@ -125,8 +126,8 @@ def home():
         data = c.fetchall()
 
         for row in data:
-            userID,email,password,role = row[0],row[1],row[2],row[3]
-            user = User(userID,email,password,role)
+            userID, email, password, role = row[0], row[1], row[2], row[3]
+            user = User(userID, email, password, role)
             user_db[userID] = user
             valid_password = check_password_hash(user.pass_hash, form.password.data)
             if user is None or not valid_password:
@@ -149,7 +150,7 @@ def intern_profile():
     title = "Profile"
     name = current_user.id
     # profile_pic = "..\static\img\s_profile.png"  testing out profile pic
-    c.execute('Select * from Student where UserID = %s' %(name))
+    c.execute('Select * from Student where UserID = %s' % (name))
     data = c.fetchall()
 
     for row in data:
@@ -186,36 +187,20 @@ def sponsor_profile():
                            degree=degree, school=school, gpa=gpa, email=email, phone=phone)
 
 
-@app.route('/admin_home/', methods=['GET', 'POST'])  # doesnt work yet, needs to define the class.
-# @login_required
-# @roles_required('admin')
+@app.route('/admin_home/', methods=['GET', 'POST'])
 def admin_home():
     c.execute('Select * from Internship WHERE approved = 0')
     approve_internship_data = c.fetchall()
-    aid_counter = 0
     c.execute('Select * from Internship WHERE referral = 1')
     referral_requested_data = c.fetchall()
-    rrd_counter = 0
     c.execute('Select * from Student WHERE approved = 0')
     intern_data = c.fetchall()
-    idat_counter = 0
     c.execute('Select * from Sponsor WHERE approved = 0')
     sponsor_data = c.fetchall()
-    sdat_counter = 0
-    form_app = Approve()
-    form_den = Deny()
-    unq_id = 34
-    if form_app.validate_on_submit():
-        print("hiii")
-        # c.execute('INSERT INTO User values("
-    elif form_den.validate_on_submit():
-        print("bye")
-        # c.execute('INSERT INTO User values("
 
-    return render_template('admin_home.html', approve_internship_data=approve_internship_data, form_app=form_app,
-                           form_den=form_den, unq_id=unq_id, intern_data=intern_data, sponsor_data=sponsor_data,
+    return render_template('admin_home.html', approve_internship_data=approve_internship_data
+                           , intern_data=intern_data, sponsor_data=sponsor_data,
                            referral_requested_data=referral_requested_data)
-
 
 
 @app.route('/logout')
@@ -330,20 +315,6 @@ def create_ticket():
     return render_template('create_ticket.html', form=form, title=title, logo_link=logo_link)
 
 
-# resume
-# resume_location = "..\static\img\s_resume.jpg"
-# @app.route('/user_resume')
-# def user_resume():
-#    title = "Resume"
-#    logo_link = "/"
-#    resume_location = "..\static\img\s_resume.jpg"
-#    return render_template('user_resume.html', title=title, resume=resume_location, logo_link=logo_link)
-
-# @app.route('/user/<user>')
-# def user_profile():
-#     title = "Profile"
-#     return render_template('sponsor_profile.html', title=title)
-
 @app.route('/success')
 def successful_internship():
     title = "Success"
@@ -410,40 +381,64 @@ def approve():
     cursor = db.cursor()
     approval_list = request.get_json()
     UID = str(approval_list[0])
-    valuee = float(approval_list[1])
+    value_from_AdminHome = int(approval_list[1])
+    print(value_from_AdminHome)
+    print(UID)
     approved = 1
     denied = 3
     if request.method == "POST":
-        # 100000+ is tr range (not used, but for reference)
+        # neg float to pos float is tr range (not used, but for reference)
         # 1-999 is approval range for students
-        # 1000-99900 is approval range for sponsor
+        # 1000-99900 is approval range for sponsor 100000
+        # 100000-9990000 is approval range for sponsor
         # -1-(-999) is denial range for students
-        # -1000-(-99900) is denial range for sponsor
+        # -1000-(-99900) is denial range for sponsor 100000
 
-        #approval
-        if 1 <= valuee <= 999:
-            sql_approve = "UPDATE Student SET approved=%s WHERE UserID=%s"
-            cursor.execute(sql_approve,(approved,UID))
+        # approve student-------------
+        if 1 <= value_from_AdminHome <= 999:
+            sql_approve1 = "UPDATE Student SET approved=%s WHERE UserID=%s"
+            cursor.execute(sql_approve1, (approved, UID))
             db.commit()
             cursor.close()
-        elif 1000 <= valuee <= 99900:
-            sql_approve = "UPDATE Sponsor SET approved=%s WHERE UserID=%s"
-            cursor.execute(sql_approve,(approved,UID))
+
+            # approve sponsor-------------
+        elif 1000 <= value_from_AdminHome <= 99900:
+            sql_approve2 = "UPDATE Sponsor SET approved=%s WHERE UserID=%s"
+            cursor.execute(sql_approve2, (approved, UID))
             db.commit()
             cursor.close()
-        #denied
-        elif -1 >= valuee >= -999:
-            sql_denied = "UPDATE Student SET approved=%s WHERE UserID=%s"
-            cursor.execute(sql_denied,(denied,UID))
+
+            # Approve internship----------------
+        elif 100000 <= value_from_AdminHome <= 9990000:
+            sql_approve3 = "UPDATE Internship SET approved=%s WHERE postID=%s"
+            cursor.execute(sql_approve3, (approved, UID))
+            db.commit()
+            cursor.close()
+
+        # denied student------------------------
+        elif -1 >= value_from_AdminHome >= -999:
+            sql_denied1 = "UPDATE Student SET approved=%s WHERE UserID=%s"
+            cursor.execute(sql_denied1, (denied, UID))
             db.commit()
             cursor.close()
             print("Denied sucker")
-        elif -1000 >= valuee >= -99900:
-            sql_denied = "UPDATE Sponsor SET approved=%s WHERE UserID=%s"
-            cursor.execute(sql_denied,(denied,UID))
+
+            # denied sponsor------------------------
+        elif -1000 >= value_from_AdminHome >= -99900:
+            sql_denied2 = "UPDATE Sponsor SET approved=%s WHERE UserID=%s"
+            cursor.execute(sql_denied2, (denied, UID))
             db.commit()
             cursor.close()
             print("Denied sucker")
+
+            # denied internship------------------------
+        elif -100000 >= value_from_AdminHome >= -9990000:
+            sql_denied3 = "UPDATE Internship SET approved=%s WHERE postID=%s"
+            cursor.execute(sql_denied3, (denied, UID))
+            db.commit()
+            cursor.close()
+            print("Denied sucker")
+
     return 'hi'
 
 

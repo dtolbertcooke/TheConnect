@@ -177,9 +177,9 @@
                         <tbody>
 
                         {% for row in intern_data %}
-                            {% set x = loop.index * 1%} {# range > 1 #}
+                            {% set x = loop.index * 1 %} {# range > 1 #}
                             {% set y = loop.index * -1 %} {# range > 1 #}
-                            <tr id="{{ loop.index * 100001 }}">
+                            <tr id="{{ loop.index * 1.01 }}">
                                 <th scope="row" id="{{ loop.index }}" class="student_verifier">{{ row[0] }}</th>
                                 {# UID #}
                                 <td>{{ row[1] }}</td>
@@ -228,7 +228,7 @@
                         </thead>
                         <tbody>
                         {% for row in sponsor_data %}
-                            <tr id="{{ loop.index * 100000 }}">
+                            <tr id="{{ loop.index * 1.0001 }}">
                                 {% set x = loop.index * 1000 %}
                                 {% set y = loop.index * -1000 %}
                                 <th scope="row" class="sponsor_verifier">{{ row[0] }}</th>
@@ -279,21 +279,28 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <table>
-                            {#This is for the sponsorship posting, for approving and denying#}
-                            {% for row in approve_internship_data %}
-                                <tr>
-                                    <td><a href="https://www.microsoft.com/en-us/">{{ row[0] }}</a></td>
-                                    <td><a href="localhost:8080/sponsorship">{{ row[1] }}</a></td>
-                                    <td>
-                                        {{ wtf.quick_form(form_app) }}
-                                    </td>
-                                    <td>
-                                        {{ wtf.quick_form(form_den) }}
-                                    </td>
-                                </tr>
-                            {% endfor %}
-                        </table>
+
+                        {#SPONSORSHIP APPROVALSPONSORSHIP APPROVALSPONSORSHIP APPROVALSPONSORSHIP APPROVALSPONSORSHIP APPROVALSPONSORSHIP APPROVALSPONSORSHIP APPROVALSPONSORSHIP APPROVAL#}
+                        {% for row in approve_internship_data %}
+                            {% set x = loop.index * 100000 %}
+                            {% set y = loop.index * -100000 %}
+                            <tr id="{{ loop.index * 1.000001 }}">
+                                <td><a href="https://www.microsoft.com/en-us/">{{ row[0] }}</a></td>
+                                <td><a href="localhost:8080/sponsorship">{{ row[1] }}</a></td>
+                                <td>
+                                    <button type="button" class="btn btn-primary btn-sm" id="{{ x }}" href="#"
+                                            value="{{ row[9] }}">Approve <i
+                                            class="oi oi-check"></i>
+                                    </button>
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-danger btn-sm" value="{{ row[9] }}"
+                                            href="#" id="{{ y }}">Deny <i class="oi oi-x"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        {% endfor %}
+
 
                         </tbody>
                     </table>
@@ -404,7 +411,8 @@
         <div class="row">
         </div>
     </div>
-    </div>
+
+
 
 
 {% endblock %}
@@ -414,13 +422,10 @@
 
     <script type=text/javascript>
         {#global variables#}
-        let value1 = {{ unq_id }};
-        let approve = 'g';
-        let deny = 'g';
         let app_den_btn_val = null;
         let app_den_btn_id = null;
         let tr_id = null;
-        var approval_items = [];
+        let approval_items = [];
 
         {#This function listens for all clicks and gets the row id, value of approve/deny button#}
         $("button").click(function () {
@@ -429,6 +434,7 @@
             tr_id = $(this).closest('tr').attr('id');
             HideElement();
             AddArray();
+            console.log(app_den_btn_id);
         });
         {#Recieves an id of an element and hides it. #}
 
@@ -450,7 +456,8 @@
         {#Sends data back to the main.py for approval/denial#}
         $(function () {
             $("button").bind('click', function () {
-                event.preventDefault(); {# this stops the page from reloading, kinda important #}
+                event.preventDefault();
+                {# this stops the page from reloading, kinda important #}
                 $.ajax({
                     url: '/approve/', {# sends to main.py function /approve/ #}
                     type: 'POST',
