@@ -176,11 +176,9 @@
                         <tbody>
 
                         {% for row in intern_data %}
-
-                            {%  set x = loop.index * 3.53435 %}
-                            {%  set y = loop.index * 2.234345 %}
-                            {{ x }}
-                            <tr>
+                            {%  set x = loop.index * 0.0000000001 %}
+                            {%  set y = loop.index * 0.00000001 %}
+                            <tr id="{{ loop.index * 10}}" >
                                 <th scope="row" id="{{ loop.index }}" class="student_verifier">{{ row[0] }}</th>
                                 <td>{{ row[1] }}</td>
                                 <td>{{ row[2] }}</td>
@@ -219,10 +217,10 @@
                         </thead>
                         <tbody>
                         {% for row in sponsor_data %}
-                            <tr>
-                            {%  set x = loop.index * 2.2534353 %}
-                            {%  set y = loop.index * 1.4356345 %}
-                                <th scope="row" id="{{ loop.index }}" class="sponsor_verifier">{{ row[0] }}</th>
+                            <tr id="{{ loop.index * 100 }}">
+                            {%  set x = loop.index * 0.000001 %}
+                            {%  set y = loop.index * 0.0001 %}
+                                <th scope="row" class="sponsor_verifier">{{ row[0] }}</th>
                                 <td>{{ row[1] }}</td>
                                 <td>{{ row[2] }}</td>
                                 <td>{{ row[3] }}</td>
@@ -239,7 +237,7 @@
                                 </td>
                                 <td>
                                     <button type="button" class="btn btn-danger btn-sm" value="{{ row[0] }}"
-                                            href="#" id="{{ y }}" onclick="myFunction()">Deny <i class="oi oi-x"></i>
+                                            href="#" id="{{ y }}">Deny <i class="oi oi-x"></i>
                                     </button>
                                 </td>
                             </tr>
@@ -397,16 +395,28 @@
 {% block body %}
 
     <script type=text/javascript>
-        var value1 = {{ unq_id }};
+        let value1 = {{ unq_id }};
         let approve = 'g';
         let deny = 'g';
-        let value3 = 46;
+        let value3 = null;
+        let tr_id = null;
+
+        {#This function listens for all clicks and gets the row id, value of approve/deny button#}
         $("button").click(function() {
-            var fired_button = $(this).val();
-            console.log(fired_button);
+            value3 = $(this).val();
+            console.log(value3);
+            tr_id = $(this).closest('tr').attr('id');
+            console.log(tr_id);
+            HideElement()
         });
-
-
+        function HideElement() {
+            let hide_element = document.getElementById(tr_id);
+            if (hide_element.style.display === "none") {
+                hide_element.style.display = "block";
+            } else {
+                hide_element.style.display = "none";
+            }
+        }
 
         $(function () {
             $("button").bind('click', function () {
@@ -420,7 +430,6 @@
                 })
 
             });
-            console.log("function")
         });
 
 

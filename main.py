@@ -410,15 +410,12 @@ def search():
 @app.route('/approve/', methods=['GET', 'POST'])
 def approve():
     s = request.get_json()
-    print("Approve is called")
+    print("/approve/")
     print(s)
     if request.method == "GET":
         print("Get")
     elif request.method == "POST":
-        if s == 46:
             print("you got this")
-        else:
-            print("you dont got this")
 
     return 'hi'
 
