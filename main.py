@@ -225,8 +225,6 @@ def logout():
 
 
 @app.route('/create_internship', methods=['GET', 'POST'])
-# @login_required
-# roles_required('admin','sponsor')
 def create_internship():
     form = createInternship()
     title = "Internship"
@@ -409,14 +407,43 @@ def search():
 
 @app.route('/approve/', methods=['GET', 'POST'])
 def approve():
-    s = request.get_json()
-    print("/approve/")
-    print(s)
-    if request.method == "GET":
-        print("Get")
-    elif request.method == "POST":
-            print("you got this")
+    cursor = db.cursor()
+    approval_list = request.get_json()
+    UID = str(approval_list[0])
+    valuee = float(approval_list[1])
+    approved = 1
+    denied = 3
+    if request.method == "POST":
+        # 100000+ is tr range (not used, but for reference)
+        # 1-999 is approval range for students
+        # 1000-99900 is approval range for sponsor
+        # -1-(-999) is denial range for students
+        # -1000-(-99900) is denial range for sponsor
 
+        #approval
+        if 1 <= valuee <= 999:
+            sql_approve = "UPDATE Student SET approved=%s WHERE UserID=%s"
+            cursor.execute(sql_approve,(approved,UID))
+            db.commit()
+            cursor.close()
+        elif 1000 <= valuee <= 99900:
+            sql_approve = "UPDATE Sponsor SET approved=%s WHERE UserID=%s"
+            cursor.execute(sql_approve,(approved,UID))
+            db.commit()
+            cursor.close()
+        #denied
+        elif -1 >= valuee >= -999:
+            sql_denied = "UPDATE Student SET approved=%s WHERE UserID=%s"
+            cursor.execute(sql_denied,(denied,UID))
+            db.commit()
+            cursor.close()
+            print("Denied sucker")
+        elif -1000 >= valuee >= -99900:
+            sql_denied = "UPDATE Sponsor SET approved=%s WHERE UserID=%s"
+            cursor.execute(sql_denied,(denied,UID))
+            db.commit()
+            cursor.close()
+            print("Denied sucker")
     return 'hi'
 
 

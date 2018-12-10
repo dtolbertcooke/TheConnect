@@ -168,22 +168,30 @@
                             <th scope="col">First</th>
                             <th scope="col">Last</th>
                             <th scope="col">Account</th>
-                            <th scope="col">Type</th>
-                            <th scope="col">Approve</th>
                             <th scope="col">Major</th>
+                            <th scope="col">GPA</th>
+                            <th scope="col">Approve</th>
+                            <th scope="col">Deny</th>
                         </tr>
                         </thead>
                         <tbody>
 
                         {% for row in intern_data %}
-                            {%  set x = loop.index * 0.0000000001 %}
-                            {%  set y = loop.index * 0.00000001 %}
-                            <tr id="{{ loop.index * 10}}" >
+                            {% set x = loop.index * 1%} {# range > 1 #}
+                            {% set y = loop.index * -1 %} {# range > 1 #}
+                            <tr id="{{ loop.index * 100001 }}">
                                 <th scope="row" id="{{ loop.index }}" class="student_verifier">{{ row[0] }}</th>
+                                {# UID #}
                                 <td>{{ row[1] }}</td>
+                                {# First #}
                                 <td>{{ row[2] }}</td>
+                                {# Last #}
                                 <td>{{ row[4] }}</td>
+                                {# Account #}
                                 <td>{{ row[6] }}</td>
+                                {# Major #}
+                                <td>{{ row[7] }}</td>
+                                {# Major #}
                                 <td>
                                     <button type="submit" class="btn btn-primary btn-sm" id="{{ x }}" href="#"
                                             value="{{ row[0] }}">Approve <i
@@ -208,27 +216,37 @@
                         <tr>
                             <th scope="col">UID</th>
                             <th scope="col">Company</th>
-                            <th scope="col">Address</th>
                             <th scope="col">Website</th>
                             <th scope="col">Phone</th>
+                            <th scope="col">Address</th>
                             <th scope="col">City</th>
+                            <th scope="col">State</th>
                             <th scope="col">Description</th>
+                            <th scope="col">Approve</th>
+                            <th scope="col">Deny</th>
                         </tr>
                         </thead>
                         <tbody>
                         {% for row in sponsor_data %}
-                            <tr id="{{ loop.index * 100 }}">
-                            {%  set x = loop.index * 0.000001 %}
-                            {%  set y = loop.index * 0.0001 %}
+                            <tr id="{{ loop.index * 100000 }}">
+                                {% set x = loop.index * 1000 %}
+                                {% set y = loop.index * -1000 %}
                                 <th scope="row" class="sponsor_verifier">{{ row[0] }}</th>
+                                {# UID #}
                                 <td>{{ row[1] }}</td>
-                                <td>{{ row[2] }}</td>
-                                <td>{{ row[3] }}</td>
+                                {# Company #}
+                                <td><a href="{{ row[3] }}">{{ row[3] }}</a></td>
+                                {# Website #}
                                 <td>{{ row[4] }}</td>
-                                <td>{{ row[5] }}</td>
+                                {# Phone #}
+                                <td>{{ row[2] }}</td>
+                                {# Address #}
                                 <td>{{ row[6] }}</td>
+                                {# City #}
                                 <td>{{ row[8] }}</td>
-                                <td>{{ row[9] }}</td>
+                                {# State #}
+                                <td>{{ row[7] }}</td>
+                                {# Description #}
                                 <td>
                                     <button type="button" class="btn btn-primary btn-sm" id="{{ x }}" href="#"
                                             value="{{ row[0] }}">Approve <i
@@ -395,20 +413,25 @@
 {% block body %}
 
     <script type=text/javascript>
+        {#global variables#}
         let value1 = {{ unq_id }};
         let approve = 'g';
         let deny = 'g';
-        let value3 = null;
+        let app_den_btn_val = null;
+        let app_den_btn_id = null;
         let tr_id = null;
+        var approval_items = [];
 
         {#This function listens for all clicks and gets the row id, value of approve/deny button#}
-        $("button").click(function() {
-            value3 = $(this).val();
-            console.log(value3);
+        $("button").click(function () {
+            app_den_btn_val = $(this).val();
+            app_den_btn_id = $(this).attr("id");
             tr_id = $(this).closest('tr').attr('id');
-            console.log(tr_id);
-            HideElement()
+            HideElement();
+            AddArray();
         });
+        {#Recieves an id of an element and hides it. #}
+
         function HideElement() {
             let hide_element = document.getElementById(tr_id);
             if (hide_element.style.display === "none") {
@@ -418,33 +441,24 @@
             }
         }
 
+        function AddArray() {
+            approval_items.unshift(app_den_btn_id);
+            approval_items.unshift(app_den_btn_val);
+        }
+
+
+        {#Sends data back to the main.py for approval/denial#}
         $(function () {
             $("button").bind('click', function () {
-                event.preventDefault();
+                event.preventDefault(); {# this stops the page from reloading, kinda important #}
                 $.ajax({
-                    url: '/approve/',
+                    url: '/approve/', {# sends to main.py function /approve/ #}
                     type: 'POST',
-                    data: JSON.stringify(value3),
+                    data: JSON.stringify(approval_items),
                     contentType: "application/json",
                     dataType: "json",
                 })
-
             });
         });
-
-
     </script>
-
-    <div class='container'>
-        <form>
-            <a href="#" id="{{ unq_id }}" value="value1">
-                <button class='btn bg-danger btn-default' >sdfsd</button>
-            </a>
-            <a href="/approve">
-                <button class='btn bg-danger btn-default'>asd</button>
-            </a>
-
-        </form>
-
-    </div>
 {% endblock %}
