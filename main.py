@@ -124,7 +124,7 @@ def home():
 			return redirect(url_for('admin_home/%s'%(UserID)))
 		else:
 			return redirect(url_for('intern_profile/%s'%(UserID)))
-		
+
 	form = loginForm()
 	if form.validate_on_submit():
 		UserID = form.UserID.data
@@ -148,7 +148,7 @@ def home():
 				else:
 					return redirect('intern/%s'%(UserID))
 	return render_template('landing.html', form=form, title=title, logo_link=logo_link)
-	
+
 @app.route('/logout')
 def logout():
     logout_user()
@@ -176,7 +176,7 @@ def intern_profile(UserID):
 		phone = row[5]
 		interest = row[12]
 		biography = row[13]
-		availability = row[14] 
+		availability = row[14]
 
 	school = "Southern"
 	profile_pic = "https://raw.githubusercontent.com/scsu-csc330-400/blu-test/help_jason/Static/\
@@ -256,22 +256,22 @@ def create_internship():
     title = "Internship"
     logo_link = "/"
 
-	if form.validate_on_submit():
-		company = form.company.data
-		heading = form.heading.data
-		body = form.body.data
-		startDate = form.startDate.data
-		endDate = form.endDate.data
-		gpa = form.gpa.data
-		pay = form.pay.data
-		approved = 0
-		referral = form.referral.data
-		postID = str(random.randrange(100000,1000000)) 
+    if form.validate_on_submit():
+        company = form.company.data
+        heading = form.heading.data
+        body = form.body.data
+        startDate = form.startDate.data
+        endDate = form.endDate.data
+        gpa = form.gpa.data
+        pay = form.pay.data
+        approved = 0
+        referral = form.referral.data
+        postID = str(random.randrange(100000,1000000))
 		#postID needs loop to check for duplicates
 
-		c.execute('INSERT INTO Internship values("%s","%s","%s","%s","%s","%s","%s","s","s","%s")' %(company,heading,body,startDate,endDate,gpa,pay,approved,referral,postID))
-		db.commit()
-		return redirect(url_for('home'))
+        c.execute('INSERT INTO Internship values("%s","%s","%s","%s","%s","%s","%s","s","s","%s")' %(company,heading,body,startDate,endDate,gpa,pay,approved,referral,postID))
+        db.commit()
+        return redirect(url_for('home'))
 
         db.commit()
         return render_template('successful_internship.html', title=title, nav1=nav1, logo_link=logo_link)
@@ -432,21 +432,21 @@ def register():
 def search():
     return render_template('search.html')
 
-#view and search	
+#view and search
 @app.route('/internships', methods=["GET","POST"])
 #@login_required
 def internships():
 	title = "Opportunities"
 	logo_link = "/"
 	form = internshipSearch()
-	#need to set approved to 1 once internships begin to be approved		
+	#need to set approved to 1 once internships begin to be approved
 	c.execute('SELECT * FROM Internship')
 	data = c.fetchall()
-	
+
 	if request.method == 'POST':
 		return search_results(form)
-	
-		
+
+
 	return render_template('internships.html',title=title, data=data, form=form, logo_link=logo_link)
 
 @app.route('/students', methods=["GET","POST"])
@@ -454,14 +454,14 @@ def internships():
 def students():
 	title = "Students"
 	logo_link = "/"
-	form = studentSearch()		
+	form = studentSearch()
 	c.execute('SELECT * FROM Student')
 	data = c.fetchall()
-	
+
 	if request.method == 'POST':
 		return search_results(form)
-	
-		 
+
+
 	return render_template('internships.html',title=title, data=data, form=form, logo_link=logo_link)
 
 @app.route('/results', methods=["GET","POST"])
@@ -478,6 +478,6 @@ def search_results(search):
 		flash('No Results')
 		return redirect(url_for('internships'))
 	return render_template('internships.html', data=data, form=form, logo_link=logo_link)
-	
+
 if __name__ == '__main__':  # You can run the main.py and type "localhost:8080" in your
     app.run(host='0.0.0.0', port=8080, debug=True)  # broswer to test the main.py in your computer.
