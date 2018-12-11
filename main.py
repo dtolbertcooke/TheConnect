@@ -8,7 +8,7 @@ from flask_login import LoginManager, UserMixin, login_user, logout_user, curren
 from werkzeug.urls import url_parse
 from werkzeug.security import check_password_hash, generate_password_hash
 from wtforms import Form, StringField, SubmitField, IntegerField, PasswordField, SelectField, DecimalField, \
-    TextAreaField, HiddenField, validators
+    TextAreaField, validators
 from wtforms.validators import DataRequired, NumberRange, EqualTo, Email
 import pymysql
 from flask_user import roles_required  # we will have three roles; admin, intern, sponsor
@@ -426,9 +426,10 @@ def internships():
 	#need to set approved to 1 once internships begin to be approved		
 	c.execute('SELECT * FROM Internship')
 	data = c.fetchall()
+	table = "Internship"
 	
 	if request.method == 'POST':
-		return search_results(form)
+		return search_results(form,table)
 	
 		
 	return render_template('internships.html',title=title, data=data, form=form, logo_link=logo_link)
@@ -441,22 +442,23 @@ def students():
 	form = studentSearch()		
 	c.execute('SELECT * FROM Student')
 	data = c.fetchall()
+	table = "Student"
 	
 	if request.method == 'POST':
-		return search_results(form)
+		return search_results(form,table)
 	
 		 
 	return render_template('internships.html',title=title, data=data, form=form, logo_link=logo_link)
 
 @app.route('/results', methods=["GET","POST"])
 #@login_required
-def search_results(search):
+def search_results(search,table):
 #	title = "Opportunities"
 	logo_link = "/"
 	form = request.form
 	search_string = request.form.get('search')
 	category = request.form.get('select')
-	table = request.form.get('table')
+	table = table
 	if table == 'Student':
 		sql = 'SELECT * FROM Student WHERE {} LIKE "%{}%"' .format(category,search_string)
 	elif table == 'Internship':

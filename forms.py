@@ -7,7 +7,7 @@ from flask_login import LoginManager, UserMixin, login_user, logout_user, \
     current_user, login_required
 from werkzeug.urls import url_parse
 from werkzeug.security import check_password_hash, generate_password_hash
-from wtforms import Form, StringField, SubmitField, IntegerField, PasswordField, SelectField, DecimalField, TextAreaField, DateField, HiddenField, validators
+from wtforms import Form, StringField, SubmitField, IntegerField, PasswordField, SelectField, DecimalField, TextAreaField, DateField, validators
 import pymysql
 from flask_user import roles_required   # we will have three roles; admin, intern, sponsor
 import sys
@@ -103,13 +103,13 @@ class internshipSearch(FlaskForm):
 	choices = [('Heading', 'Heading'),('Company', 'Company'),('startDate', 'startDate'),('endDate','endDate'),('GPA','GPA'),('Pay','Pay')]
 	search = StringField("Search")
 	select = SelectField("Search by",choices=choices)
-	table = HiddenField("Internship")
+
 	
 class studentSearch(FlaskForm):
 	choices = [('Heading', 'Heading'),('Company', 'Company'),('startDate', 'startDate'),('endDate','endDate'),('GPA','GPA'),('Pay','Pay')]
 	search = StringField("Search")
 	select = SelectField("Search by",choices=choices)
-	table = HiddenField("Student")
+
 	
 
 
