@@ -122,7 +122,7 @@ def home():
         if current_user.getRole == 'Sponsor':
             return redirect(url_for('sponsor_profile/%s' % (UserID)))
         elif current_user.getRole == 'Faculty':
-            return redirect(url_for('admin_home/%s' % (UserID)))
+            return redirect(url_for('admin_home'))
         else:
             return redirect(url_for('intern_profile/%s' % (UserID)))
 
@@ -145,7 +145,7 @@ def home():
                 if role == 'Sponsor':
                     return redirect('sponsor/%s' % (userID))
                 elif role == 'Faculty':
-                    return redirect('admin_home/%s' % (userID))
+                    return redirect(url_for('admin_home'))
                 else:
                     return redirect('intern/%s' % (userID))
     return render_template('landing.html', form=form, title=title, logo_link=logo_link)
