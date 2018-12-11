@@ -25,7 +25,7 @@ class editInternProfileForm(FlaskForm):
     phone = StringField('Phone')
     interest = StringField('Interests')
     availability = TextAreaField('Availability')
-    bio = TextAreaField('Biogrpahy', validators=[Length(min=0, max=500)])
+    bio = TextAreaField('Biography', validators=[Length(min=0, max=500)])
     submit = SubmitField('Submit')
 
 class editSponsorProfileForm(FlaskForm):

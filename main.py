@@ -161,7 +161,7 @@ def intern_profile(UserID):
 	title = "Profile"
 	name = UserID
 	logo_link = "/"
-	button_link = ("/edit_intern/%s" %(UserID))
+	edit = ("/edit_profile/intern/%s" %(UserID))
 	# profile_pic = "..\static\img\s_profile.png"  testing out profile pic
 	c.execute('Select * from Student where UserID = %s' %(name))
 	data = c.fetchall()
@@ -183,7 +183,7 @@ def intern_profile(UserID):
 	img/b.jpg?token=AoQ7TSJDqVpIdxBM_4hwk9J2QSluOd47ks5b7GhvwA%3D%3D"
 	biography = biography
 
-	return render_template('intern_profile.html', profile_pic=profile_pic, logo_link=logo_link, button_link=button_link, first_name=f_name, last_name=l_name, \
+	return render_template('intern_profile.html', profile_pic=profile_pic, logo_link=logo_link, edit=edit, first_name=f_name, last_name=l_name, \
                            degree=degree, school=school, gpa=gpa, email=email, phone=phone, interest=interest, \
                            biography=biography,)
 
