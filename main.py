@@ -175,7 +175,7 @@ def login():
 def intern_profile(UserID):
     title = "Profile"
     name = UserID
-    # profile_pic = "..\static\img\s_profile.png"  testing out profile pic
+    edit = ('/edit_profile/%s' %(UserID))
     c.execute('Select * from Student where UserID = %s' %(name))
     data = c.fetchall()
 
@@ -197,7 +197,7 @@ def intern_profile(UserID):
 
     return render_template('intern_profile.html', profile_pic=profile_pic, first_name=f_name, last_name=l_name, \
                            degree=degree, school=school, gpa=gpa, email=email, phone=phone, interest=interest, \
-                           bio=bio, availability=availability)
+                           bio=bio, availability=availability, edit=edit)
 
 @app.route('/edit_profile/<UserID>', methods=['GET', 'POST'])
 @login_required
@@ -205,7 +205,7 @@ def edit_profile(UserID):
     form = editInternProfileForm()
     title = 'Edit Profile'
     logo_link = "/"
-    name = userID
+    id = UserID
 
     if form.validate_on_submit():
         degree = form.degree.data
@@ -215,7 +215,7 @@ def edit_profile(UserID):
         availability = form.availability.data
         bio = form.bio.data
         c.execute('UPDATE Student SET major = %s, GPA = %s, phone = %s, interest = %s, availability = %s, biography = %s WHERE UserID = %s' % (
-            degree, gpa, phone, interest, availability, bio, name))
+            degree, gpa, phone, interest, availability, bio, id))
 
         db.commit()
         flash('Your changes have been saved.')
@@ -282,29 +282,6 @@ def admin_home():
     return render_template('admin_home.html', approve_internship_data=approve_internship_data, form_app=form_app,
                            form_den=form_den, unq_id=unq_id, intern_data=intern_data, sponsor_data=sponsor_data,
                            referral_requested_data=referral_requested_data)
-
-
-'''
-@app.route('/admin_login')
-def admin_login():
-	title = "Admin Login"
-	logo_link = '/'
-	if current_user.is_authenticated:
-		return redirect(url_for('profile'))
-
-	form = loginForm()
-	if form.validate_on_submit():
-		user = db[form.username.data]
-		valid_password = check_password_hash(user.pass_hash, form.password.data)
-		if user is None or not valid_password:
-			print('Invalid username or password', file=sys.stderr)
-			redirect(url_for('home'))
-		else:
-			login_user(user)
-			return redirect(url_for('profile'))
-
-	return render_template('admin_login.html', title=title, form=form, logo_link=logo_link)
-'''
 
 
 @app.route('/logout')
