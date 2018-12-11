@@ -7,8 +7,7 @@ from flask_login import LoginManager, UserMixin, login_user, logout_user, \
     current_user, login_required
 from werkzeug.urls import url_parse
 from werkzeug.security import check_password_hash, generate_password_hash
-from wtforms import Form, StringField, SubmitField, IntegerField, PasswordField, \
-SelectField, DecimalField, TextAreaField, DateField, validators, SelectMultipleField, FileField, HiddenField
+from wtforms import Form, StringField, SubmitField, IntegerField, PasswordField, SelectField, DecimalField, TextAreaField, DateField, SelectMultipleField, validators
 import pymysql
 from flask_user import roles_required   # we will have three roles; admin, intern, sponsor
 import sys
@@ -16,7 +15,7 @@ from wtforms.validators import DataRequired, NumberRange, EqualTo, Email, Length
 
 #login
 class loginForm(FlaskForm):
-    email = StringField('Email',validators=[DataRequired()])
+    UserID = StringField('UserID',validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
     submit = SubmitField('Submit')
 
@@ -71,24 +70,23 @@ class createSponsor(FlaskForm):
 
 #new student
 class createStudent(FlaskForm):
-    studentID = StringField('Student ID', validators=[DataRequired()])
-    email = StringField('Email address', validators=[DataRequired()])
-    password = PasswordField('Password', validators=[DataRequired(), EqualTo('confirm', message='Passwords must match')])
-    confirm = PasswordField('Repeat Password')
-    fname = StringField('First Name', validators=[DataRequired()])
-    lname = StringField('Last Name', validators=[DataRequired()])
-    phone = StringField('Phone', validators=[DataRequired()])
-    address = StringField('Address',validators=[DataRequired()])
-    address2 = StringField('Address 2')
-    city = StringField('City',validators=[DataRequired()])
-    state = SelectField('State',choices=[('ct', 'Connecticut'), ('ma', 'Massachussets'), ('ny', 'New York')])
-    zipcode = StringField('Zip' ,validators=[DataRequired()])
-    major = StringField('Major',validators=[DataRequired()])
-    gpa = DecimalField('GPA',places=1,validators=[DataRequired()])
-    interest = StringField('Interests', validators=[DataRequired()])
-    bio = TextAreaField('Biogrpahy', validators=[Length(min=0, max=500)])
-    availability = TextAreaField('Availability', validators=[DataRequired()])
-    submit = SubmitField('Submit')
+	email = StringField('Email address', validators=[DataRequired()])
+	password = PasswordField('Password', validators=[DataRequired(), EqualTo('confirm', message='Passwords must match')])
+	confirm = PasswordField('Repeat Password')
+	fname = StringField('First Name', validators=[DataRequired()])
+	lname = StringField('Last Name', validators=[DataRequired()])
+	phone = StringField('Phone', validators=[DataRequired()])
+	address = StringField('Address',validators=[DataRequired()])
+	address2 = StringField('Address 2')
+	city = StringField('City',validators=[DataRequired()])
+	state = SelectField('State',choices=[('ct', 'Connecticut'), ('ma', 'Massachussets'), ('ny', 'New York')])
+	zipcode = StringField('Zip' ,validators=[DataRequired()])
+	major = StringField('Major',validators=[DataRequired()])
+	gpa = DecimalField('GPA',places=1,validators=[DataRequired()])
+	interest = TextAreaField('Student Interest')
+	biography = TextAreaField('Biography')
+	availability = SelectMultipleField('Availability',choices=[('Sunday', 'Sunday'), ('Monday', 'Monday'), ('Tuesday', 'Tuesday'),('Wednesday', 'Wednesday'), ('Thursday', 'Thursday'), ('Friday', 'Friday'),('Saturday','Saturday')])
+	submit = SubmitField('Submit')
 
 #new admin
 class createAdmin(FlaskForm):
@@ -121,20 +119,43 @@ class contactForm(FlaskForm):
 	message = TextAreaField("Message")
 	submit = SubmitField("Send")
 
+class changePassword(FlaskForm):
+	password = PasswordField('Password', validators=[DataRequired(), EqualTo('confirm', message='Passwords must match')])
+	confirm = PasswordField('Repeat Password')
+	submit = SubmitField('Submit')
 
+class editStudent(FlaskForm):
+	email = StringField('Email address', validators=[DataRequired()])
+	password = PasswordField('Password', validators=[DataRequired(), EqualTo('confirm', message='Passwords must match')])
+	confirm = PasswordField('Repeat Password')
+	fname = StringField('First Name', validators=[DataRequired()])
+	lname = StringField('Last Name', validators=[DataRequired()])
+	phone = StringField('Phone', validators=[DataRequired()])
+	address = StringField('Address',validators=[DataRequired()])
+	address2 = StringField('Address 2')
+	city = StringField('City',validators=[DataRequired()])
+	state = SelectField('State',choices=[('ct', 'Connecticut'), ('ma', 'Massachussets'), ('ny', 'New York')])
+	zipcode = StringField('Zip' ,validators=[DataRequired()])
+	major = StringField('Major',validators=[DataRequired()])
+	gpa = DecimalField('GPA',places=1,validators=[DataRequired()])
+	interest = TextAreaField('Student Interest')
+	biography = TextAreaField('Biography')
+	availability = SelectMultipleField('Availability',choices=[('Sunday', 'Sunday'), ('Monday', 'Monday'), ('Tuesday', 'Tuesday'),('Wednesday', 'Wednesday'), ('Thursday', 'Thursday'), ('Friday', 'Friday'),('Saturday','Saturday')])
+	submit = SubmitField('Submit')
+	
 #Internship Search Form
 class internshipSearch(FlaskForm):
-	choices = [('Heading', 'Heading'),('Company', 'Company'),('startDate', 'startDate'),('endDate','endDate'),('GPA','GPA'),('Pay','Pay')]
+	choices = [('heading', 'heading'),('company', 'company'),('startDate', 'startDate'),('endDate','endDate'),('gpa','gpa'),('pay','pay')]
 	search = StringField("Search")
 	select = SelectField("Search by",choices=choices)
-	table = HiddenField('Internship')
 
+	
 class studentSearch(FlaskForm):
-	choices = [('Heading', 'Heading'),('Company', 'Company'),('startDate', 'startDate'),('endDate','endDate'),('GPA','GPA'),('Pay','Pay')]
+	choices = [('heading', 'heading'),('Company', 'Company'),('startDate', 'startDate'),('endDate','endDate'),('gpa','gpa'),('pay','pay')]
 	search = StringField("Search")
 	select = SelectField("Search by",choices=choices)
-	table = HiddenField('Student')
 
+	
 
 
 #Profile Edit
