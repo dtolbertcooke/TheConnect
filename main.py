@@ -450,23 +450,19 @@ def students():
 	return render_template('internships.html',title=title, data=data, form=form, logo_link=logo_link)
 
 @app.route('/results', methods=["GET","POST"])
-#@login_required
 def search_results(search):
 #	title = "Opportunities"
-	logo_link = "/"
-	form = request.form
+#	logoLink = "/"
+	form = internshipSearch()
 	search_string = request.form.get('search')
 	category = request.form.get('select')
-
-	sql = 'SELECT * FROM Internship WHERE {} LIKE "%{}%"' .format(category,search_string)
-
+	sql = 'SELECT * FROM Internship WHERE {} LIKE "%{}%"'.format(category,search_string)
 	c.execute(sql)
 	data = c.fetchall()
-	
 	if not data:
 		flash('No Results')
 		return redirect(url_for('internships'))
-	return render_template('internships.html', data=data, form=form, logo_link=logo_link)
+	return render_template('internships.html', data=data, form=form)
 
 #edit users	
 @app.route('/edit_intern/<UserID>', methods=['GET','POST'])
