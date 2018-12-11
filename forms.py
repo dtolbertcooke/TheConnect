@@ -21,7 +21,11 @@ class loginForm(FlaskForm):
     submit = SubmitField('Submit')
 
 class editProfileForm(FlaskForm):
-    username = StringField('Username', validators=[DataRequired()])
+    degree = StringField('Degree', validators=[DataRequired()])
+    gpa = DecimalField('GPA',places=1,validators=[DataRequired()])
+    phone = StringField('Phone', validators=[DataRequired()])
+    interest = StringField('Interests', validators=[DataRequired()])
+    availability = TextAreaField('Availability', validators=[DataRequired()])
     bio = TextAreaField('Biogrpahy', validators=[Length(min=0, max=500)])
     submit = SubmitField('Submit')
 
