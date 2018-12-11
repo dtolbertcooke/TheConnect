@@ -261,7 +261,7 @@ def create_internship():
 		postID = str(random.randrange(100000,1000000)) 
 		#postID needs loop to check for duplicates
 
-		c.execute('INSERT INTO Internship values("%s","%s","%s","%s","%s","%s","%s","s","s")' % (company,heading,body,startDate,endDate,gpa,pay,approved, referral, postID))
+		c.execute('INSERT INTO Internship values("%s","%s","%s","%s","%s","%s","%s","s","s")' % (company,heading,body,startDate,endDate,gpa,pay,approved,referral, postID))
 		db.commit()
 		return render_template('successful_internship.html', title=title, nav1=nav1, logo_link=logo_link)
 
@@ -533,7 +533,7 @@ def update_student(UserID):
 		
 	
 
-	return render_template('edit_student.html', form1=pass_form, form2=student_form, logo_link=logo_link)
+	return render_template('edit_student.html', title=title,form1=pass_form, form2=student_form, logo_link=logo_link)
 
 @app.route('/edit_sponsor/<UserID>', methods=['GET','POST'])
 def update_sponsor(UserID):
