@@ -222,6 +222,40 @@ def edit_profile_intern(UserID):
     logo_link = "/"
     id = UserID
 
+
+    if form.validate_on_submit():
+        degree = form.degree.data
+        gpa = form.gpa.data
+        phone = form.phone.data
+        interest = form.interest.data
+        availability = form.availability.data
+        bio = form.bio.data
+        c.execute('UPDATE Student SET major = "%s", GPA = "%s", phone = "%s", \
+        interest = "%s", availability = "%s", biography = "%s" WHERE UserID = "%s"' \
+        % (degree, gpa, phone, interest, availability, bio, id))
+        db.commit()
+        flash('Your changes have been saved.')
+        return redirect('intern/%s'%(UserID))
+
+    elif request.method == 'GET':
+        c.execute('Select * from Student where UserID = %s' %(id))
+        data = c.fetchall()
+
+        for row in data:
+            degree = row[6]
+            gpa = row[7]
+            phone = row[5]
+            interest = row[12]
+            availability = row[14]
+            bio = row[13]
+        form.degree.data = degree
+        form.gpa.data = gpa
+        form.phone.data = phone
+        form.interest.data = interest
+        form.availability.data = availability
+        form.bio.data = bio
+    return render_template('edit_profile_intern.html', form=form, title=title, logo_link=logo_link)
+
 @app.route('/admin_home', methods=['GET', 'POST'])  # doesnt work yet, needs to define the class.
 @login_required
 # @roles_required('admin')
@@ -252,9 +286,9 @@ def admin_home():
 #create users
 @app.route('/create_internship', methods=['GET', 'POST'])
 def create_internship():
-    form = createInternship()
-    title = "Internship"
-    logo_link = "/"
+	form = createInternship()
+	title = "Internship"
+	logo_link = "/"
 
 	if form.validate_on_submit():
 		company = form.company.data
@@ -271,11 +305,9 @@ def create_internship():
 
 		c.execute('INSERT INTO Internship values("%s","%s","%s","%s","%s","%s","%s","s","s","%s")' %(company,heading,body,startDate,endDate,gpa,pay,approved,referral,postID))
 		db.commit()
+		
 		return redirect(url_for('home'))
-
-        db.commit()
-        return render_template('successful_internship.html', title=title, nav1=nav1, logo_link=logo_link)
-    return render_template('create_internship.html', form=form, title=title, logo_link=logo_link)
+	return render_template('create_internship.html', form=form, title=title, logo_link=logo_link)
 
 
 @app.route('/create_sponsor', methods=['GET', 'POST'])
