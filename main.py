@@ -159,7 +159,8 @@ def logout():
 def intern_profile(UserID):
 	title = "Profile"
 	name = UserID
-	logo_link = ('/edit_intern/%s' %(UserID))
+	logo_link = "/"
+	button_link = ("/edit_intern/%s" %(UserID))
 	# profile_pic = "..\static\img\s_profile.png"  testing out profile pic
 	c.execute('Select * from Student where UserID = %s' %(name))
 	data = c.fetchall()
@@ -173,15 +174,17 @@ def intern_profile(UserID):
 		email = row[4]
 		phone = row[5]
 		interest = row[12]
-		bio = row[13]
+		biography = row[13]
+		availability = row[14] 
 
 	school = "Southern"
 	profile_pic = "https://raw.githubusercontent.com/scsu-csc330-400/blu-test/help_jason/Static/\
 	img/b.jpg?token=AoQ7TSJDqVpIdxBM_4hwk9J2QSluOd47ks5b7GhvwA%3D%3D"
+	biography = biography
 
-	return render_template('intern_profile.html', profile_pic=profile_pic, logo_link=logo_link, first_name=f_name, last_name=l_name, \
+	return render_template('intern_profile.html', profile_pic=profile_pic, logo_link=logo_link, button_link=button_link, first_name=f_name, last_name=l_name, \
                            degree=degree, school=school, gpa=gpa, email=email, phone=phone, interest=interest, \
-                           bio=bio,)
+                           biography=biography,)
 
 
 @app.route('/sponsor/<UserID>')
@@ -248,22 +251,21 @@ def create_internship():
 	logo_link = "/"
 
 	if form.validate_on_submit():
-		
-		company = company
-		heading = heading
-		body = body
-		startDate = startDate
-		endDate = endDate
-		gpa = gpa
-		pay = pay
+		company = form.company.data
+		heading = form.heading.data
+		body = form.body.data
+		startDate = form.startDate.data
+		endDate = form.endDate.data
+		gpa = form.gpa.data
+		pay = form.pay.data
 		approved = 0
-		referral = referral
+		referral = form.referral.data
 		postID = str(random.randrange(100000,1000000)) 
 		#postID needs loop to check for duplicates
 
-		c.execute('INSERT INTO Internship values("%s","%s","%s","%s","%s","%s","%s","s","s")' % (company,heading,body,startDate,endDate,gpa,pay,approved,referral, postID))
+		c.execute('INSERT INTO Internship values("%s","%s","%s","%s","%s","%s","%s","s","s","%s")' %(company,heading,body,startDate,endDate,gpa,pay,approved,referral,postID))
 		db.commit()
-		return render_template('successful_internship.html', title=title, nav1=nav1, logo_link=logo_link)
+		return redirect(url_for('home'))
 
 	return render_template('create_internship.html', form=form, title=title, logo_link=logo_link)
 
@@ -276,7 +278,7 @@ def create_sponsor():
 
     if form.validate_on_submit():
         role = "Sponsor"
-        sponsorID = form.sponsorID.data
+        UserID = str(random.randrange(100000,1000000))
         email = form.email.data
         password = form.password.data
         company = form.company.data
@@ -288,9 +290,9 @@ def create_sponsor():
         zipcode = form.zipcode.data
         description = form.description.data
 
-        c.execute('INSERT INTO User values("%s","%s","%s","%s")' % (sponsorID, email, password, role))
+        c.execute('INSERT INTO User values("%s","%s","%s","%s")' % (UserID, email, password, role))
         c.execute('INSERT INTO Sponsor values("%s","%s","%s","%s","%s","%s","%s","%s","%s")' % (
-            sponsorID, company, address, website, phone, zipcode, city, description, state))
+            UserID, company, address, website, phone, zipcode, city, description, state))
 
         db.commit()
         return redirect(url_for('home'))
@@ -299,34 +301,39 @@ def create_sponsor():
 
 @app.route('/create_student', methods=['GET', 'POST'])
 def create_student():
-    form = createStudent()
-    title = "Student"
-    logo_link = "/"
+	form = createStudent()
+	title = "Student"
+	logo_link = "/"
 
-    if form.validate_on_submit():
-        role = "Student"
-        studentID = form.studentID.data
-        email = form.email.data
-        password = form.password.data
-        fname = form.fname.data
-        lname = form.lname.data
-        phone = form.phone.data
-        address = form.address.data
-        address2 = form.address2.data
-        city = form.city.data
-        state = form.state.data
-        zipcode = form.zipcode.data
-        major = form.major.data
-        gpa = form.gpa.data
+	if form.validate_on_submit():
+		role = "Student"
+		UserID = str(random.randrange(100000,1000000))
+		email = form.email.data
+		password = form.password.data
+		fname = form.fname.data
+		lname = form.lname.data
+		phone = form.phone.data
+		address = form.address.data
+		address2 = form.address2.data
+		city = form.city.data
+		state = form.state.data
+		zipcode = form.zipcode.data
+		major = form.major.data
+		gpa = form.gpa.data
+		interest = form.interest.data
+		biography = form.biography.data
+		availability = form.availability.data
+		approved = 0
+		suggestion = 0
 
-        c.execute('INSERT INTO User values("%s","%s","%s","%s")' % (studentID, email, password, role))
-        c.execute('INSERT INTO Student values("%s","%s","%s","%s","%s","%s","%s",%s,"%s","%s","%s","%s")' % (
-            studentID, fname, lname, address, email, phone, major, gpa, state, address2, city, zipcode))
+		c.execute('INSERT INTO User values("%s","%s","%s","%s")' % (UserID, email, password, role))
+		c.execute('INSERT INTO Student values("%s","%s","%s","%s","%s","%s","%s",%s,"%s","%s","%s","%s","%s","%s","%s","%s","%s")' % (
+				UserID, fname, lname, address, email, phone, major, gpa, state, address2, city, zipcode, interest, biography, availability, approved, suggestion))
 
-        db.commit()
-        return redirect(url_for('home'))
+		db.commit()
+		return redirect(url_for('home'))
 
-    return render_template('create_student.html', form=form, title=title, logo_link=logo_link)
+	return render_template('create_student.html', form=form, title=title, logo_link=logo_link)
 
 #create ticket (probably get rid of)
 @app.route('/create_ticket', methods=['GET', 'POST'])
@@ -422,7 +429,7 @@ def search():
 #@login_required
 def internships():
 	title = "Opportunities"
-	logo_link = "/intern/<UserID>"
+	logo_link = "/"
 	form = internshipSearch()
 	#need to set approved to 1 once internships begin to be approved		
 	c.execute('SELECT * FROM Internship')
@@ -452,7 +459,7 @@ def students():
 @app.route('/results', methods=["GET","POST"])
 def search_results(search):
 #	title = "Opportunities"
-#	logoLink = "/"
+	logo_link = "/"
 	form = internshipSearch()
 	search_string = request.form.get('search')
 	category = request.form.get('select')
@@ -462,169 +469,7 @@ def search_results(search):
 	if not data:
 		flash('No Results')
 		return redirect(url_for('internships'))
-	return render_template('internships.html', data=data, form=form)
-
-#edit users	
-@app.route('/edit_intern/<UserID>', methods=['GET','POST'])
-def update_student(UserID):
-
-	logo_link = ("/intern/%s" %(UserID))
-	title = "Edit"
-	
-	c.execute('SELECT pass FROM User WHERE UserID = %s;' % (UserID))
-	data = c.fetchall()
-	
-	pass_form = changePassword(request.form)
-	for row in data:
-		pass_form.password.data = row[0]
-		pass_form.confirm.data = pass_form.password.data
-		
-	if request.method == "POST" and pass_form.validate():
-		password = pass_form.password.data
-		
-		c.execute('UPDATE User SET pass=%s WHERE UserID=%s'%(password,UserID))
-		db.commit()
-		
-	
-	c.execute('SELECT * FROM Student WHERE UserID = %s;' %(UserID))
-	data = c.fetchall()
-	
-	student_form = editStudent(request.form)
-	
-	for row in data:
-	
-		student_form.UserID.data = row[0]
-		student_form.email.data = row[4]
-		student_form.fname.data = row[1]
-		student_form.lname.data = row[2]
-		student_form.phone.data = row[5]
-		student_form.address.data = row[3]
-		student_form.address2.data = row[10]
-		student_form.city.data = row[10]
-		student_form.state.data = row[9]
-		student_form.zipcode.data = row[11]
-		student_form.major.data = row[6]
-		student_form.gpa.data = row[7]
-	
-	if request.method == 'POST' and student_form.validate():
-		
-		UserID = student_form.UserID.data
-		email = student_form.email.data
-		fname = student_form.fname.data
-		lname = student_form.lname.data
-		phone = student_form.phone.data
-		address = student_form.address.data
-		address2 = student_form.address2.data
-		city = student_form.city.data
-		state = student_form.state.data
-		zipcode = student_form.zipcode.data
-		major = student_form.major.data
-		gpa = student_form.gpa.data
-		
-		c.execute('UPDATE Student SET studentID=%s,email=%s,password=%s,fname=%s,lname=%s,phone=%s,address=%s,address2=%s,city=%s,state=%s,zipcode=%s,major=%s,gpa=%s WHERE UserID=%s' 
-							%(UserID,email,fname,lname,phone,address,address2,city,state,zipcode,major,gpa))
-		db.commit()
-		
-		return redirect(url_for('/intern/<UserID>'))
-		
-	
-
-	return render_template('edit_student.html', title=title,form1=pass_form, form2=student_form, logo_link=logo_link)
-
-@app.route('/edit_sponsor/<UserID>', methods=['GET','POST'])
-def update_sponsor(UserID):
-
-	title = "edit"
-	logo_link = "/sponsor/<UserID>"
-	
-	c.execute('SELECT * FROM Sponsor WHERE UserID = %s;' % (UserID))
-	data = c.fetchall()
-	
-	form = createSponsor(request.form)
-	
-	for row in data:
-	
-		form.company.data = row[4]
-		form.address.data = row[2]
-		form.website.data = row[1]
-		form.phone.data = row[1]
-		form.zipcode.data = row[5]
-		form.city.data = row[10]
-		form.description.data = row[3]
-		form.state.data = row[5]
-	
-	if request.method == 'POST' and form.validate():
-		
-		sponsorID = form.sponsorID.data
-		email = form.email.data
-		password = form.password.data
-		company = form.company.data
-		website = form.website.data
-		phone = form.phone.data
-		address = form.address.data
-		city = form.city.data
-		state = form.state.data
-		zipcode = form.zipcode.data
-		description = form.description.data
-
-		
-		c.execute('UPDATE Sponsor SET company=%s,address=%s,website=%s,phone=%s,zipcode=%s,city=%s,description=%s,state=%s WHERE UserID=%s' 
-							%(company, address, website, phone, zipcode, city, description, state, UserID))
-		db.commit()
-		
-		return redirect(url_for('/sponsor/<UserID>'))
-		
-	
-
-	return render_template('edit_info.html', form=form,title=title,logo_link=logo_link)
-
-#edit internships, need internship primary key
-@app.route('/edit_internship/<postID>', methods=['GET','POST'])
-#@loginrequired
-#roles_required(['admin','sponsor'])
-def update_internship(postID):
-
-	title = "edit"
-	logo_link = "/sponsor/<UserID>"
-	
-	c.execute('SELECT * FROM Internship WHERE postID = %s;' % (postID))
-	data = c.fetchall()
-	
-	form = createInternship(request.form)
-	
-	for row in data:
-	
-		form.company.data = row[0]
-		form.heading.data = row[1]
-		form.body.data = row[2]
-		form.startDate.data = row[3]
-		form.endDate.data = row[4]
-		form.gpa.data = row[5]
-		form.pay.data = row[6]
-		form.referral.data = row[8]
-	
-	if request.method == 'POST' and form.validate():
-		
-		company = form.company.data
-		heading = form.heading.data
-		body = form.body.data
-		startDate = form.startDate.data
-		endDate = form.endDate.data
-		gpa = form.gpa.data
-		pay = form.pay.data
-		referral = form.referral.data
-
-		
-		c.execute('UPDATE Internship SET company=%s,heading=%s,body=%s,startDate=%s,endDate=%s,gpa=%s,pay=%s,referral=%s WHERE UserID=%s' 
-							%(company, heading, body, startDate, endDate, gpa, pay, referral))
-		db.commit()
-		
-		return redirect(url_for('/sponsor/<UserID>'))
-		
-	
-
-	return render_template('edit_internship.html', form=form,title=title,logo_link=logo_link)
-
+	return render_template('internships.html', data=data, form=form, logo_link=logo_link)
 	
 if __name__ == '__main__':  # You can run the main.py and type "localhost:8080" in your
     app.run(host='0.0.0.0', port=8080, debug=True)  # broswer to test the main.py in your computer.

@@ -15,8 +15,11 @@
         <div class="card text-light bg-secondary mb-3" style="width: 25em;margin:50 auto;">
         <h5 class="card-title">Biography</h5>
             <div class="card-body bg-white text-dark">
-				<!--{{ biography }} need table field in student table-->
-				<a>Howdy</a>
+				<a>{{biography}}</a>
+            </div>
+		<h5 class="card-title">Interests</h5>
+			<div class="card-body bg-white text-dark">
+				<a>{{interest}}</a>
             </div>
             <h5 class="card-title">Resume</h5>
 
@@ -35,6 +38,8 @@
             <p><b>GPA:</b> {{gpa}}</p>
             <p><b>Email:</b> {{email}}</p>
             <p><b>Phone:</b> {{phone}}</p>
+			<p><b>Availability:</b> {{availability}}</p>
+			<a class="btn btn-primary" href={{button_link}} role="button">Edit Profile</a>
 
         </div>
         </div>
