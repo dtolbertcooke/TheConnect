@@ -39,14 +39,14 @@
                     <div class="card-header">
                         <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
                             <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab"
-                               href="#Itern">Intern</a>
+                               href="#Intern">Intern</a>
                             <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab"
                                href="#nav-profile">Sponsor</a>
                             <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab"
                                href="#nav-contact">Posting</a>
                         </div>
                         <div class="tab-content py-3 px-3 px-sm-0" id="nav-tabContent">
-                            <div class="tab-pane fade show active" id="Itern">
+                            <div class="tab-pane fade show active" id="Intern">
                                 Intern Text
 
                                 More <br>
@@ -59,7 +59,7 @@
                                 Sponsor Text
                             </div>
                             <div class="tab-pane fade" id="nav-contact">
-                                Iternship Posting
+                                Intership Posting
                             </div>
                         </div>
                     </div>
@@ -123,6 +123,7 @@
                             <td>
                                 <button type="button" class="btn btn-primary btn-sm">Notify <i class="oi oi-check"></i>
                                 </button>
+                                $(
                             </td>
 
                         </tr>
@@ -135,7 +136,7 @@
 
 
     <div class="container-fluid text-center card-header border-dark mb-3">
-        <div class="text-center border-dark mb-3"><h3>Verification</h3></div>
+        <div class="text-center border-dark mb-3"><h3>Verifcication</h3></div>
         <p>
             <button class="btn btn-primary" data-toggle="collapse" href="#Verify_User" role="button"
                     aria-expanded="false"
@@ -158,6 +159,7 @@
             <div class="collapse multi-collapse" id="Verify_User">
                 <div class="card card-body ">
                     <table class="table">
+                        {# VERIFY USER TOOL VERIFY USER TOOL VERIFY USER TOOL VERIFY USER TOOL VERIFY USER TOOL VERIFY USER TOOL VERIFY USER TOOL#}
                         <h4> Verify Student</h4>
                         <thead>
                         <tr>
@@ -165,64 +167,94 @@
                             <th scope="col">First</th>
                             <th scope="col">Last</th>
                             <th scope="col">Account</th>
-                            <th scope="col">Type</th>
-                            <th scope="col">Approve</th>
                             <th scope="col">Major</th>
+                            <th scope="col">GPA</th>
+                            <th scope="col">Approve</th>
+                            <th scope="col">Deny</th>
                         </tr>
                         </thead>
                         <tbody>
+
                         {% for row in intern_data %}
-                            <tr>
-                                <th scope="row">{{ row[0] }}</th>
+                            {% set x = loop.index * 1 %} {# range > 1 #}
+                            {% set y = loop.index * -1 %} {# range > 1 #}
+                            <tr id="{{ loop.index * 1.01 }}">
+                                <th scope="row" id="{{ loop.index }}" class="student_verifier">{{ row[0] }}</th>
+                                {# UID #}
                                 <td>{{ row[1] }}</td>
+                                {# First #}
                                 <td>{{ row[2] }}</td>
+                                {# Last #}
                                 <td>{{ row[4] }}</td>
+                                {# Account #}
                                 <td>{{ row[6] }}</td>
+                                {# Major #}
+                                <td>{{ row[7] }}</td>
+                                {# Major #}
                                 <td>
-                                    <button type="button" class="btn btn-primary btn-sm">Approve <i
+                                    <button type="submit" class="btn btn-primary btn-sm" id="{{ x }}" href="#"
+                                            value="{{ row[0] }}">Approve <i
                                             class="oi oi-check"></i>
                                     </button>
                                 </td>
                                 <td>
-                                    <button type="button" class="btn btn-danger btn-sm">Deny <i class="oi oi-x"></i>
+                                    <button type="button" class="btn btn-danger btn-sm" value="{{ row[0] }}"
+                                            href="#" id="{{ y }}">Deny <i class="oi oi-x"></i>
                                     </button>
                                 </td>
                             </tr>
+
                         {% endfor %}
+
                         </tbody>
                     </table>
                     <table class="table">
+                        {#APPROVE SPONSORSHIP TOOLAPPROVE SPONSORSHIP TOOLAPPROVE SPONSORSHIP TOOLAPPROVE SPONSORSHIP TOOL APPROVE SPONSORSHIP TOOL APPROVE SPONSORSHIP TOOL#}
                         <h4> Verify Sponsor</h4>
                         <thead>
                         <tr>
                             <th scope="col">UID</th>
                             <th scope="col">Company</th>
-                            <th scope="col">Address</th>
                             <th scope="col">Website</th>
                             <th scope="col">Phone</th>
+                            <th scope="col">Address</th>
                             <th scope="col">City</th>
+                            <th scope="col">State</th>
                             <th scope="col">Description</th>
+                            <th scope="col">Approve</th>
+                            <th scope="col">Deny</th>
                         </tr>
                         </thead>
                         <tbody>
                         {% for row in sponsor_data %}
-                            <tr>
-                                <th scope="row">{{ row[0] }}</th>
+                            <tr id="{{ loop.index * 1.0001 }}">
+                                {% set x = loop.index * 1000 %}
+                                {% set y = loop.index * -1000 %}
+                                <th scope="row" class="sponsor_verifier">{{ row[0] }}</th>
+                                {# UID #}
                                 <td>{{ row[1] }}</td>
-                                <td>{{ row[2] }}</td>
-                                <td>{{ row[3] }}</td>
+                                {# Company #}
+                                <td><a href="{{ row[3] }}">{{ row[3] }}</a></td>
+                                {# Website #}
                                 <td>{{ row[4] }}</td>
-                                <td>{{ row[5] }}</td>
+                                {# Phone #}
+                                <td>{{ row[2] }}</td>
+                                {# Address #}
                                 <td>{{ row[6] }}</td>
+                                {# City #}
                                 <td>{{ row[8] }}</td>
-                                <td>{{ row[9] }}</td>
+                                {# State #}
+                                <td>{{ row[7] }}</td>
+                                {# Description #}
                                 <td>
-                                    <button type="button" class="btn btn-primary btn-sm">Approve <i
+                                    <button type="button" class="btn btn-primary btn-sm" id="{{ x }}" href="#"
+                                            value="{{ row[0] }}">Approve <i
                                             class="oi oi-check"></i>
                                     </button>
                                 </td>
                                 <td>
-                                    <button type="button" class="btn btn-danger btn-sm">Deny <i class="oi oi-x"></i>
+                                    <button type="button" class="btn btn-danger btn-sm" value="{{ row[0] }}"
+                                            href="#" id="{{ y }}">Deny <i class="oi oi-x"></i>
                                     </button>
                                 </td>
                             </tr>
@@ -246,21 +278,28 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <table>
-                            {#This is for the sponsorship posting, for approving and denying#}
-                            {% for row in approve_internship_data %}
-                                <tr>
-                                    <td><a href="https://www.microsoft.com/en-us/">{{ row[0] }}</a></td>
-                                    <td><a href="localhost:8080/sponsorship">{{ row[1] }}</a></td>
-                                    <td>
-                                        {{ wtf.quick_form(form_app) }}
-                                    </td>
-                                    <td>
-                                        {{ wtf.quick_form(form_den) }}
-                                    </td>
-                                </tr>
-                            {% endfor %}
-                        </table>
+
+                        {#SPONSORSHIP APPROVALSPONSORSHIP APPROVALSPONSORSHIP APPROVALSPONSORSHIP APPROVALSPONSORSHIP APPROVALSPONSORSHIP APPROVALSPONSORSHIP APPROVALSPONSORSHIP APPROVAL#}
+                        {% for row in approve_internship_data %}
+                            {% set x = loop.index * 100000 %}
+                            {% set y = loop.index * -100000 %}
+                            <tr id="{{ loop.index * 1.000001 }}">
+                                <td><a href="https://www.microsoft.com/en-us/">{{ row[0] }}</a></td>
+                                <td><a href="localhost:8080/sponsorship">{{ row[1] }}</a></td>
+                                <td>
+                                    <button type="button" class="btn btn-primary btn-sm" id="{{ x }}" href="#"
+                                            value="{{ row[9] }}">Approve <i
+                                            class="oi oi-check"></i>
+                                    </button>
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-danger btn-sm" value="{{ row[9] }}"
+                                            href="#" id="{{ y }}">Deny <i class="oi oi-x"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        {% endfor %}
+
 
                         </tbody>
                     </table>
@@ -371,11 +410,61 @@
         <div class="row">
         </div>
     </div>
-    </div>
+
+
 
 
 {% endblock %}
 
 
 {% block body %}
+
+    <script type=text/javascript>
+        {#global variables#}
+        let app_den_btn_val = null;
+        let app_den_btn_id = null;
+        let tr_id = null;
+        let approval_items = [];
+
+        {#This function listens for all clicks and gets the row id, value of approve/deny button#}
+        $("button").click(function () {
+            app_den_btn_val = $(this).val();
+            app_den_btn_id = $(this).attr("id");
+            tr_id = $(this).closest('tr').attr('id');
+            HideElement();
+            AddArray();
+            console.log(app_den_btn_id);
+        });
+        {#Recieves an id of an element and hides it. #}
+
+        function HideElement() {
+            let hide_element = document.getElementById(tr_id);
+            if (hide_element.style.display === "none") {
+                hide_element.style.display = "block";
+            } else {
+                hide_element.style.display = "none";
+            }
+        }
+
+        function AddArray() {
+            approval_items.unshift(app_den_btn_id);
+            approval_items.unshift(app_den_btn_val);
+        }
+
+
+        {#Sends data back to the main.py for approval/denial#}
+        $(function () {
+            $("button").bind('click', function () {
+                event.preventDefault();
+                {# this stops the page from reloading, kinda important #}
+                $.ajax({
+                    url: '/approve/', {# sends to main.py function /approve/ #}
+                    type: 'POST',
+                    data: JSON.stringify(approval_items),
+                    contentType: "application/json",
+                    dataType: "json",
+                })
+            });
+        });
+    </script>
 {% endblock %}
