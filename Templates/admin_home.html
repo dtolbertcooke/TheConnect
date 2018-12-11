@@ -21,11 +21,11 @@
         <h1 class="my-4 card-header border-dark mb-3 text-center">Welcome Admin</h1>
         <div class="card-body bg-light border-dark mb-3 text-center"><h3>Tools</h3>
             <p>
-                <button class="btn btn-primary" type="button" href="#Manage" data-toggle="collapse"
+                <button class="btn btn-light" type="button" href="#Manage" data-toggle="collapse"
                         data-target="#Manage">
                     Manage <i class="oi oi-expand-down"></i>
                 </button>
-                <button class="btn btn-primary" type="button" href="#Advance_Search" data-toggle="collapse"
+                <button class="btn btn-light" type="button" href="#Advance_Search" data-toggle="collapse"
                         data-target="#Advance_Search">
                     Advance Search <i class="oi oi-expand-down"></i>
                 </button>
@@ -66,12 +66,12 @@
                 </div>
             </div>
 
-            <div class="collapse multi-collapse" id="Advance_Search" style="margin-top: 10px">
+            <div class="collapse multi-collapse " id="Advance_Search" style="margin-top: 10px">
                 <div class="card-header">
                     <h3>ADVANCED SEARCH</h3>
                 </div>
                 <div class="card-body bg-white">
-                    "Im thinking for advance search we can do...."
+                    <h1> WORK IN PROGRESS</h1>
                     <li>
                         Name (Form)
                     </li>
@@ -95,28 +95,36 @@
             <div class="collapse multi-collapse" id="Intern_Suggestion" style="margin-top: 10px">
                 <div class="card card-body">
                     <table class="table">
-                        <h4> Approve Sponsorship</h4>
+                        <h4> Intern Suggestion</h4>
+                        <h6> GPA greater than 3.8</h6>
+                        <button type="submit" class="btn btn-primary btn-sm" id="clear" href="#" onclick="clearReco()"
+                        >Clear <i
+                                class="oi oi-cog"></i>
+                        </button>
                         <thead>
                         <tr>
-                            <th scope="col">Sponsor</th>
-                            <th scope="col">Title</th>
-                            <th scope="col">Approve</th>
-                            <th scope="col">Deny</th>
+                            <th scope="col">UID</th>
+                            <th scope="col">First</th>
+                            <th scope="col">Last</th>
+                            <th scope="col">Major</th>
+                            <th scope="col">GPA</th>
+                            <th scope="col">Suggest</th>
                         </tr>
                         </thead>
                         <tbody>
 
-                        {#SPONSORSHIP APPROVALSPONSORSHIP APPROVALSPONSORSHIP APPROVALSPONSORSHIP APPROVALSPONSORSHIP APPROVALSPONSORSHIP APPROVALSPONSORSHIP APPROVALSPONSORSHIP APPROVAL#}
-                        {% for row in approve_internship_data %}
-                            {% set x = loop.index * 100000 %}
-                            {% set y = loop.index * -100000 %}
-                            <tr>
-                                <td><a href="https://www.microsoft.com/en-us/">{{ row[0] }}</a></td>
-                                <td><a href="localhost:8080/sponsorship">{{ row[1] }}</a></td>
+                        {% for row in top_student_data %}
+                            {% set x = loop.index * 10000000 %}
+                            <tr id="{{ loop.index * 1.000001 }}">
+                                <td>{{ row[0] }}</td>
+                                <td>{{ row[1].upper() }}</td>
+                                <td>{{ row[2].upper() }}</td>
+                                <td>{{ row[6].upper() }}</td>
+                                <td>{{ row[7] }}</td>
                                 <td>
                                     <button type="button" class="btn btn-primary btn-sm" id="{{ x }}" href="#"
-                                            value="{{ row[9] }}">Approve <i
-                                            class="oi oi-check"></i>
+                                            value="{{ row[0] }}">Suggest <i
+                                            class="oi oi-aperture"></i>
                                     </button>
                                 </td>
                             </tr>
@@ -141,12 +149,12 @@
                     data-target="#Approve_Sponsorship" aria-expanded="false" aria-controls="multiCollapseExample2">
                 Approve
                 Sponsorship <i class="oi oi-expand-down"></i></button>
-            <button class="btn btn-primary" type="button" href="#Referrals" data-toggle="collapse"
+            <button class="btn btn-info" type="button" href="#Referrals" data-toggle="collapse"
                     data-target="#Referrals"
                     aria-expanded="false" aria-controls="multiCollapseExample2">Referrals <i
                     class="oi oi-expand-down"></i>
             </button>
-            <button class="btn btn-primary" type="button" href="#Add_New_Admin" data-toggle="collapse"
+            <button class="btn btn-light" type="button" href="#Add_New_Admin" data-toggle="collapse"
                     data-target="#Add_New_Admin" aria-expanded="false" aria-controls="multiCollapseExample2">Add New
                 Admin
                 <i class="oi oi-expand-down"></i></button>
@@ -183,12 +191,12 @@
                                 {# Last #}
                                 <td>{{ row[4] }}</td>
                                 {# Account #}
-                                <td>{{ row[6] }}</td>
+                                <td>{{ row[6].upper() }}</td>
                                 {# Major #}
                                 <td>{{ row[7] }}</td>
                                 {# Major #}
                                 <td>
-                                    <button type="submit" class="btn btn-primary btn-sm" id="{{ x }}" href="#"
+                                    <button type="button" class="btn btn-primary btn-sm" id="{{ x }}" href="#"
                                             value="{{ row[0] }}">Approve <i
                                             class="oi oi-check"></i>
                                     </button>
@@ -429,7 +437,8 @@
             tr_id = $(this).closest('tr').attr('id');
             HideElement();
             AddArray();
-            console.log(app_den_btn_id);
+
+            clearReco();
         });
         {#Recieves an id of an element and hides it. #}
 
@@ -462,5 +471,12 @@
                 })
             });
         });
+
+        function clearReco() {
+            $.ajax({
+                type: "POST",
+                url: "/reco/",
+            })
+        }
     </script>
 {% endblock %}
