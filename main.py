@@ -213,6 +213,9 @@ def admin_home():
     intern_data = c.fetchall()
     c.execute('Select * from Sponsor WHERE approved = 0')
     sponsor_data = c.fetchall()
+    c.execute('Select * from Student WHERE GPA >= 3.8')
+    top_student__data = c.fetchall()
+
 
     return render_template('admin_home.html', approve_internship_data=approve_internship_data
                            , intern_data=intern_data, sponsor_data=sponsor_data,

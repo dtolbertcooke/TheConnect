@@ -95,38 +95,34 @@
             <div class="collapse multi-collapse" id="Intern_Suggestion" style="margin-top: 10px">
                 <div class="card card-body">
                     <table class="table">
-                        <h4> Intern Suggestion</h4>
+                        <h4> Approve Sponsorship</h4>
                         <thead>
                         <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">First</th>
-                            <th scope="col">Last</th>
-                            <th scope="col">Account</th>
-                            <th scope="col">Type</th>
-                            <th scope="col">Suggestion</th>
-
+                            <th scope="col">Sponsor</th>
+                            <th scope="col">Title</th>
+                            <th scope="col">Approve</th>
+                            <th scope="col">Deny</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <!--Variable documentation-->
-                            <!--a_s_counter = counter for the advance search row-->
-                            <!--a_s_fname = first name for advance search-->
-                            <!--a_s_lname = last name for advance search-->
-                            <!--a_s_account = account(can be switched for Unique ID) for advance search-->
-                            <!--a_s_type = lists intern/sponsor for advance search-->
-                            <th scope="row">1 {{ a_s_counter }}</th>
-                            <td>Mark{{ a_s_fname }}</td>
-                            <td>Occulus{{ a_s_lname }}</td>
-                            <td>Something@Southernct.edu{{ a_s_account }}</td>
-                            <td>Intern{{ a_s_type }}</td>
-                            <td>
-                                <button type="button" class="btn btn-primary btn-sm">Notify <i class="oi oi-check"></i>
-                                </button>
-                                $(
-                            </td>
 
-                        </tr>
+                        {#SPONSORSHIP APPROVALSPONSORSHIP APPROVALSPONSORSHIP APPROVALSPONSORSHIP APPROVALSPONSORSHIP APPROVALSPONSORSHIP APPROVALSPONSORSHIP APPROVALSPONSORSHIP APPROVAL#}
+                        {% for row in approve_internship_data %}
+                            {% set x = loop.index * 100000 %}
+                            {% set y = loop.index * -100000 %}
+                            <tr>
+                                <td><a href="https://www.microsoft.com/en-us/">{{ row[0] }}</a></td>
+                                <td><a href="localhost:8080/sponsorship">{{ row[1] }}</a></td>
+                                <td>
+                                    <button type="button" class="btn btn-primary btn-sm" id="{{ x }}" href="#"
+                                            value="{{ row[9] }}">Approve <i
+                                            class="oi oi-check"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        {% endfor %}
+
+
                         </tbody>
                     </table>
                 </div>
