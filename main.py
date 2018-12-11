@@ -8,7 +8,7 @@ from flask_login import LoginManager, UserMixin, login_user, logout_user, curren
 from werkzeug.urls import url_parse
 from werkzeug.security import check_password_hash, generate_password_hash
 from wtforms import Form, StringField, SubmitField, IntegerField, PasswordField, SelectField, DecimalField, \
-    TextAreaField, validators
+    TextAreaField, HiddenField, validators
 from wtforms.validators import DataRequired, NumberRange, EqualTo, Email
 import pymysql
 from flask_user import roles_required  # we will have three roles; admin, intern, sponsor
@@ -47,9 +47,9 @@ c = db.cursor()
 user_db = {}
 
 # user roles
-def is_admin():
+def is_faculty():
     if current_user:
-        if current_user.role == 'admin':
+        if current_user.role == 'Faculty':
             return True
         else:
             return False
@@ -119,16 +119,16 @@ def home():
 
 	if current_user.is_authenticated:
 		if current_user.getRole == 'Sponsor':
-			return redirect(url_for('sponsor_profile'))
+			return redirect(url_for('sponsor_profile/%s'%(UserID)))
 		elif current_user.getRole == 'Faculty':
-			return redirect(url_for('admin_home'))
+			return redirect(url_for('admin_home/%s'%(UserID)))
 		else:
-			return redirect(url_for('intern_profile'))
+			return redirect(url_for('intern_profile/%s'%(UserID)))
 		
 	form = loginForm()
 	if form.validate_on_submit():
-		email = form.email.data
-		c.execute('SELECT * FROM User WHERE UserID = %s;' % (email))
+		userID = form.UserID.data
+		c.execute('SELECT * FROM User WHERE UserID = %s;' % (userID))
 		data = c.fetchall()
 
 		for row in data:
@@ -141,56 +141,74 @@ def home():
 				redirect(url_for('home'))
 			else:
 				login_user(user)
-				if user.getRole == 'Sponsor':
-					return redirect(url_for('sponsor_profile'))
-				elif user.getRole == 'Faculty':
-					return redirect(url_for('admin_home'))
+				if role == 'Sponsor':
+					return redirect('sponsor/%s'%(userID))
+				elif role == 'Faculty':
+					return redirect('admin_home/%s'%(userID))
 				else:
-					return redirect(url_for('intern_profile'))
+					return redirect('intern/%s'%(userID))
 	return render_template('landing.html', form=form, title=title, logo_link=logo_link)
+	
+@app.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for('home'))
 
-
-@app.route('/intern')
+#profiles
+@app.route('/intern/<UserID>')
 @login_required
-def intern_profile():
+def intern_profile(UserID):
     title = "Profile"
-    name = current_user.id
+    name = UserID
     # profile_pic = "..\static\img\s_profile.png"  testing out profile pic
     c.execute('Select * from Student where UserID = %s' %(name))
     data = c.fetchall()
 
     for row in data:
+        UserID = row[0]
         f_name = row[1]
         l_name = row[2]
         degree = row[6]
         gpa = row[7]
         email = row[4]
         phone = row[5]
+        interest = row[12]
+        bio = row[13]
 
     school = "Southern"
-    profile_pic = "https://raw.githubusercontent.com/scsu-csc330-400/blu-test/help_jason/Static/img/b.jpg?token=AoQ7TSJDqVpIdxBM_4hwk9J2QSluOd47ks5b7GhvwA%3D%3D"
+    profile_pic = "https://raw.githubusercontent.com/scsu-csc330-400/blu-test/help_jason/Static/\
+    img/b.jpg?token=AoQ7TSJDqVpIdxBM_4hwk9J2QSluOd47ks5b7GhvwA%3D%3D"
 
     return render_template('intern_profile.html', profile_pic=profile_pic, first_name=f_name, last_name=l_name, \
-                           degree=degree, school=school, gpa=gpa, email=email, phone=phone)
+                           degree=degree, school=school, gpa=gpa, email=email, phone=phone, interest=interest, \
+                           bio=bio)
 
 
-@app.route('/sponsor')
+@app.route('/sponsor/<UserID>')
 @login_required
-def sponsor_profile():
+def sponsor_profile(UserID):
     title = "Profile"
+    name = UserID
     # profile_pic = "..\static\img\s_profile.png"  testing out profile pic
-    profile_pic = None
-    f_name = "First Name"
-    l_name = "Last Name"
-    degree = "Business"
-    school = "Southern"
-    gpa = "4.2"
-    email = "boyv@southernct.edu"
-    phone = "203-911-9111"
-    profile_pic = "https://raw.githubusercontent.com/scsu-csc330-400/blu-test/help_jason/Static/img/b.jpg?token=AoQ7TSJDqVpIdxBM_4hwk9J2QSluOd47ks5b7GhvwA%3D%3D"
+    c.execute('Select * from Sponsor where UserID = %s' %(name))
+    data = c.fetchall()
 
-    return render_template('sponsor_profile.html', profile_pic=profile_pic, first_name=f_name, last_name=l_name, \
-                           degree=degree, school=school, gpa=gpa, email=email, phone=phone)
+    for row in data:
+        UserID = row[0]
+        company = row[1]
+        address = row[2]
+        website = row[3]
+        phone = row[4]
+        zipcode = row[5]
+        city = row[6]
+        description = row[7]
+        state = row[8]
+
+    profile_pic = "https://raw.githubusercontent.com/scsu-csc330-400/blu-test/help_jason/Static/img/\
+    b.jpg?token=AoQ7TSJDqVpIdxBM_4hwk9J2QSluOd47ks5b7GhvwA%3D%3D"
+
+    return render_template('sponsor_profile.html', profile_pic=profile_pic, company=company, address=address, \
+                           website=website, phone=phone, zipcode=zipcode, city=city, description=description, state=state)
 
 
 @app.route('/admin_home', methods=['GET', 'POST'])  # doesnt work yet, needs to define the class.
@@ -220,13 +238,7 @@ def admin_home():
                            referral_requested_data=referral_requested_data)
 
 
-
-@app.route('/logout')
-def logout():
-    logout_user()
-    return redirect(url_for('home'))
-
-
+#create users
 @app.route('/create_internship', methods=['GET', 'POST'])
 # @login_required
 # roles_required('admin','sponsor')
@@ -316,7 +328,7 @@ def create_student():
 
     return render_template('create_student.html', form=form, title=title, logo_link=logo_link)
 
-
+#create ticket (probably get rid of)
 @app.route('/create_ticket', methods=['GET', 'POST'])
 def create_ticket():
     form = createTicket()
@@ -330,7 +342,6 @@ def create_ticket():
         db.commit()
         return render_template('landing.html', form=form, title=title, nav1=nav1, logo_link=logo_link)
     return render_template('create_ticket.html', form=form, title=title, logo_link=logo_link)
-
 
 # resume
 # resume_location = "..\static\img\s_resume.jpg"
@@ -405,12 +416,12 @@ def register():
 @app.route('/search')
 def search():
     return render_template('search.html')
-	
+#view and search	
 @app.route('/internships', methods=["GET","POST"])
-@login_required
+#@login_required
 def internships():
 	title = "Opportunities"
-	logo_link = "/"
+	logo_link = "/intern/<UserID>"
 	form = internshipSearch()
 	#need to set approved to 1 once internships begin to be approved		
 	c.execute('SELECT * FROM Internship')
@@ -423,39 +434,190 @@ def internships():
 	return render_template('internships.html',title=title, data=data, form=form, logo_link=logo_link)
 
 @app.route('/students', methods=["GET","POST"])
-@login_required
+#@login_required
 def students():
 	title = "Students"
-	logoLink = "/"
-	form = studentSearch()
-	#need to set approved to 1 once internships begin to be approved		
+	logo_link = "/"
+	form = studentSearch()		
 	c.execute('SELECT * FROM Student')
 	data = c.fetchall()
 	
 	if request.method == 'POST':
 		return search_results(form)
 	
-		
+		 
 	return render_template('internships.html',title=title, data=data, form=form, logo_link=logo_link)
 
 @app.route('/results', methods=["GET","POST"])
-@login_required
+#@login_required
 def search_results(search):
 #	title = "Opportunities"
-	logoLink = "/"
+	logo_link = "/"
 	form = request.form
 	search_string = request.form.get('search')
 	category = request.form.get('select')
 	table = request.form.get('table')
-	sql = 'SELECT * FROM Internship WHERE {} LIKE "%{}%"'.format(category,search_string)
+	if table == 'Student':
+		sql = 'SELECT * FROM Student WHERE {} LIKE "%{}%"' .format(category,search_string)
+	elif table == 'Internship':
+		sql = 'SELECT * FROM Internship WHERE {} LIKE "%{}%"' .format(category,search_string)
+	else:
+		sql = 'SELECT * FROM Sponsor WHERE {} LIKE "%{}%"' .format(category,search_string)
 	c.execute(sql)
 	data = c.fetchall()
 	if not data:
 		flash('No Results')
 		return redirect(url_for('internships'))
 	return render_template('internships.html', data=data, form=form, logo_link=logo_link)
+
+#edit users	
+@app.route('/edit_intern/<UserID>', methods=['GET','POST'])
+def update_student(UserID):
+
+	logo_link = ("/intern/%s" %(UserID))
+	title = "Edit"
+	
+	c.execute('SELECT * FROM Student WHERE UserID = %s;' % (UserID))
+	data = c.fetchall()
+	
+	form = createStudent(request.form)
+	
+	for row in data:
+	
+		form.studentID.data = row[0]
+		form.email.data = row[4]
+		form.password.data = row[2]
+		form.fname.data = row[1]
+		form.lname.data = row[1]
+		form.phone.data = row[5]
+		form.address.data = row[3]
+		form.address2.data = row[5]
+		form.city.data = row[10]
+		form.state.data = row[9]
+		form.zipcode.data = row[11]
+		form.major.data = row[6]
+		form.gpa.data = row[7]
+	
+	if request.method == 'POST' and form.validate():
 		
+		studentID = form.studentID.data
+		email = form.email.data
+		password = form.password.data
+		fname = form.fname.data
+		lname = form.lname.data
+		phone = form.phone.data
+		address = form.address.data
+		address2 = form.address2.data
+		city = form.city.data
+		state = form.state.data
+		zipcode = form.zipcode.data
+		major = form.major.data
+		gpa = form.gpa.data
+		
+		c.execute('UPDATE Student SET studentID=%s,email=%s,password=%s,fname=%s,lname=%s,phone=%s,address=%s,address2=%s,city=%s,state=%s,zipcode=%s,major=%s,gpa=%s WHERE UserID=%s' 
+							%(studentID,email,password,fname,lname,phone,address,address2,city,state,zipcode,major,gpa))
+		db.commit()
+		
+		return redirect(url_for('/intern/<UserID>'))
+		
+	
 
+	return render_template('edit_info.html', form=form, logo_link=logo_link)
 
+@app.route('/edit_sponsor/<UserID>', methods=['GET','POST'])
+def update_sponsor(UserID):
+
+	title = "edit"
+	logo_link = "/sponsor/<UserID>"
+	
+	c.execute('SELECT * FROM Sponsor WHERE UserID = %s;' % (UserID))
+	data = c.fetchall()
+	
+	form = createSponsor(request.form)
+	
+	for row in data:
+	
+		form.company.data = row[4]
+		form.address.data = row[2]
+		form.website.data = row[1]
+		form.phone.data = row[1]
+		form.zipcode.data = row[5]
+		form.city.data = row[10]
+		form.description.data = row[3]
+		form.state.data = row[5]
+	
+	if request.method == 'POST' and form.validate():
+		
+		sponsorID = form.sponsorID.data
+		email = form.email.data
+		password = form.password.data
+		company = form.company.data
+		website = form.website.data
+		phone = form.phone.data
+		address = form.address.data
+		city = form.city.data
+		state = form.state.data
+		zipcode = form.zipcode.data
+		description = form.description.data
+
+		
+		c.execute('UPDATE Sponsor SET company=%s,address=%s,website=%s,phone=%s,zipcode=%s,city=%s,description=%s,state=%s WHERE UserID=%s' 
+							%(company, address, website, phone, zipcode, city, description, state))
+		db.commit()
+		
+		return redirect(url_for('/sponsor/<UserID>'))
+		
+	
+
+	return render_template('edit_info.html', form=form,title=title,logo_link=logo_link)
+
+#edit internships, need internship primary key
+@app.route('/edit_internship/<postID>', methods=['GET','POST'])
+#@loginrequired
+#roles_required(['admin','sponsor'])
+def update_internship(postID):
+
+	title = "edit"
+	logo_link = "/sponsor/<UserID>"
+	
+	c.execute('SELECT * FROM Internship WHERE postID = %s;' % (postID))
+	data = c.fetchall()
+	
+	form = createInternship(request.form)
+	
+	for row in data:
+	
+		form.company.data = row[0]
+		form.heading.data = row[1]
+		form.body.data = row[2]
+		form.startDate.data = row[3]
+		form.endDate.data = row[4]
+		form.gpa.data = row[5]
+		form.pay.data = row[6]
+		form.referral.data = row[8]
+	
+	if request.method == 'POST' and form.validate():
+		
+		company = form.company.data
+		heading = form.heading.data
+		body = form.body.data
+		startDate = form.startDate.data
+		endDate = form.endDate.data
+		gpa = form.gpa.data
+		pay = form.pay.data
+		referral = form.referral.data
+
+		
+		c.execute('UPDATE Internship SET company=%s,heading=%s,body=%s,startDate=%s,endDate=%s,gpa=%s,pay=%s,referral=%s WHERE UserID=%s' 
+							%(company, heading, body, startDate, endDate, gpa, pay, referral))
+		db.commit()
+		
+		return redirect(url_for('/sponsor/<UserID>'))
+		
+	
+
+	return render_template('edit_internship.html', form=form,title=title,logo_link=logo_link)
+
+	
 if __name__ == '__main__':  # You can run the main.py and type "localhost:8080" in your
     app.run(host='0.0.0.0', port=8080, debug=True)  # broswer to test the main.py in your computer.

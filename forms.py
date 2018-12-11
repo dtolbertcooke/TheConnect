@@ -15,7 +15,7 @@ from wtforms.validators import DataRequired, NumberRange, EqualTo, Email
 
 #login
 class loginForm(FlaskForm):
-    email = StringField('Email',validators=[DataRequired()])
+    UserID = StringField('UserID',validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
     submit = SubmitField('Submit')	
 	
@@ -103,18 +103,17 @@ class internshipSearch(FlaskForm):
 	choices = [('Heading', 'Heading'),('Company', 'Company'),('startDate', 'startDate'),('endDate','endDate'),('GPA','GPA'),('Pay','Pay')]
 	search = StringField("Search")
 	select = SelectField("Search by",choices=choices)
-	table = HiddenField('Internship')
+	table = HiddenField("Internship")
 	
 class studentSearch(FlaskForm):
 	choices = [('Heading', 'Heading'),('Company', 'Company'),('startDate', 'startDate'),('endDate','endDate'),('GPA','GPA'),('Pay','Pay')]
 	search = StringField("Search")
 	select = SelectField("Search by",choices=choices)
-	table = HiddenField('Student')
+	table = HiddenField("Student")
 	
 
 
 #Profile Edit
-
 
 #Internship Edit
 
