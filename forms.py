@@ -29,6 +29,17 @@ class editInternProfileForm(FlaskForm):
     bio = TextAreaField('Biogrpahy', validators=[Length(min=0, max=500)])
     submit = SubmitField('Submit')
 
+class editSponsorProfileForm(FlaskForm):
+    company = StringField('Organization Name')
+    website = StringField('Organization website')
+    phone = StringField('Organization Contact Phone')
+    address = StringField('Organization Address')
+    city = StringField('Organization City')
+    state = SelectField('Organization State',choices=[('ct', 'Connecticut'), ('ma', 'Massachussets'), ('ny', 'New York')])
+    zipcode = StringField('Organization Zip')
+    description = TextAreaField('Organization description')
+    submit = SubmitField('Submit')
+
 #new internship
 class createInternship(FlaskForm):
 
