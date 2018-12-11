@@ -301,14 +301,15 @@ def create_internship():
         approved = 0
         referral = form.referral.data
         postID = str(random.randrange(100000,1000000))
-		#postID needs loop to check for duplicates
+        #postID needs loop to check for duplicates
 
-		c.execute('INSERT INTO Internship values("%s","%s","%s","%s","%s","%s","%s","s","s","%s")' %(company,heading,body,startDate,endDate,gpa,pay,approved,referral,postID))
-		db.commit()
-		
-		return redirect(url_for('home'))
-	return render_template('create_internship.html', form=form, title=title, logo_link=logo_link)
+        c.execute('INSERT INTO Internship values("%s","%s","%s","%s","%s","%s","%s","s","s","%s")' %(company,heading,body,startDate,endDate,gpa,pay,approved,referral,postID))
+        db.commit()
+        return redirect(url_for('home'))
 
+
+        return render_template('successful_internship.html', title=title, nav1=nav1, logo_link=logo_link)
+    return render_template('create_internship.html', form=form, title=title, logo_link=logo_link)
 
 @app.route('/create_sponsor', methods=['GET', 'POST'])
 def create_sponsor():
