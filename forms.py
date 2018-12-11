@@ -12,12 +12,32 @@ SelectField, DecimalField, TextAreaField, DateField, validators, SelectMultipleF
 import pymysql
 from flask_user import roles_required   # we will have three roles; admin, intern, sponsor
 import sys
-from wtforms.validators import DataRequired, NumberRange, EqualTo, Email
+from wtforms.validators import DataRequired, NumberRange, EqualTo, Email, Length
 
 #login
 class loginForm(FlaskForm):
     email = StringField('Email',validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
+    submit = SubmitField('Submit')
+
+class editInternProfileForm(FlaskForm):
+    degree = StringField('Degree')
+    gpa = DecimalField('GPA',places=1)
+    phone = StringField('Phone')
+    interest = StringField('Interests')
+    availability = TextAreaField('Availability')
+    bio = TextAreaField('Biogrpahy', validators=[Length(min=0, max=500)])
+    submit = SubmitField('Submit')
+
+class editSponsorProfileForm(FlaskForm):
+    company = StringField('Organization Name')
+    website = StringField('Organization website')
+    phone = StringField('Organization Contact Phone')
+    address = StringField('Organization Address')
+    city = StringField('Organization City')
+    state = SelectField('Organization State',choices=[('ct', 'Connecticut'), ('ma', 'Massachussets'), ('ny', 'New York')])
+    zipcode = StringField('Organization Zip')
+    description = TextAreaField('Organization description')
     submit = SubmitField('Submit')
 
 #new internship
@@ -66,8 +86,8 @@ class createStudent(FlaskForm):
     major = StringField('Major',validators=[DataRequired()])
     gpa = DecimalField('GPA',places=1,validators=[DataRequired()])
     interest = StringField('Interests', validators=[DataRequired()])
-    availability = SelectMultipleField('Availability', choices=[('M', 'Monday'), ('T', 'Tuesday'), ('W', 'Wednesday'), ('Th', 'Thursday'), ('F', 'Friday'), ('S', 'Saturday'), ('S', 'Sunday')])
-    bio = TextAreaField('Biogrpahy', validators=[DataRequired()])
+    bio = TextAreaField('Biogrpahy', validators=[Length(min=0, max=500)])
+    availability = TextAreaField('Availability', validators=[DataRequired()])
     submit = SubmitField('Submit')
 
 #new admin
@@ -108,13 +128,13 @@ class internshipSearch(FlaskForm):
 	search = StringField("Search")
 	select = SelectField("Search by",choices=choices)
 	table = HiddenField('Internship')
-	
+
 class studentSearch(FlaskForm):
 	choices = [('Heading', 'Heading'),('Company', 'Company'),('startDate', 'startDate'),('endDate','endDate'),('GPA','GPA'),('Pay','Pay')]
 	search = StringField("Search")
 	select = SelectField("Search by",choices=choices)
 	table = HiddenField('Student')
-	
+
 
 
 #Profile Edit

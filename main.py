@@ -50,7 +50,7 @@ user_db = {}
 # user roles
 def is_admin():
     if current_user:
-        if current_user.role == 'admin':
+        if current_user.role == 'Faculty':
             return True
         else:
             return False
@@ -156,8 +156,8 @@ def home():
 def intern_profile(UserID):
     title = "Profile"
     name = UserID
-    # profile_pic = "..\static\img\s_profile.png"  testing out profile pic
-    c.execute('Select * from Student where UserID = %s' % (name))
+    edit = ('/edit_profile/intern/%s' %(UserID))
+    c.execute('Select * from Student where UserID = %s' %(name))
     data = c.fetchall()
 
     for row in data:
@@ -170,6 +170,7 @@ def intern_profile(UserID):
         phone = row[5]
         interest = row[12]
         bio = row[13]
+        availability = row[14]
 
     school = "Southern"
     profile_pic = "https://raw.githubusercontent.com/scsu-csc330-400/blu-test/help_jason/Static/\
@@ -177,7 +178,49 @@ def intern_profile(UserID):
 
     return render_template('intern_profile.html', profile_pic=profile_pic, first_name=f_name, last_name=l_name, \
                            degree=degree, school=school, gpa=gpa, email=email, phone=phone, interest=interest, \
-                           bio=bio)
+                           bio=bio, availability=availability, edit=edit)
+
+@app.route('/edit_profile/intern/<UserID>', methods=['GET', 'POST'])
+@login_required
+def edit_profile_intern(UserID):
+    form = editInternProfileForm()
+    title = 'Edit Profile'
+    logo_link = "/"
+    id = UserID
+
+
+    if form.validate_on_submit():
+        degree = form.degree.data
+        gpa = form.gpa.data
+        phone = form.phone.data
+        interest = form.interest.data
+        availability = form.availability.data
+        bio = form.bio.data
+        c.execute('UPDATE Student SET major = "%s", GPA = "%s", phone = "%s", \
+        interest = "%s", availability = "%s", biography = "%s" WHERE UserID = "%s"' \
+        % (degree, gpa, phone, interest, availability, bio, id))
+        db.commit()
+        flash('Your changes have been saved.')
+        return redirect('intern/%s'%(UserID))
+
+    elif request.method == 'GET':
+        c.execute('Select * from Student where UserID = %s' %(id))
+        data = c.fetchall()
+
+        for row in data:
+            degree = row[6]
+            gpa = row[7]
+            phone = row[5]
+            interest = row[12]
+            availability = row[14]
+            bio = row[13]
+        form.degree.data = degree
+        form.gpa.data = gpa
+        form.phone.data = phone
+        form.interest.data = interest
+        form.availability.data = availability
+        form.bio.data = bio
+    return render_template('edit_profile_intern.html', form=form, title=title, logo_link=logo_link)
 
 
 @app.route('/sponsor/<UserID>')
@@ -185,6 +228,7 @@ def intern_profile(UserID):
 def sponsor_profile(UserID):
     title = "Profile"
     name = UserID
+    edit = ('/edit_profile/sponsor/%s' %(UserID))
     # profile_pic = "..\static\img\s_profile.png"  testing out profile pic
     c.execute('Select * from Sponsor where UserID = %s' % (name))
     data = c.fetchall()
@@ -203,8 +247,61 @@ def sponsor_profile(UserID):
     profile_pic = "https://raw.githubusercontent.com/scsu-csc330-400/blu-test/help_jason/Static/img/\
     b.jpg?token=AoQ7TSJDqVpIdxBM_4hwk9J2QSluOd47ks5b7GhvwA%3D%3D"
 
+    return render_template('sponsor_profile.html', profile_pic=profile_pic, company=company, address=address, \
+                           website=website, phone=phone, zipcode=zipcode, city=city, description=description, \
+                           state=state, edit=edit)
 
-@app.route('/admin_home/', methods=['GET', 'POST'])
+@app.route('/edit_profile/sponsor/<UserID>', methods=['GET', 'POST'])
+@login_required
+def edit_profile_sponsor(UserID):
+    form = editSponsorProfileForm()
+    title = 'Edit Profile'
+    logo_link = "/"
+    id = UserID
+
+
+    if form.validate_on_submit():
+        company = form.company.data
+        website = form.website.data
+        phone = form.phone.data
+        address = form.address.data
+        city = form.city.data
+        state = form.state.data
+        zipcode = form.zipcode.data
+        description = form.description.data
+        c.execute('UPDATE Sponsor SET company = "%s", website = "%s", phone = "%s", \
+        address = "%s", city = "%s", state = "%s", zipcode = "%s", description = "%s" \
+        WHERE UserID = "%s"' % (company, website, phone, address, city, state, zipcode, description, id))
+        db.commit()
+        flash('Your changes have been saved.')
+        return redirect('sponsor/%s'%(UserID))
+
+    elif request.method == 'GET':
+        c.execute('Select * from Sponsor where UserID = %s' %(id))
+        data = c.fetchall()
+
+        for row in data:
+            company = row[1]
+            website = row[3]
+            phone = row[4]
+            address = row[2]
+            city = row[6]
+            state = row[8]
+            zipcode = row[5]
+            description = row[7]
+        form.company.data = company
+        form.website.data = website
+        form.phone.data = phone
+        form.address.data = address
+        form.city.data = city
+        form.state.data = state
+        form.zipcode.data = zipcode
+        form.description.data = description
+    return render_template('edit_profile_sponsor.html', form=form, title=title, logo_link=logo_link)
+
+@app.route('/admin_home', methods=['GET', 'POST'])  # doesnt work yet, needs to define the class.
+@login_required
+# @roles_required('admin')
 def admin_home():
     c.execute('Select * from Internship WHERE approved = 0')
     approve_internship_data = c.fetchall()
@@ -214,12 +311,19 @@ def admin_home():
     intern_data = c.fetchall()
     c.execute('Select * from Sponsor WHERE approved = 0')
     sponsor_data = c.fetchall()
-    c.execute('Select * from Student WHERE GPA >= 3.8 and suggestion = 0')
-    top_student_data = c.fetchall()
+    form_app = Approve()
+    form_den = Deny()
+    unq_id = 0
+    if form_app.validate_on_submit():
+        print("hiii")
+        # c.execute('INSERT INTO User values("
+    elif form_den.validate_on_submit():
+        print("bye")
+        # c.execute('INSERT INTO User values("
 
-    return render_template('admin_home.html', approve_internship_data=approve_internship_data
-                           , intern_data=intern_data, sponsor_data=sponsor_data,
-                           referral_requested_data=referral_requested_data, top_student_data=top_student_data)
+    return render_template('admin_home.html', approve_internship_data=approve_internship_data, form_app=form_app,
+                           form_den=form_den, unq_id=unq_id, intern_data=intern_data, sponsor_data=sponsor_data,
+                           referral_requested_data=referral_requested_data)
 
 
 @app.route('/logout')
@@ -305,14 +409,12 @@ def create_student():
         major = form.major.data
         gpa = form.gpa.data
         interest = form.interest.data
-        availability = form.availability.data
         bio = form.bio.data
+        availability = form.availability.data
 
         c.execute('INSERT INTO User values("%s","%s","%s","%s")' % (studentID, email, password, role))
-        c.execute(
-            'INSERT INTO Student values("%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s")' % (
-                studentID, fname, lname, address, email, phone, major, gpa, state, address2, city, zipcode, interest,
-                bio))
+        c.execute('INSERT INTO Student values("%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s","%s")' % (
+            studentID, fname, lname, address, email, phone, major, gpa, state, address2, city, zipcode, interest, bio, availability))
 
         db.commit()
         return redirect(url_for('home'))
