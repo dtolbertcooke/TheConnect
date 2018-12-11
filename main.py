@@ -506,5 +506,13 @@ def approve():
     return 'hi'
 
 
+@app.route('/recommendation')
+def recommendation():
+    c.execute('Select * from Student WHERE suggestion = 1')
+    intern_data = c.fetchall()
+
+    return render_template('recommendation.html', intern_data=intern_data)
+
+
 if __name__ == '__main__':  # You can run the main.py and type "localhost:8080" in your
     app.run(host='0.0.0.0', port=8080, debug=True)  # broswer to test the main.py in your computer.

@@ -1,19 +1,21 @@
-<title>{% block title %} {{title}} {% endblock %} </title>
+<title>{% block title %} {{ title }} {% endblock %} </title>
 
 {% block doc %}
-<html lang="en">
+    <html lang="en">
 
-  <head>
+    <head>
 
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="BluTeam">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="BluTeam">
 
 
+        <!-- Bootstrap core CSS -->
+        <link href="/static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Bootstrap core CSS -->
-    <link href="/static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+        <!-- Custom styles for this template -->
+        <link href="/static/css/modern-business.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
     <link href="/static/css/modern-business.css" rel="stylesheet">
@@ -25,8 +27,11 @@
     <!-- Bootstrap font for icons -->
     <link href="/static/open-iconic-master/font/css/open-iconic-bootstrap.css" rel="stylesheet">
 
-  </head>
- {% endblock %}
+        <!-- Bootstrap font for icons -->
+        <link href="/static/open-iconic-master/font/css/open-iconic-bootstrap.css" rel="stylesheet">
+
+    </head>
+{% endblock %}
 
 {% block navbar %}
     <!-- Navigation -->
@@ -102,17 +107,19 @@
 		</div>
       </div>
     </nav>
-{% endblock%}
+{% endblock %}
 
 {% block head %}
     <header>
-		<div class="page-header">
-			<div class="jumbotron jumbotron-fluid" style="background-image: url('http://www.scsujournalism.org/wp-content/uploads/2017/07/owlandmorrill_crop2.jpg')">
-				<div class="container">
-					<p class="lead text-white">A way to connect Southern Connecticut students with internship opportunities.</p>
-				</div>
-			</div>
-		</div>
+        <div class="page-header">
+            <div class="jumbotron jumbotron-fluid"
+                 style="background-image: url('http://www.scsujournalism.org/wp-content/uploads/2017/07/owlandmorrill_crop2.jpg')">
+                <div class="container">
+                    <p class="lead text-white">A way to connect Southern Connecticut students with internship
+                        opportunities.</p>
+                </div>
+            </div>
+        </div>
     </header>
 {% endblock %}
 
@@ -124,45 +131,45 @@
 
       <h1 class="my-4 card text-center border-0" >Welcome to TheConnect</h1>
 
-      <!-- Marketing Icons Section -->
-      <div class="row">
-        <div class="col-lg-4 mb-4">
-          <div class="card h-100">
-            <h4 class="card-header">Card Title</h4>
-            <div class="card-body">
-              <p class="card-text"></p>
+        <!-- Marketing Icons Section -->
+        <div class="row">
+            <div class="col-lg-4 mb-4">
+                <div class="card h-100">
+                    <h4 class="card-header">Card Title</h4>
+                    <div class="card-body">
+                        <p class="card-text"></p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="#" class="btn btn-primary">Learn More</a>
+                    </div>
+                </div>
             </div>
-            <div class="card-footer">
-              <a href="#" class="btn btn-primary">Learn More</a>
+            <div class="col-lg-4 mb-4">
+                <div class="card h-100">
+                    <h4 class="card-header">Card Title</h4>
+                    <div class="card-body">
+                        <p class="card-text"></p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="#" class="btn btn-primary">Learn More</a>
+                    </div>
+                </div>
             </div>
-          </div>
+            <div class="col-lg-4 mb-4">
+                <div class="card h-100">
+                    <h4 class="card-header">Card Title</h4>
+                    <div class="card-body">
+                        <p class="card-text"></p>
+                    </div>
+                    <div class="card-footer">
+                        <a href="#" class="btn btn-primary">Learn More</a>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="col-lg-4 mb-4">
-          <div class="card h-100">
-            <h4 class="card-header">Card Title</h4>
-            <div class="card-body">
-              <p class="card-text"></p>
-            </div>
-            <div class="card-footer">
-              <a href="#" class="btn btn-primary">Learn More</a>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-4 mb-4">
-          <div class="card h-100">
-            <h4 class="card-header">Card Title</h4>
-            <div class="card-body">
-              <p class="card-text"></p>
-            </div>
-            <div class="card-footer">
-              <a href="#" class="btn btn-primary">Learn More</a>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- /.row -->
-	</div>
-	 <!-- /.container -->
+        <!-- /.row -->
+    </div>
+    <!-- /.container -->
 {% endblock %}
 
 
@@ -176,25 +183,25 @@
         <ul class="list-inline text-center">
           <li class="list-inline-item"></li>
                 <a href="/about">About</a>
-              </li>
-              <li class="list-inline-item">&sdot;</li>
-          <li class="list-inline-item ">
-                <a href="/faq">FAQ</a>
-              </li>
-              <li class="list-inline-item">&sdot;</li>
-          <li class="list-inline-item">
-                <a href="/help">Help</a>
-              </li>
-              <li class="list-inline-item">&sdot;</li>
-          <li class="list-inline-item">
-                <a href="/create/ticket">Ticket</a>
-              </li>
-              <li class="list-inline-item"></li>
+                </li>
+                <li class="list-inline-item">&sdot;</li>
+                <li class="list-inline-item ">
+                    <a href="/faq">FAQ</a>
+                </li>
+                <li class="list-inline-item">&sdot;</li>
+                <li class="list-inline-item">
+                    <a href="/help">Help</a>
+                </li>
+                <li class="list-inline-item">&sdot;</li>
+                <li class="list-inline-item">
+                    <a href="/create/ticket">Ticket</a>
+                </li>
+                <li class="list-inline-item"></li>
                 <a href="/admin_home">&sdot;</a>
 
-        </ul>
-      </div>
-      <!-- /.container -->
+            </ul>
+        </div>
+        <!-- /.container -->
     </footer>
 
 {% endblock %}
