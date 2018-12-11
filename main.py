@@ -49,7 +49,7 @@ user_db = {}
 # user roles
 def is_admin():
     if current_user:
-        if current_user.role == 'admin':
+        if current_user.role == 'Faculty':
             return True
         else:
             return False
@@ -114,60 +114,40 @@ def internal_server_error(e):
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
-    title = "TheConnect"
-    logo_link = "/"
-
-    if current_user.is_authenticated:
-        return redirect(url_for('profile'))
-
-    form = loginForm()
-    if form.validate_on_submit():
-        email = form.email.data
-        c.execute('SELECT * FROM User WHERE UserID = %s;' % (email))
-        data = c.fetchall()
-
-        for row in data:
-            userID,email,password,role = row[0],row[1],row[2],row[3]
-            user = User(userID,email,password,role)
-            user_db[userID] = user
-            valid_password = check_password_hash(user.pass_hash, form.password.data)
-            if user is None or not valid_password:
-                print('Invalid username or password', file=sys.stderr)
-                redirect(url_for('home'))
-            else:
-                login_user(user)
-                if role == 'Sponsor':
-                    return redirect('sponsor/%s'%(userID))
-                elif role == 'Faculty':
-                    return redirect(url_for('admin_home'))
-                else:
-                    return redirect('intern/%s'%(userID))
-    return render_template('landing.html', form=form, title=title, logo_link=logo_link)
-
-
-'''
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-	title = "Sign In"
-	logo_link = '/'
+	title = "TheConnect"
+	logo_link = "/"
 
 	if current_user.is_authenticated:
-		return redirect(url_for('profile'))
+		if current_user.getRole == 'Sponsor':
+			return redirect(url_for('sponsor_profile/%s'%(UserID)))
+		elif current_user.getRole == 'Faculty':
+			return redirect(url_for('admin_home/%s'%(UserID)))
+		else:
+			return redirect(url_for('intern_profile/%s'%(UserID)))
 
 	form = loginForm()
 	if form.validate_on_submit():
-		user = db[form.email.data]
+		UserID = form.email.data
+		c.execute('SELECT * FROM User WHERE UserID = %s;' % (UserID))
+		data = c.fetchall()
 
-		valid_password = check_password_hash(user.pass_hash, form.password.data)
-		if email is None or not valid_password:
-			print('Invalid username or password', file=sys.stderr)
-			redirect(url_for('home'))
-		else:
-			login_user(email)
-			return redirect(url_for('profile'))
-
-	return render_template('login.html', title=title, form=form, logo_link=logo_link)
-'''
+		for row in data:
+			UserID,email,password,role = row[0],row[1],row[2],row[3]
+			user = User(UserID,email,password,role)
+			user_db[UserID] = user
+			valid_password = check_password_hash(user.pass_hash, form.password.data)
+			if user is None or not valid_password:
+				print('Invalid username or password', file=sys.stderr)
+				redirect(url_for('home'))
+			else:
+				login_user(user)
+				if role == 'Sponsor':
+					return redirect('sponsor/%s'%(UserID))
+				elif role == 'Faculty':
+					return redirect('admin_home/%s'%(UserID))
+				else:
+					return redirect('intern/%s'%(UserID))
+	return render_template('landing.html', form=form, title=title, logo_link=logo_link)
 
 
 @app.route('/intern/<UserID>')
@@ -207,6 +187,7 @@ def edit_profile(UserID):
     logo_link = "/"
     id = UserID
 
+
     if form.validate_on_submit():
         degree = form.degree.data
         gpa = form.gpa.data
@@ -214,19 +195,28 @@ def edit_profile(UserID):
         interest = form.interest.data
         availability = form.availability.data
         bio = form.bio.data
-        c.execute('UPDATE Student SET major = %s, GPA = %s, phone = %s, interest = %s, availability = %s, biography = %s WHERE UserID = %s' % (
-            degree, gpa, phone, interest, availability, bio, id))
-
+        c.execute('UPDATE Student SET major = "%s", GPA = "%s", phone = "%s", interest = "%s", availability = "%s", biography = "%s" WHERE UserID = "%s"' % (degree, gpa, phone, interest, availability, bio, id))
         db.commit()
         flash('Your changes have been saved.')
-        return redirect(url_for('edit_profile'))
+        return redirect('intern/%s'%(UserID))
+
     elif request.method == 'GET':
-        form.degree.data = current_user.degree
-        form.gpa.data = current_user.gpa
-        form.phone.data = current_user.phone
-        form.interest.data = current_user.interest
-        form.availability.data = current_user.availability
-        form.bio.data = current_user.bio
+        c.execute('Select * from Student where UserID = %s' %(id))
+        data = c.fetchall()
+
+        for row in data:
+            degree = row[6]
+            gpa = row[7]
+            phone = row[5]
+            interest = row[12]
+            availability = row[14]
+            bio = row[13]
+        form.degree.data = degree
+        form.gpa.data = gpa
+        form.phone.data = phone
+        form.interest.data = interest
+        form.availability.data = availability
+        form.bio.data = bio
     return render_template('edit_profile_intern.html', form=form, title=title, logo_link=logo_link)
 
 
