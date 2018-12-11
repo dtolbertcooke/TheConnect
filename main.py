@@ -199,21 +199,35 @@ def intern_profile(UserID):
                            degree=degree, school=school, gpa=gpa, email=email, phone=phone, interest=interest, \
                            bio=bio, availability=availability)
 
-@app.route('/edit_profile', methods=['GET', 'POST'])
+@app.route('/edit_profile/<UserID>', methods=['GET', 'POST'])
 @login_required
-def edit_profile():
-    form = editProfileForm()
+def edit_profile(UserID):
+    form = editInternProfileForm()
+    title = 'Edit Profile'
+    logo_link = "/"
+    name = userID
+
     if form.validate_on_submit():
-        current_user.username = form.username.data
-        current_user.about_me = form.about_me.data
-        db.session.commit()
+        degree = form.degree.data
+        gpa = form.gpa.data
+        phone = form.phone.data
+        interest = form.interest.data
+        availability = form.availability.data
+        bio = form.bio.data
+        c.execute('UPDATE Student SET major = %s, GPA = %s, phone = %s, interest = %s, availability = %s, biography = %s WHERE UserID = %s' % (
+            degree, gpa, phone, interest, availability, bio, name))
+
+        db.commit()
         flash('Your changes have been saved.')
         return redirect(url_for('edit_profile'))
     elif request.method == 'GET':
-        form.username.data = current_user.username
-        form.about_me.data = current_user.about_me
-    return render_template('edit_profile.html', title='Edit Profile',
-                           form=form)
+        form.degree.data = current_user.degree
+        form.gpa.data = current_user.gpa
+        form.phone.data = current_user.phone
+        form.interest.data = current_user.interest
+        form.availability.data = current_user.availability
+        form.bio.data = current_user.bio
+    return render_template('edit_profile_intern.html', form=form, title=title, logo_link=logo_link)
 
 
 @app.route('/sponsor/<UserID>')

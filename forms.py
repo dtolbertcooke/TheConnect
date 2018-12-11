@@ -20,7 +20,7 @@ class loginForm(FlaskForm):
     password = PasswordField('Password', validators=[DataRequired()])
     submit = SubmitField('Submit')
 
-class editProfileForm(FlaskForm):
+class editInternProfileForm(FlaskForm):
     degree = StringField('Degree', validators=[DataRequired()])
     gpa = DecimalField('GPA',places=1,validators=[DataRequired()])
     phone = StringField('Phone', validators=[DataRequired()])
