@@ -286,9 +286,9 @@ def admin_home():
 #create users
 @app.route('/create_internship', methods=['GET', 'POST'])
 def create_internship():
-	form = createInternship()
-	title = "Internship"
-	logo_link = "/"
+    form = createInternship()
+    title = "Internship"
+    logo_link = "/"
 
     if form.validate_on_submit():
         company = form.company.data
