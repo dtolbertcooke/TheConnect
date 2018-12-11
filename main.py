@@ -1,5 +1,5 @@
 # The Connect
-from flask import Flask, render_template, redirect, url_for, flash, request
+from flask import Flask, render_template, redirect, url_for, flash, request, jsonify
 from flask_bootstrap import Bootstrap
 from flask_moment import Moment
 from flask_wtf import FlaskForm
@@ -45,6 +45,7 @@ login_manager.login_view = 'login'
 db = pymysql.connect(host='35.231.51.121', user='root', password='connect1234', db='theConnect')
 c = db.cursor()
 user_db = {}
+
 
 # user roles
 def is_admin():
@@ -114,60 +115,40 @@ def internal_server_error(e):
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
-    title = "TheConnect"
-    logo_link = "/"
-
-    if current_user.is_authenticated:
-        return redirect(url_for('profile'))
-
-    form = loginForm()
-    if form.validate_on_submit():
-        email = form.email.data
-        c.execute('SELECT * FROM User WHERE UserID = %s;' % (email))
-        data = c.fetchall()
-
-        for row in data:
-            userID,email,password,role = row[0],row[1],row[2],row[3]
-            user = User(userID,email,password,role)
-            user_db[userID] = user
-            valid_password = check_password_hash(user.pass_hash, form.password.data)
-            if user is None or not valid_password:
-                print('Invalid username or password', file=sys.stderr)
-                redirect(url_for('home'))
-            else:
-                login_user(user)
-                if role == 'Sponsor':
-                    return redirect('sponsor/%s'%(userID))
-                elif role == 'Faculty':
-                    return redirect(url_for('admin_home'))
-                else:
-                    return redirect('intern/%s'%(userID))
-    return render_template('landing.html', form=form, title=title, logo_link=logo_link)
-
-
-'''
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-	title = "Sign In"
-	logo_link = '/'
+	title = "TheConnect"
+	logo_link = "/"
 
 	if current_user.is_authenticated:
-		return redirect(url_for('profile'))
-
+		if current_user.getRole == 'Sponsor':
+			return redirect(url_for('sponsor_profile/%s'%(UserID)))
+		elif current_user.getRole == 'Faculty':
+			return redirect(url_for('admin_home/%s'%(UserID)))
+		else:
+			return redirect(url_for('intern_profile/%s'%(UserID)))
+		
 	form = loginForm()
 	if form.validate_on_submit():
-		user = db[form.email.data]
+		email = form.email.data
+		c.execute('SELECT * FROM User WHERE UserID = %s;' % (email))
+		data = c.fetchall()
 
-		valid_password = check_password_hash(user.pass_hash, form.password.data)
-		if email is None or not valid_password:
-			print('Invalid username or password', file=sys.stderr)
-			redirect(url_for('home'))
-		else:
-			login_user(email)
-			return redirect(url_for('profile'))
-
-	return render_template('login.html', title=title, form=form, logo_link=logo_link)
-'''
+		for row in data:
+			userID,email,password,role = row[0],row[1],row[2],row[3]
+			user = User(userID,email,password,role)
+			user_db[userID] = user
+			valid_password = check_password_hash(user.pass_hash, form.password.data)
+			if user is None or not valid_password:
+				print('Invalid username or password', file=sys.stderr)
+				redirect(url_for('home'))
+			else:
+				login_user(user)
+				if role == 'Sponsor':
+					return redirect('sponsor/%s'%(userID))
+				elif role == 'Faculty':
+					return redirect('admin_home/%s'%(userID))
+				else:
+					return redirect('intern/%s'%(userID))
+	return render_template('landing.html', form=form, title=title, logo_link=logo_link)
 
 
 @app.route('/intern/<UserID>')
@@ -176,7 +157,7 @@ def intern_profile(UserID):
     title = "Profile"
     name = UserID
     # profile_pic = "..\static\img\s_profile.png"  testing out profile pic
-    c.execute('Select * from Student where UserID = %s' %(name))
+    c.execute('Select * from Student where UserID = %s' % (name))
     data = c.fetchall()
 
     for row in data:
@@ -222,58 +203,20 @@ def sponsor_profile(UserID):
     profile_pic = "https://raw.githubusercontent.com/scsu-csc330-400/blu-test/help_jason/Static/img/\
     b.jpg?token=AoQ7TSJDqVpIdxBM_4hwk9J2QSluOd47ks5b7GhvwA%3D%3D"
 
-    return render_template('sponsor_profile.html', profile_pic=profile_pic, company=company, address=address, \
-                           website=website, phone=phone, zipcode=zipcode, city=city, description=description, state=state)
-
-
-@app.route('/admin_home', methods=['GET', 'POST'])  # doesnt work yet, needs to define the class.
-@login_required
-# @roles_required('admin')
+@app.route('/admin_home/', methods=['GET', 'POST'])
 def admin_home():
     c.execute('Select * from Internship WHERE approved = 0')
     approve_internship_data = c.fetchall()
     c.execute('Select * from Internship WHERE referral = 1')
     referral_requested_data = c.fetchall()
-    c.execute('Select * from Student')
+    c.execute('Select * from Student WHERE approved = 0')
     intern_data = c.fetchall()
-    c.execute('Select * from Sponsor')
+    c.execute('Select * from Sponsor WHERE approved = 0')
     sponsor_data = c.fetchall()
-    form_app = Approve()
-    form_den = Deny()
-    unq_id = 0
-    if form_app.validate_on_submit():
-        print("hiii")
-        # c.execute('INSERT INTO User values("
-    elif form_den.validate_on_submit():
-        print("bye")
-        # c.execute('INSERT INTO User values("
 
-    return render_template('admin_home.html', approve_internship_data=approve_internship_data, form_app=form_app,
-                           form_den=form_den, unq_id=unq_id, intern_data=intern_data, sponsor_data=sponsor_data,
+    return render_template('admin_home.html', approve_internship_data=approve_internship_data
+                           , intern_data=intern_data, sponsor_data=sponsor_data,
                            referral_requested_data=referral_requested_data)
-
-
-'''
-@app.route('/admin_login')
-def admin_login():
-	title = "Admin Login"
-	logo_link = '/'
-	if current_user.is_authenticated:
-		return redirect(url_for('profile'))
-
-	form = loginForm()
-	if form.validate_on_submit():
-		user = db[form.username.data]
-		valid_password = check_password_hash(user.pass_hash, form.password.data)
-		if user is None or not valid_password:
-			print('Invalid username or password', file=sys.stderr)
-			redirect(url_for('home'))
-		else:
-			login_user(user)
-			return redirect(url_for('profile'))
-
-	return render_template('admin_login.html', title=title, form=form, logo_link=logo_link)
-'''
 
 
 @app.route('/logout')
@@ -386,20 +329,6 @@ def create_ticket():
     return render_template('create_ticket.html', form=form, title=title, logo_link=logo_link)
 
 
-# resume
-# resume_location = "..\static\img\s_resume.jpg"
-# @app.route('/user_resume')
-# def user_resume():
-#    title = "Resume"
-#    logo_link = "/"
-#    resume_location = "..\static\img\s_resume.jpg"
-#    return render_template('user_resume.html', title=title, resume=resume_location, logo_link=logo_link)
-
-# @app.route('/user/<user>')
-# def user_profile():
-#     title = "Profile"
-#     return render_template('sponsor_profile.html', title=title)
-
 @app.route('/success')
 def successful_internship():
     title = "Success"
@@ -461,9 +390,10 @@ def search():
     return render_template('search.html')
 
 @app.route('/internships', methods=["GET","POST"])
+@login_required
 def internships():
 	title = "Opportunities"
-	logoLink = "/"
+	logo_link = "/"
 	form = internshipSearch()
 	#need to set approved to 1 once internships begin to be approved
 	c.execute('SELECT * FROM Internship')
@@ -471,25 +401,109 @@ def internships():
 
 	if request.method == 'POST':
 		return search_results(form)
+	
+		
+	return render_template('internships.html',title=title, data=data, form=form, logo_link=logo_link)
 
-
-	return render_template('internships.html',title=title, data=data, form=form)
+@app.route('/students', methods=["GET","POST"])
+@login_required
+def students():
+	title = "Students"
+	logoLink = "/"
+	form = studentSearch()
+	#need to set approved to 1 once internships begin to be approved		
+	c.execute('SELECT * FROM Student')
+	data = c.fetchall()
+	
+	if request.method == 'POST':
+		return search_results(form)
+	
+		
+	return render_template('internships.html',title=title, data=data, form=form, logo_link=logo_link)
 
 @app.route('/results', methods=["GET","POST"])
+@login_required
 def search_results(search):
 #	title = "Opportunities"
-#	logoLink = "/"
-	form = internshipSearch()
+	logoLink = "/"
+	form = request.form
 	search_string = request.form.get('search')
 	category = request.form.get('select')
+	table = request.form.get('table')
 	sql = 'SELECT * FROM Internship WHERE {} LIKE "%{}%"'.format(category,search_string)
 	c.execute(sql)
 	data = c.fetchall()
 	if not data:
 		flash('No Results')
 		return redirect(url_for('internships'))
-	return render_template('internships.html', data=data, form=form)
+	return render_template('internships.html', data=data, form=form, logo_link=logo_link)
+		
 
+
+@app.route('/approve/', methods=['GET', 'POST'])
+def approve():
+    cursor = db.cursor()
+    approval_list = request.get_json()
+    UID = str(approval_list[0])
+    value_from_AdminHome = int(approval_list[1])
+    print(value_from_AdminHome)
+    print(UID)
+    approved = 1
+    denied = 3
+    if request.method == "POST":
+        # neg float to pos float is tr range (not used, but for reference)
+        # 1-999 is approval range for students
+        # 1000-99900 is approval range for sponsor 100000
+        # 100000-9990000 is approval range for sponsor
+        # -1-(-999) is denial range for students
+        # -1000-(-99900) is denial range for sponsor 100000
+
+        # approve student-------------
+        if 1 <= value_from_AdminHome <= 999:
+            sql_approve1 = "UPDATE Student SET approved=%s WHERE UserID=%s"
+            cursor.execute(sql_approve1, (approved, UID))
+            db.commit()
+            cursor.close()
+
+            # approve sponsor-------------
+        elif 1000 <= value_from_AdminHome <= 99900:
+            sql_approve2 = "UPDATE Sponsor SET approved=%s WHERE UserID=%s"
+            cursor.execute(sql_approve2, (approved, UID))
+            db.commit()
+            cursor.close()
+
+            # Approve internship----------------
+        elif 100000 <= value_from_AdminHome <= 9990000:
+            sql_approve3 = "UPDATE Internship SET approved=%s WHERE postID=%s"
+            cursor.execute(sql_approve3, (approved, UID))
+            db.commit()
+            cursor.close()
+
+        # denied student------------------------
+        elif -1 >= value_from_AdminHome >= -999:
+            sql_denied1 = "UPDATE Student SET approved=%s WHERE UserID=%s"
+            cursor.execute(sql_denied1, (denied, UID))
+            db.commit()
+            cursor.close()
+            print("Denied sucker")
+
+            # denied sponsor------------------------
+        elif -1000 >= value_from_AdminHome >= -99900:
+            sql_denied2 = "UPDATE Sponsor SET approved=%s WHERE UserID=%s"
+            cursor.execute(sql_denied2, (denied, UID))
+            db.commit()
+            cursor.close()
+            print("Denied sucker")
+
+            # denied internship------------------------
+        elif -100000 >= value_from_AdminHome >= -9990000:
+            sql_denied3 = "UPDATE Internship SET approved=%s WHERE postID=%s"
+            cursor.execute(sql_denied3, (denied, UID))
+            db.commit()
+            cursor.close()
+            print("Denied sucker")
+
+    return 'hi'
 
 
 if __name__ == '__main__':  # You can run the main.py and type "localhost:8080" in your
