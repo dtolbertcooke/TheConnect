@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+
+{% block doc %}
+    {{ super() }}
+{% endblock %}
+
+
+{% block navbar %}
+    {{ super() }}
+
+{% endblock %}
+
+
+{% block head %}
+
+{% endblock %}
+
+
+
+{% block content %}
+    <div class="container-fluid text-center">
+        <div class="card card-body ">
+            <table class="table">
+{#                Top 5 Students#}
+                <h4 style="font-family: Ti83Pluspc"> Our Curated Pick</h4>
+                <thead>
+                <tr>
+                    <th scope="col"></th>
+                    <th scope="col">First</th>
+                    <th scope="col">Last</th>
+                    <th scope="col">Major</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                {% for row in intern_data %}
+
+                    <tr id="{{ loop.index * 1.01 }}">
+                        <th><i class="oi oi-command"></i> </th>
+                        {# UID #}
+                        <td>{{ row[1] }}</td>
+                        {# First #}
+                        <td>{{ row[2] }}</td>
+                        {# Last #}
+                        <td>{{ row[6] }}</td>
+                        {# Major #}
+
+                    </tr>
+
+                {% endfor %}
+
+                </tbody>
+            </table>
+        </div>
+    <div class="card-title bg-light">
+    <h1 style="font-family: Ti83Pluspc">"If you ain't first, you're last."</h1>
+    </div>
+    </div>
+{% endblock %}
+
+
+
+{% block body %}
+    {{ super() }}
+{% endblock %}
