@@ -7,20 +7,19 @@ from flask_login import LoginManager, UserMixin, login_user, logout_user, curren
     login_required
 from werkzeug.urls import url_parse
 from werkzeug.security import check_password_hash, generate_password_hash
-from wtforms import Form, StringField, SubmitField, IntegerField, PasswordField, SelectField, DecimalField, \
+from wtforms import Form, StringField, SubmitField, IntegerField, PasswordField, SelectField, DecimalField, HiddenField, \
     TextAreaField, validators
 from wtforms.validators import DataRequired, NumberRange, EqualTo, Email
 import pymysql
 from flask_user import roles_required  # we will have three roles; admin, intern, sponsor
-from flask_table import Table, Col
 from forms import *
 import sys
 import random
 
 
 class User(UserMixin):
-    def __init__(self, userID, email, password, role):
-        self.id = userID
+    def __init__(self, UserID, email, password, role):
+        self.id = UserID
         self.email = email
         self.pass_hash = generate_password_hash(password)
         print(self.pass_hash, file=sys.stderr)
@@ -127,14 +126,14 @@ def home():
 		
 	form = loginForm()
 	if form.validate_on_submit():
-		userID = form.UserID.data
-		c.execute('SELECT * FROM User WHERE UserID = %s;' % (userID))
+		UserID = form.UserID.data
+		c.execute('SELECT * FROM User WHERE UserID = %s;' % (UserID))
 		data = c.fetchall()
 
 		for row in data:
-			userID,email,password,role = row[0],row[1],row[2],row[3]
-			user = User(userID,email,password,role)
-			user_db[userID] = user
+			UserID,email,password,role = row[0],row[1],row[2],row[3]
+			user = User(UserID,email,password,role)
+			user_db[UserID] = user
 			valid_password = check_password_hash(user.pass_hash, form.password.data)
 			if user is None or not valid_password:
 				print('Invalid username or password', file=sys.stderr)
@@ -142,11 +141,11 @@ def home():
 			else:
 				login_user(user)
 				if role == 'Sponsor':
-					return redirect('sponsor/%s'%(userID))
+					return redirect('sponsor/%s'%(UserID))
 				elif role == 'Faculty':
-					return redirect('admin_home/%s'%(userID))
+					return redirect('admin_home/%s'%(UserID))
 				else:
-					return redirect('intern/%s'%(userID))
+					return redirect('intern/%s'%(UserID))
 	return render_template('landing.html', form=form, title=title, logo_link=logo_link)
 	
 @app.route('/logout')
@@ -158,30 +157,31 @@ def logout():
 @app.route('/intern/<UserID>')
 @login_required
 def intern_profile(UserID):
-    title = "Profile"
-    name = UserID
-    # profile_pic = "..\static\img\s_profile.png"  testing out profile pic
-    c.execute('Select * from Student where UserID = %s' %(name))
-    data = c.fetchall()
+	title = "Profile"
+	name = UserID
+	logo_link = ('/edit_intern/%s' %(UserID))
+	# profile_pic = "..\static\img\s_profile.png"  testing out profile pic
+	c.execute('Select * from Student where UserID = %s' %(name))
+	data = c.fetchall()
 
-    for row in data:
-        UserID = row[0]
-        f_name = row[1]
-        l_name = row[2]
-        degree = row[6]
-        gpa = row[7]
-        email = row[4]
-        phone = row[5]
-        interest = row[12]
-        bio = row[13]
+	for row in data:
+		UserID = row[0]
+		f_name = row[1]
+		l_name = row[2]
+		degree = row[6]
+		gpa = row[7]
+		email = row[4]
+		phone = row[5]
+		interest = row[12]
+		bio = row[13]
 
-    school = "Southern"
-    profile_pic = "https://raw.githubusercontent.com/scsu-csc330-400/blu-test/help_jason/Static/\
-    img/b.jpg?token=AoQ7TSJDqVpIdxBM_4hwk9J2QSluOd47ks5b7GhvwA%3D%3D"
+	school = "Southern"
+	profile_pic = "https://raw.githubusercontent.com/scsu-csc330-400/blu-test/help_jason/Static/\
+	img/b.jpg?token=AoQ7TSJDqVpIdxBM_4hwk9J2QSluOd47ks5b7GhvwA%3D%3D"
 
-    return render_template('intern_profile.html', profile_pic=profile_pic, first_name=f_name, last_name=l_name, \
+	return render_template('intern_profile.html', profile_pic=profile_pic, logo_link=logo_link, first_name=f_name, last_name=l_name, \
                            degree=degree, school=school, gpa=gpa, email=email, phone=phone, interest=interest, \
-                           bio=bio)
+                           bio=bio,)
 
 
 @app.route('/sponsor/<UserID>')
@@ -416,6 +416,7 @@ def register():
 @app.route('/search')
 def search():
     return render_template('search.html')
+
 #view and search	
 @app.route('/internships', methods=["GET","POST"])
 #@login_required
@@ -426,10 +427,9 @@ def internships():
 	#need to set approved to 1 once internships begin to be approved		
 	c.execute('SELECT * FROM Internship')
 	data = c.fetchall()
-	table = "Internship"
 	
 	if request.method == 'POST':
-		return search_results(form,table)
+		return search_results(form)
 	
 		
 	return render_template('internships.html',title=title, data=data, form=form, logo_link=logo_link)
@@ -442,31 +442,27 @@ def students():
 	form = studentSearch()		
 	c.execute('SELECT * FROM Student')
 	data = c.fetchall()
-	table = "Student"
 	
 	if request.method == 'POST':
-		return search_results(form,table)
+		return search_results(form)
 	
 		 
 	return render_template('internships.html',title=title, data=data, form=form, logo_link=logo_link)
 
 @app.route('/results', methods=["GET","POST"])
 #@login_required
-def search_results(search,table):
+def search_results(search):
 #	title = "Opportunities"
 	logo_link = "/"
 	form = request.form
 	search_string = request.form.get('search')
 	category = request.form.get('select')
-	table = table
-	if table == 'Student':
-		sql = 'SELECT * FROM Student WHERE {} LIKE "%{}%"' .format(category,search_string)
-	elif table == 'Internship':
-		sql = 'SELECT * FROM Internship WHERE {} LIKE "%{}%"' .format(category,search_string)
-	else:
-		sql = 'SELECT * FROM Sponsor WHERE {} LIKE "%{}%"' .format(category,search_string)
+
+	sql = 'SELECT * FROM Internship WHERE {} LIKE "%{}%"' .format(category,search_string)
+
 	c.execute(sql)
 	data = c.fetchall()
+	
 	if not data:
 		flash('No Results')
 		return redirect(url_for('internships'))
@@ -479,52 +475,65 @@ def update_student(UserID):
 	logo_link = ("/intern/%s" %(UserID))
 	title = "Edit"
 	
-	c.execute('SELECT * FROM Student WHERE UserID = %s;' % (UserID))
+	c.execute('SELECT pass FROM User WHERE UserID = %s;' % (UserID))
 	data = c.fetchall()
 	
-	form = createStudent(request.form)
+	pass_form = changePassword(request.form)
+	for row in data:
+		pass_form.password.data = row[0]
+		pass_form.confirm.data = pass_form.password.data
+		
+	if request.method == "POST" and pass_form.validate():
+		password = pass_form.password.data
+		
+		c.execute('UPDATE User SET pass=%s WHERE UserID=%s'%(password,UserID))
+		db.commit()
+		
+	
+	c.execute('SELECT * FROM Student WHERE UserID = %s;' %(UserID))
+	data = c.fetchall()
+	
+	student_form = editStudent(request.form)
 	
 	for row in data:
 	
-		form.studentID.data = row[0]
-		form.email.data = row[4]
-		form.password.data = row[2]
-		form.fname.data = row[1]
-		form.lname.data = row[1]
-		form.phone.data = row[5]
-		form.address.data = row[3]
-		form.address2.data = row[5]
-		form.city.data = row[10]
-		form.state.data = row[9]
-		form.zipcode.data = row[11]
-		form.major.data = row[6]
-		form.gpa.data = row[7]
+		student_form.UserID.data = row[0]
+		student_form.email.data = row[4]
+		student_form.fname.data = row[1]
+		student_form.lname.data = row[2]
+		student_form.phone.data = row[5]
+		student_form.address.data = row[3]
+		student_form.address2.data = row[10]
+		student_form.city.data = row[10]
+		student_form.state.data = row[9]
+		student_form.zipcode.data = row[11]
+		student_form.major.data = row[6]
+		student_form.gpa.data = row[7]
 	
-	if request.method == 'POST' and form.validate():
+	if request.method == 'POST' and student_form.validate():
 		
-		studentID = form.studentID.data
-		email = form.email.data
-		password = form.password.data
-		fname = form.fname.data
-		lname = form.lname.data
-		phone = form.phone.data
-		address = form.address.data
-		address2 = form.address2.data
-		city = form.city.data
-		state = form.state.data
-		zipcode = form.zipcode.data
-		major = form.major.data
-		gpa = form.gpa.data
+		UserID = student_form.UserID.data
+		email = student_form.email.data
+		fname = student_form.fname.data
+		lname = student_form.lname.data
+		phone = student_form.phone.data
+		address = student_form.address.data
+		address2 = student_form.address2.data
+		city = student_form.city.data
+		state = student_form.state.data
+		zipcode = student_form.zipcode.data
+		major = student_form.major.data
+		gpa = student_form.gpa.data
 		
 		c.execute('UPDATE Student SET studentID=%s,email=%s,password=%s,fname=%s,lname=%s,phone=%s,address=%s,address2=%s,city=%s,state=%s,zipcode=%s,major=%s,gpa=%s WHERE UserID=%s' 
-							%(studentID,email,password,fname,lname,phone,address,address2,city,state,zipcode,major,gpa))
+							%(UserID,email,fname,lname,phone,address,address2,city,state,zipcode,major,gpa))
 		db.commit()
 		
 		return redirect(url_for('/intern/<UserID>'))
 		
 	
 
-	return render_template('edit_info.html', form=form, logo_link=logo_link)
+	return render_template('edit_student.html', form1=pass_form, form2=student_form, logo_link=logo_link)
 
 @app.route('/edit_sponsor/<UserID>', methods=['GET','POST'])
 def update_sponsor(UserID):
@@ -564,7 +573,7 @@ def update_sponsor(UserID):
 
 		
 		c.execute('UPDATE Sponsor SET company=%s,address=%s,website=%s,phone=%s,zipcode=%s,city=%s,description=%s,state=%s WHERE UserID=%s' 
-							%(company, address, website, phone, zipcode, city, description, state))
+							%(company, address, website, phone, zipcode, city, description, state, UserID))
 		db.commit()
 		
 		return redirect(url_for('/sponsor/<UserID>'))

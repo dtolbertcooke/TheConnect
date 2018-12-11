@@ -7,7 +7,7 @@ from flask_login import LoginManager, UserMixin, login_user, logout_user, \
     current_user, login_required
 from werkzeug.urls import url_parse
 from werkzeug.security import check_password_hash, generate_password_hash
-from wtforms import Form, StringField, SubmitField, IntegerField, PasswordField, SelectField, DecimalField, TextAreaField, DateField, validators
+from wtforms import Form, StringField, SubmitField, IntegerField, PasswordField, SelectField, DecimalField, TextAreaField, DateField, HiddenField, validators
 import pymysql
 from flask_user import roles_required   # we will have three roles; admin, intern, sponsor
 import sys
@@ -97,16 +97,35 @@ class contactForm(FlaskForm):
 	message = TextAreaField("Message")
 	submit = SubmitField("Send")
 
+class changePassword(FlaskForm):
+	password = PasswordField('Password', validators=[DataRequired(), EqualTo('confirm', message='Passwords must match')])
+	confirm = PasswordField('Repeat Password')
+	submit = SubmitField('Submit')
+
+class editStudent(FlaskForm):
+    UserID = StringField('User ID')
+    email = StringField('Email address')
+    fname = StringField('First Name')
+    lname = StringField('Last Name')
+    phone = StringField('Phone')
+    address = StringField('Address')
+    address2 = StringField('Address 2')
+    city = StringField('City')
+    state = SelectField('State',choices=[('ct', 'Connecticut'), ('ma', 'Massachussets'), ('ny', 'New York')])
+    zipcode = StringField('Zip')
+    major = StringField('Major')
+    gpa = DecimalField('GPA',places=1)
+    submit = SubmitField('Submit')
 	
 #Internship Search Form
 class internshipSearch(FlaskForm):
-	choices = [('Heading', 'Heading'),('Company', 'Company'),('startDate', 'startDate'),('endDate','endDate'),('GPA','GPA'),('Pay','Pay')]
+	choices = [('heading', 'heading'),('company', 'company'),('startDate', 'startDate'),('endDate','endDate'),('gpa','gpa'),('pay','pay')]
 	search = StringField("Search")
 	select = SelectField("Search by",choices=choices)
 
 	
 class studentSearch(FlaskForm):
-	choices = [('Heading', 'Heading'),('Company', 'Company'),('startDate', 'startDate'),('endDate','endDate'),('GPA','GPA'),('Pay','Pay')]
+	choices = [('heading', 'heading'),('Company', 'Company'),('startDate', 'startDate'),('endDate','endDate'),('gpa','gpa'),('pay','pay')]
 	search = StringField("Search")
 	select = SelectField("Search by",choices=choices)
 
@@ -114,6 +133,7 @@ class studentSearch(FlaskForm):
 
 
 #Profile Edit
+
 
 #Internship Edit
 
