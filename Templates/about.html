@@ -4,76 +4,64 @@
 <!------------------Add this portion to the main.py-------------------->
 <!--@app.route('/(your route)')-->
 <!--def (def_name) ():-->
-    <!--title = ("title")-->
-    <!--return render_template('(name_of_your).html', titile=title)-->
+<!--title = ("title")-->
+<!--return render_template('(name_of_your).html', titile=title)-->
 <!------------------Add this portion to the main.py------------------>
 
 <!-------- Your title for the webpage goes here------------->
-{% block title %}{{title}}{% endblock %}
+{% block title %}{{ title }}{% endblock %}
 
 {% block doc %}
-{{super()}}
+    {{ super() }}
 {% endblock %}
 
 
 <!--This contains the navbar elements-->
 {% block navbar %}
- {{ super() }}                          
+    {{ super() }}
 {% endblock %}
 
 <!--This contains the TheConnect image-->
 {% block head %}
- {{ super() }}
+    {{ super() }}
 {% endblock %}
 
 
 <!--This contains the three Cards below the TheConnect image-->
 {% block content %}
-<!-- Page Content -->
+    <!-- Page Content -->
     <div class="container">
 
-      <h1 class="my-4 card text-center" >About The Connect</h1>
-      <!-- Marketing Icons Section -->
-      <div class="row">
-        <div class="col-lg-12 mb-4">
-          <div class="card h-100">
-            <div class="card-body">
-              <p class="card-text">djsaghlkdfsjghlfkdjghldksjfhgkfldjhgsdkljhfsdkljghsdkljfhgsdkfljhgkldsfjhg
-                sdjfkghlsdkfjhgsdkjfhgkldfsjhglkjdshfgkljhsdflkjghdslkfjhgkfjdshglkjhfdslkjhg
-                kjsdhflgkjhsdflkjghsdlkjfhglksjdhflkgh
-                [kjsdhfglkjfdhsgklsjdf
-                sdfgodsfijkhgsd
-                f[gsdf'
-                gsd
-                fga
-                df
-                gdfs
-                gdfsgsdfhhdfshdsf
-				djsaghlkdfsjghlfkdjghldksjfhgkfldjhgsdkljhfsdkljghsdkljfhgsdkfljhgkldsfjhg
-                sdjfkghlsdkfjhgsdkjfhgkldfsjhglkjdshfgkljhsdflkjghdslkfjhgkfjdshglkjhfdslkjhg
-                kjsdhflgkjhsdflkjghsdlkjfhglksjdhflkgh
-                [kjsdhfglkjfdhsgklsjdf
-                sdfgodsfijkhgsd
-                f[gsdf'
-                gsd
-                fga
-                df
-                gdfs
-                gdfsgsdfhhdfshdsf</p>
+        <h1 class="my-4 card text-center">About The Connect</h1>
+        <!-- Marketing Icons Section -->
+        <div class="row">
+            <div class=>
+                <div class="card">
+                    <div class="card-body">
+                        <p class="card-text justify-content-center">
+                            <iframe width="560" height="315"  src="https://www.youtube.com/embed/V-_O7nl0Ii0?start=16"
+                                    frameborder="0"
+                                    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                                    allowfullscreen></iframe>
+
+                        </p>
+                    </div>
+                    <div class="footer justify-content-center">
+                        <a href="#"class="btn btn-primary">Learn More</a>
+                    </div>
+
+
+                </div>
             </div>
-            <div class="card-footer">
-              <a href="/" class="btn btn-primary">Learn More</a>
-            </div>
-          </div>
         </div>
-      </div>
-      <!-- /.row -->
-	</div>
-	<!-- /.container -->
+        <!-- /.row -->
+    </div>
+
+
 {% endblock %}
 
 
 <!--This contains the latin text and the call to arms button-->
 {% block body %}
-{{ super() }}
+    {{ super() }}
 {% endblock %}
