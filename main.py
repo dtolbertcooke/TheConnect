@@ -400,10 +400,10 @@ def create_internship():
     c.execute('Select company from Sponsor where UserID = %s' % (name))
     data = c.fetchall()
     for row in data:
-        blah = row[0]
+        company = row[0]
 
     if form.validate_on_submit():
-        company = blah
+
         heading = form.heading.data
         body = form.body.data
         startDate = form.startDate.data
