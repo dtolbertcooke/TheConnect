@@ -1,12 +1,6 @@
 {% extends "base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 
-<!------------------Add this portion to the main.py-------------------->
-<!--@app.route('/(your route)')-->
-<!--def (def_name) ():-->
-    <!--title = ("title")-->
-    <!--return render_template('(name_of_your).html', titile=title)-->
-<!------------------Add this portion to the main.py------------------>
 
 
 <!-------- Your title for the webpage goes here------------->
@@ -27,7 +21,7 @@
 <!--This contains the three Cards below the TheConnect image-->
 {% block content %}
 <div class="container-fluid col-8" style="margin-top: 30px">
-<h1>Contact</h1>
+<h1>Create Ticket</h1>
 <div class="card text-left">
   <div class="card-header" >
 	{{ wtf.quick_form(form) }}

@@ -2,10 +2,20 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f239e7f2-439b-4737-89aa-af16eb2bc80e" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Templates/about.html" beforeDir="false" afterPath="$PROJECT_DIR$/Templates/about.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Templates/admin_home.html" beforeDir="false" afterPath="$PROJECT_DIR$/Templates/admin_home.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/forms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/Templates/base.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Templates/base_profile.html" beforeDir="false" afterPath="$PROJECT_DIR$/Templates/base_profile.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Templates/contact.html" beforeDir="false" afterPath="$PROJECT_DIR$/Templates/contact.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Templates/create_ticket.html" beforeDir="false" afterPath="$PROJECT_DIR$/Templates/create_ticket.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Templates/faq.html" beforeDir="false" afterPath="$PROJECT_DIR$/Templates/faq.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Templates/help.html" beforeDir="false" afterPath="$PROJECT_DIR$/Templates/help.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Templates/internships.html" beforeDir="false" afterPath="$PROJECT_DIR$/Templates/internships.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Templates/landing.html" beforeDir="false" afterPath="$PROJECT_DIR$/Templates/landing.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Templates/notifications.html" beforeDir="false" afterPath="$PROJECT_DIR$/Templates/notifications.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Templates/register.html" beforeDir="false" afterPath="$PROJECT_DIR$/Templates/register.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Templates/students.html" beforeDir="false" afterPath="$PROJECT_DIR$/Templates/students.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Templates/successful_internship.html" beforeDir="false" afterPath="$PROJECT_DIR$/Templates/successful_internship.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />

@@ -25,10 +25,6 @@
                         data-target="#Manage">
                     Manage <i class="oi oi-expand-down"></i>
                 </button>
-                <button class="btn btn-light" type="button" href="#Advance_Search" data-toggle="collapse"
-                        data-target="#Advance_Search">
-                    Advance Search <i class="oi oi-expand-down"></i>
-                </button>
                 <button class="btn btn-primary" type="button" href="#Intern_Suggestion" data-toggle="collapse"
                         data-target="#Intern_Suggestion">
                     Intern Suggestion <i class="oi oi-expand-down"></i>
@@ -191,11 +187,7 @@
 												{# subject #}
 												<td>{{ row[3] }}</td>
 												{# message #}
-												<td>
-													<button type="button" class="btn btn-danger btn-sm" value="{{ row[0] }}"
-															href="#" id="{{ y }}">Delete <i class="oi oi-x"></i>
-													</button>
-												</td>
+												
 											</tr>
 										{% endfor %}
 										</tbody>
@@ -239,31 +231,6 @@
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-
-            <div class="collapse multi-collapse " id="Advance_Search" style="margin-top: 10px">
-                <div class="card-header">
-                    <h3>ADVANCED SEARCH</h3>
-                </div>
-                <div class="card-body bg-white">
-                    <h1> WORK IN PROGRESS</h1>
-                    <li>
-                        Name (Form)
-                    </li>
-                    <li>
-                        ID (Form)
-                    </li>
-                    <li>
-                        Email (Form)
-                    </li>
-                    <li>
-                        GPA (Form)
-                    </li>
-                    <li>
-                        Degree (Form)
-                    </li>
-                    ECT...
                 </div>
             </div>
 
@@ -316,7 +283,7 @@
 
 
     <div class="container-fluid text-center card-header border-dark mb-3">
-        <div class="text-center border-dark mb-3"><h3>Verifcication</h3></div>
+        <div class="text-center border-dark mb-3"><h3>Verification</h3></div>
         <p>
             <button class="btn btn-primary" data-toggle="collapse" href="#Verify_User" role="button"
                     aria-expanded="false"
