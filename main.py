@@ -600,14 +600,13 @@ def submitApplication():
 		interest = row[12]
 		availability = row[14]
 		bio = row[13]
-		postID = "2509"
 
-
-	sql = ('INSERT INTO Applicants values("%s","%s","%s","%s","%s","%s","%s","%s","%s","%s")' %(applicationID, f_name, l_name, degree, gpa, phone, interest, availability, bio, postID))
+	
+	sql = ('INSERT INTO Applicants values("%s","%s","%s","%s","%s","%s","%s","%s","%s")' %(applicationID, f_name, l_name, degree, gpa, phone, interest, availability, bio))
 	c.execute(sql)
 	db.commit()
 
-	return render_template('internships.html', user=user, id=id, data=data, form=form, logo_link=logo_link)
+	return redirect(url_for('internships'))
 
 if __name__ == '__main__':  # You can run the main.py and type "localhost:8080" in your
     app.run(host='0.0.0.0', port=8080, debug=True)  # broswer to test the main.py in your computer.
