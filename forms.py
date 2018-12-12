@@ -41,7 +41,8 @@ class editSponsorProfileForm(FlaskForm):
 
 #new internship
 class createInternship(FlaskForm):
-	company = StringField('Organization Name', validators=[DataRequired()])
+
+	#company = StringField('Organization Name', validators=[DataRequired()])
 	heading = StringField('Internship Title', validators=[DataRequired()])
 	body = TextAreaField('Internship Description', validators=[DataRequired()])
 	startDate = DateField('Start Date', format='%m-%d-%Y', validators=[DataRequired()])
@@ -53,7 +54,6 @@ class createInternship(FlaskForm):
 
 #new sponsor
 class createSponsor(FlaskForm):
-    sponsorID = StringField('User ID', validators=[DataRequired()])
     email = StringField('Email Address', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired(), EqualTo('confirm', message='Passwords must match')])
     confirm = PasswordField('Repeat Password')
@@ -105,7 +105,7 @@ class createAdmin(FlaskForm):
 
 #error report
 class createTicket(FlaskForm):
-	errType = SelectField(u'Error Type', choices=[('', ''), ('', ''), ('', '')])
+	errType = SelectField(u'Error Type', choices=[('HTML', 'HTML'), ('SQL', 'SQL'), ('Python', 'Python')])
 	email = StringField('Email address', validators=[DataRequired(), Email()])
 	errDescription = TextAreaField('Error Description ' , validators=[DataRequired()])
 	submit = SubmitField("Submit")
@@ -123,19 +123,38 @@ class changePassword(FlaskForm):
 	confirm = PasswordField('Repeat Password')
 	submit = SubmitField('Submit')
 
+class editStudent(FlaskForm):
+	email = StringField('Email address', validators=[DataRequired()])
+	password = PasswordField('Password', validators=[DataRequired(), EqualTo('confirm', message='Passwords must match')])
+	confirm = PasswordField('Repeat Password')
+	fname = StringField('First Name', validators=[DataRequired()])
+	lname = StringField('Last Name', validators=[DataRequired()])
+	phone = StringField('Phone', validators=[DataRequired()])
+	address = StringField('Address',validators=[DataRequired()])
+	address2 = StringField('Address 2')
+	city = StringField('City',validators=[DataRequired()])
+	state = SelectField('State',choices=[('ct', 'Connecticut'), ('ma', 'Massachussets'), ('ny', 'New York')])
+	zipcode = StringField('Zip' ,validators=[DataRequired()])
+	major = StringField('Major',validators=[DataRequired()])
+	gpa = DecimalField('GPA',places=1,validators=[DataRequired()])
+	interest = TextAreaField('Student Interest')
+	biography = TextAreaField('Biography')
+	availability = SelectMultipleField('Availability',choices=[('Sunday', 'Sunday'), ('Monday', 'Monday'), ('Tuesday', 'Tuesday'),('Wednesday', 'Wednesday'), ('Thursday', 'Thursday'), ('Friday', 'Friday'),('Saturday','Saturday')])
+	submit = SubmitField('Submit')
+
 #Internship Search Form
 class internshipSearch(FlaskForm):
 	choices = [('heading', 'heading'),('company', 'company'),('startDate', 'startDate'),('endDate','endDate'),('gpa','gpa'),('pay','pay')]
 	search = StringField("Search")
 	select = SelectField("Search by",choices=choices)
 
-	
+
 class studentSearch(FlaskForm):
 	choices = [('heading', 'heading'),('Company', 'Company'),('startDate', 'startDate'),('endDate','endDate'),('gpa','gpa'),('pay','pay')]
 	search = StringField("Search")
 	select = SelectField("Search by",choices=choices)
 
-	
+
 
 
 #Profile Edit

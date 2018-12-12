@@ -1,5 +1,5 @@
 # The Connect
-from flask import Flask, render_template, redirect, url_for, flash, request, jsonify
+from flask import Flask, render_template, redirect, url_for, flash, request, jsonify, request
 from flask_bootstrap import Bootstrap
 from flask_moment import Moment
 from flask_wtf import FlaskForm
@@ -190,7 +190,7 @@ def intern_profile(UserID):
 	img/b.jpg?token=AoQ7TSJDqVpIdxBM_4hwk9J2QSluOd47ks5b7GhvwA%3D%3D"
     biography = biography
 
-    return render_template('intern_profile.html', profile_pic=profile_pic, logo_link=logo_link, edit=edit, first_name=f_name, last_name=l_name, \
+    return render_template('intern_profile.html',UserID=UserID, profile_pic=profile_pic, logo_link=logo_link, edit=edit, first_name=f_name, last_name=l_name, \
                            degree=degree, school=school, gpa=gpa, email=email, phone=phone, interest=interest, \
                            biography=biography,availability=availability)
 
@@ -216,12 +216,28 @@ def sponsor_profile(UserID):
         description = row[7]
         state = row[8]
 
+    c.execute('Select postID, heading, startDate, endDate from Internship where company like "%s"' %(company))
+    data2 = c.fetchall()
+
+    if len(data2)==0:
+        postID = 0
+        heading=''
+        startDate=''
+        endDate=''
+    elif len(data2)>=1:
+        for row2 in data2:
+            postID = row2[0]
+            heading = row2[1]
+            startDate = row2[2]
+            endDate = row2[3]
+
     profile_pic = "https://raw.githubusercontent.com/scsu-csc330-400/blu-test/help_jason/Static/img/\
     b.jpg?token=AoQ7TSJDqVpIdxBM_4hwk9J2QSluOd47ks5b7GhvwA%3D%3D"
 
-    return render_template('sponsor_profile.html', profile_pic=profile_pic, company=company, address=address, \
+    return render_template('sponsor_profile.html', UserID=UserID, profile_pic=profile_pic, company=company, address=address, \
                            website=website, phone=phone, zipcode=zipcode, city=city, description=description, \
-                           state=state, edit=edit)
+                           state=state, edit=edit, data2=data2, postID=postID, heading=heading, startDate=startDate, \
+                           endDate=endDate)
 
 @app.route('/edit_profile/intern/<UserID>', methods=['GET', 'POST'])
 @login_required
@@ -345,26 +361,33 @@ def admin_home():
 @app.route('/create_internship', methods=['GET', 'POST'])
 #@login_required
 def create_internship():
-	form = createInternship()
-	title = "Internship"
-	logo_link = "/"
+    form = createInternship()
+    title = "Internship"
+    logo_link = "/"
+    name = current_user.getID()
 
-	if form.validate_on_submit():
-		approved = 0
-		postID = str(random.randrange(100000,1000000))        #postID needs loop to check for duplicates
-		company = form.company.data
-		heading = form.heading.data
-		body = form.body.data
-		startDate = form.startDate.data
-		endDate = form.endDate.data
-		gpa = form.gpa.data
-		pay = form.pay.data
-		referral = form.referral.data
+    c.execute('Select company from Sponsor where UserID = %s' %(name))
+    data = c.fetchall()
+    for row in data:
+        data = row[0]
 
-		c.execute('INSERT INTO Internship values("%s","%s","%s","%s","%s","%s","%s","%s","%s","%s")' % (company, heading, body, startDate, endDate, gpa, pay, approved, referral, postID))
-		db.commit()
-		return redirect(url_for('home'))
-	return render_template('create_internship.html', form=form, title=title, logo_link=logo_link)
+    if form.validate_on_submit():
+        company = data
+        heading = form.heading.data
+        body = form.body.data
+        startDate = form.startDate.data
+        endDate = form.endDate.data
+        gpa = form.gpa.data
+        pay = form.pay.data
+        approved = 0
+        referral = form.referral.data
+        postID = str(random.randrange(100000,1000000))
+        #postID needs loop to check for duplicates
+
+        c.execute('INSERT INTO Internship values("%s","%s","%s","%s","%s","%s","%s","s","s","%s")' %(company,heading,body,startDate,endDate,gpa,pay,approved,referral,postID))
+        db.commit()
+        return redirect(url_for('home'))
+    return render_template('create_internship.html', form=form, title=title, logo_link=logo_link)
 
 @app.route('/create_sponsor', methods=['GET', 'POST'])
 def create_sponsor():
@@ -385,55 +408,56 @@ def create_sponsor():
         state = form.state.data
         zipcode = form.zipcode.data
         description = form.description.data
-
+        approved = 0
         c.execute('INSERT INTO User values("%s","%s","%s","%s")' % (UserID, email, password, role))
-        c.execute('INSERT INTO Sponsor values("%s","%s","%s","%s","%s","%s","%s","%s","%s")' % (
-            UserID, company, address, website, phone, zipcode, city, description, state))
+        c.execute('INSERT INTO Sponsor values("%s","%s","%s","%s","%s","%s","%s","%s","%s","%s")'
+                  %(UserID, company, address, website, phone, zipcode, city, description, state,approved))
 
         db.commit()
-        return redirect(url_for('home'))
+        login_user(User(UserID, email, password, role))
+        return redirect('sponsor/%s'%(UserID))
     return render_template('create_sponsor.html', form=form, title=title, logo_link=logo_link)
 
 
 @app.route('/create_student', methods=['GET', 'POST'])
 def create_student():
-	form = createStudent()
-	title = "Student"
-	logo_link = "/"
+    form = createStudent()
+    title = "Student"
+    logo_link = "/"
 
-	if form.validate_on_submit():
-		role = "Student"
-		UserID = str(random.randrange(100000,1000000))
-		email = form.email.data
-		password = form.password.data
-		fname = form.fname.data
-		lname = form.lname.data
-		phone = form.phone.data
-		address = form.address.data
-		address2 = form.address2.data
-		city = form.city.data
-		state = form.state.data
-		zipcode = form.zipcode.data
-		major = form.major.data
-		gpa = form.gpa.data
-		interest = form.interest.data
-		biography = form.biography.data
-		availability = form.availability.data
-		approved = 0
-		suggestion = 0
+    if form.validate_on_submit():
+        role = "Student"
+        UserID = str(random.randrange(100000,1000000))
+        email = form.email.data
+        password = form.password.data
+        fname = form.fname.data
+        lname = form.lname.data
+        phone = form.phone.data
+        address = form.address.data
+        address2 = form.address2.data
+        city = form.city.data
+        state = form.state.data
+        zipcode = form.zipcode.data
+        major = form.major.data
+        gpa = form.gpa.data
+        interest = form.interest.data
+        biography = form.biography.data
+        availability = form.availability.data
+        approved = 0
+        suggestion = 0
 
-		c.execute('INSERT INTO User values("%s","%s","%s","%s")' % (UserID, email, password, role))
-		c.execute('INSERT INTO Student values("%s","%s","%s","%s","%s","%s","%s",%s,"%s","%s","%s","%s","%s","%s","%s","%s","%s")' % (
-				UserID, fname, lname, address, email, phone, major, gpa, state, address2, city, zipcode, interest, biography, availability, approved, suggestion))
+        c.execute('INSERT INTO User values("%s","%s","%s","%s")' % (UserID, email, password, role))
+        c.execute('INSERT INTO Student values("%s","%s","%s","%s","%s","%s","%s",%s,"%s","%s","%s","%s","%s","%s","%s","%s","%s")' % (
+            UserID, fname, lname, address, email, phone, major, gpa, state, address2, city, zipcode, interest, biography, availability, approved, suggestion))
 
-		db.commit()
-		return redirect(url_for('home'))
+        db.commit()
+        login_user(User(UserID,email,password,role))
+        return redirect('intern/%s'%(UserID))
 
-	return render_template('create_student.html', form=form, title=title, logo_link=logo_link)
+    return render_template('create_student.html', form=form, title=title, logo_link=logo_link)
 
-#create ticket (probably get rid of)
+
 @app.route('/create_ticket', methods=['GET', 'POST'])
-#@login_required
 def create_ticket():
     form = createTicket()
     title = "Report Error"
@@ -442,24 +466,12 @@ def create_ticket():
         errType = form.errType.data
         email = form.email.data
         errDescription = form.errDescription.data
-        c.execute('INSERT INTO Error values("%s","%s","%s","%s",)' % (errType, email, errDescription))
+        c.execute('INSERT INTO Error values("%s","%s","%s")' %(errType, email, errDescription))
         db.commit()
-        return render_template('landing.html', form=form, title=title, nav1=nav1, logo_link=logo_link)
+        return redirect(url_for('home'))
     return render_template('create_ticket.html', form=form, title=title, logo_link=logo_link)
 
-# resume
-# resume_location = "..\static\img\s_resume.jpg"
-# @app.route('/user_resume')
-# def user_resume():
-#    title = "Resume"
-#    logo_link = "/"
-#    resume_location = "..\static\img\s_resume.jpg"
-#    return render_template('user_resume.html', title=title, resume=resume_location, logo_link=logo_link)
 
-# @app.route('/user/<user>')
-# def user_profile():
-#     title = "Profile"
-#     return render_template('sponsor_profile.html', title=title)
 
 @app.route('/success')
 def successful_internship():
@@ -482,11 +494,19 @@ def about():
     return render_template('about.html', title=title, logo_link=logo_link)
 
 
-@app.route('/contact')
+@app.route('/contact', methods=['GET', 'POST'])
 def contact():
     form = contactForm()
     title = "Contact"
     logo_link = "/"
+    if form.validate_on_submit():
+        name = form.name.data
+        email = form.email.data
+        subject = form.subject.data
+        message = form.message.data
+        c.execute('INSERT INTO ContactRequest values("%s","%s","%s","%s")' % (name, email, subject, message))
+        db.commit()
+        return redirect(url_for('home'))
     return render_template('contact.html', form=form, title=title, logo_link=logo_link)
 
 
@@ -514,7 +534,7 @@ def user_resume():
 #view and search
 @app.route('/internships', methods=["GET","POST"])
 #@login_required
-# @roles_required('admin','intern')
+# @roles_required('admin')
 def internships():
 	title = "Opportunities"
 	logo_link = "/"
@@ -522,11 +542,12 @@ def internships():
 	#need to set approved to 1 once internships begin to be approved
 	c.execute('SELECT * FROM Internship')
 	data = c.fetchall()
-	internship_link = "/view_internship/%s" %(2509)
+
 	if request.method == 'POST':
 		return search_results(form)
 
-	return render_template('internships.html',title=title, data=data, form=form, logo_link=logo_link, internship_link=internship_link)
+
+	return render_template('internships.html',title=title, data=data, form=form, logo_link=logo_link)
 
 @app.route('/students', methods=["GET","POST"])
 #@login_required
@@ -560,54 +581,5 @@ def search_results(search):
 		return redirect(url_for('internships'))
 	return render_template('internships.html', data=data, form=form, logo_link=logo_link)
 
-@app.route('/view_internship/<postID>', methods=["GET","POST"])
-#login.required
-def viewInternship(postID):
-	logo_link = "/"
-	sql = ('SELECT * FROM Internship WHERE postID = %s' %(postID))
-	c.execute(sql)
-	data = c.fetchall()
-
-	for row in data:
-		company = row[0]
-		title = row[1]
-		body= row[2]
-		start = row[3]
-		end = row[4]
-		gpa = row[5]
-		pay = row[6]
-		post = postID
-	if request.method == "POST":
-		submitApplication()
-		
-	return render_template('view_internship.html', data=data, logo_link=logo_link, company=company, title=title, body=body, start=start, end=end, gpa=gpa, pay=pay, post=post)
-
-@app.route('/submit_application', methods=["GET","POST"])
-#login.required
-def submitApplication():
-	user = current_user.getID()
-	sql = ('SELECT * FROM Student WHERE UserID=%s' %(user))
-	c.execute(sql)
-	student_data = c.fetchall()
-	
-	applicationID = str(random.randrange(100000,1000000))
-	for row in student_data:
-		f_name = row[1]
-		l_name = row[2]
-		degree = row[6]
-		gpa = row[7]
-		phone = row[5]
-		interest = row[12]
-		availability = row[14]
-		bio = row[13]
-
-	
-	sql = ('INSERT INTO Applicants values("%s","%s","%s","%s","%s","%s","%s","%s","%s")' %(applicationID, f_name, l_name, degree, gpa, phone, interest, availability, bio))
-	c.execute(sql)
-	db.commit()
-
-	return redirect(url_for('internships'))
-
 if __name__ == '__main__':  # You can run the main.py and type "localhost:8080" in your
     app.run(host='0.0.0.0', port=8080, debug=True)  # broswer to test the main.py in your computer.
- 
