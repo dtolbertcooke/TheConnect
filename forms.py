@@ -4,10 +4,11 @@ from flask_bootstrap import Bootstrap
 from flask_moment import Moment
 from flask_wtf import FlaskForm
 from flask_login import LoginManager, UserMixin, login_user, logout_user, \
-    current_user, login_required
+                        current_user, login_required
 from werkzeug.urls import url_parse
 from werkzeug.security import check_password_hash, generate_password_hash
-from wtforms import Form, StringField, SubmitField, IntegerField, PasswordField, SelectField, DecimalField, TextAreaField, DateField, SelectMultipleField, validators
+from wtforms import Form, StringField, SubmitField, IntegerField, PasswordField, \
+                     SelectField, DecimalField, TextAreaField, DateField, SelectMultipleField, validators
 import pymysql
 from flask_user import roles_required   # we will have three roles; admin, intern, sponsor
 import sys
@@ -42,15 +43,15 @@ class editSponsorProfileForm(FlaskForm):
 #new internship
 class createInternship(FlaskForm):
 
-	company = StringField('Organization Name', validators=[DataRequired()])
-	heading = StringField('Internship Title', validators=[DataRequired()])
-	body = TextAreaField('Internship Description', validators=[DataRequired()])
-	startDate = DateField('Start Date', format='%m-%d-%Y', validators=[DataRequired()])
-	endDate = DateField('End Date', format='%m-%d-%Y')
-	gpa = DecimalField('Minimum GPA',places =1,validators=[DataRequired()])
-	pay = DecimalField('Pay Rate $',places=2)
-	referral = SelectField('Public listing or by referral only ', choices=[('0', 'Public'), ('1', 'Referral')])
-	submit = SubmitField('Submit')
+    company = StringField('Organization Name', validators=[DataRequired()])
+    heading = StringField('Internship Title', validators=[DataRequired()])
+    body = TextAreaField('Internship Description', validators=[DataRequired()])
+    startDate = DateField('Start Date', format='%m-%d-%Y', validators=[DataRequired()])
+    endDate = DateField('End Date', format='%m-%d-%Y')
+    gpa = DecimalField('Minimum GPA',places =1,validators=[DataRequired()])
+    pay = DecimalField('Pay Rate $',places=2)
+    referral = SelectField('Public listing or by referral only ', choices=[('0', 'Public'), ('1', 'Referral')])
+    submit = SubmitField('Submit')
 
 #new sponsor
 class createSponsor(FlaskForm):
@@ -152,18 +153,8 @@ class internshipSearch(FlaskForm):
 class studentSearch(FlaskForm):
 	choices = [('heading', 'heading'),('Company', 'Company'),('startDate', 'startDate'),('endDate','endDate'),('gpa','gpa'),('pay','pay')]
 	search = StringField("Search")
-	select = SelectField("Search by",choices=choices)
+        select = SelectField("Search by",choices=choices)
 
-	
-
-
-#Profile Edit
-
-
-#Internship Edit
-
-
-#Internship Application
 
 class View(FlaskForm):
     View = SubmitField("View")

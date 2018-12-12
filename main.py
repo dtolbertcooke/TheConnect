@@ -341,20 +341,6 @@ def admin_home():
 	form_view = View()
 	form_delete = Delete()
 
-	#form_app = Approve()
-	#form_den = Deny()
-	#form_view = View()
-	#form_delete = Delete()
-
-	#if form_den.validate_on_submit():
-
-	#if form_den.validate_on_submit():
-
-	#if form_view.validate_on_submit():
-
-	#if form_delete.validate_on_submit():
-
-
 	return render_template('admin_home.html', approve_internship_data=approve_internship_data, form_app=form_app,
 						   form_den=form_den, unq_id=unq_id, intern_data=intern_data, sponsor_data=sponsor_data,
 						   contact_data=contact_data, ticket_data=ticket_data, referral_requested_data=referral_requested_data,

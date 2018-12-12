@@ -2,20 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f239e7f2-439b-4737-89aa-af16eb2bc80e" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/Templates/about.html" beforeDir="false" afterPath="$PROJECT_DIR$/Templates/about.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Templates/admin_home.html" beforeDir="false" afterPath="$PROJECT_DIR$/Templates/admin_home.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/Templates/base.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Templates/base_profile.html" beforeDir="false" afterPath="$PROJECT_DIR$/Templates/base_profile.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Templates/contact.html" beforeDir="false" afterPath="$PROJECT_DIR$/Templates/contact.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Templates/create_ticket.html" beforeDir="false" afterPath="$PROJECT_DIR$/Templates/create_ticket.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Templates/faq.html" beforeDir="false" afterPath="$PROJECT_DIR$/Templates/faq.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Templates/help.html" beforeDir="false" afterPath="$PROJECT_DIR$/Templates/help.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Templates/internships.html" beforeDir="false" afterPath="$PROJECT_DIR$/Templates/internships.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Templates/landing.html" beforeDir="false" afterPath="$PROJECT_DIR$/Templates/landing.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Templates/notifications.html" beforeDir="false" afterPath="$PROJECT_DIR$/Templates/notifications.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Templates/register.html" beforeDir="false" afterPath="$PROJECT_DIR$/Templates/register.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Templates/students.html" beforeDir="false" afterPath="$PROJECT_DIR$/Templates/students.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Templates/successful_internship.html" beforeDir="false" afterPath="$PROJECT_DIR$/Templates/successful_internship.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/forms.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -96,11 +86,13 @@
       <usages-collector id="statistics.file.extensions.open">
         <counts>
           <entry key="js" value="1" />
+          <entry key="py" value="2" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key="JavaScript" value="1" />
+          <entry key="Python" value="2" />
         </counts>
       </usages-collector>
     </session>
@@ -110,11 +102,20 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="456">
-              <caret line="361" column="60" selection-start-line="361" selection-start-column="60" selection-end-line="361" selection-end-column="60" />
+            <state relative-caret-position="1781">
+              <caret line="554" column="27" lean-forward="true" selection-start-line="554" selection-start-column="27" selection-end-line="554" selection-end-column="27" />
               <folding>
                 <element signature="e#14#107#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/forms.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="950">
+              <caret line="159" column="4" selection-start-line="159" selection-start-column="4" selection-end-line="159" selection-end-column="4" />
             </state>
           </provider>
         </entry>
@@ -287,7 +288,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Unknown.blu-prod266655169">
+  <component name="RunManager" selected="Unknown.blu-prod1092846956">
     <configuration name="NomNomGame.html" type="JavascriptDebugType" factoryName="JavaScript Debug" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/blu-prod/NomNomGame.html">
       <method v="2" />
     </configuration>
@@ -423,10 +424,17 @@
     <entry file="file://$PROJECT_DIR$/js/contact_me.js">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
+    <entry file="file://$PROJECT_DIR$/forms.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="950">
+          <caret line="159" column="4" selection-start-line="159" selection-start-column="4" selection-end-line="159" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="456">
-          <caret line="361" column="60" selection-start-line="361" selection-start-column="60" selection-end-line="361" selection-end-column="60" />
+        <state relative-caret-position="1781">
+          <caret line="554" column="27" lean-forward="true" selection-start-line="554" selection-start-column="27" selection-end-line="554" selection-end-column="27" />
           <folding>
             <element signature="e#14#107#0" expanded="true" />
           </folding>
