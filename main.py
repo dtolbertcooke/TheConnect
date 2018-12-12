@@ -654,5 +654,99 @@ def submitApplication():
 
 	return render_template('internships.html', user=user, id=id, data=data, form=form, logo_link=logo_link)
 
+app.route('/approve/', methods=['GET', 'POST'])
+def approve():
+    cursor = db.cursor()
+    approval_list = request.get_json()
+    UID = str(approval_list[0])
+    value_from_AdminHome = int(approval_list[1])
+    approved = 1
+    denied = 3
+    print(approval_list)
+    print(UID)
+    print(value_from_AdminHome)
+    if request.method == "POST":
+        # neg float to pos float is tr range (not used, but for reference)
+        # 1-999 is approval range for students
+        # 1000-99900 is approval range for sponsor 100000
+        # 100000-9990000 is approval range for sponsor
+        # -1-(-999) is denial range for students
+        # -1000-(-99900) is denial range for sponsor 100000
+
+        # approve student-------------
+        if 1 <= value_from_AdminHome <= 999:
+            sql_approve1 = "UPDATE Student SET approved=%s WHERE UserID=%s"
+            cursor.execute(sql_approve1, (approved, UID))
+            db.commit()
+            cursor.close()
+
+            # approve sponsor-------------
+        elif 1000 <= value_from_AdminHome <= 99900:
+            sql_approve2 = "UPDATE Sponsor SET approved=%s WHERE UserID=%s"
+            cursor.execute(sql_approve2, (approved, UID))
+            db.commit()
+            cursor.close()
+
+            # Approve internship----------------
+        elif 100000 <= value_from_AdminHome <= 9990000:
+            sql_approve3 = "UPDATE Internship SET approved=%s WHERE postID=%s"
+            cursor.execute(sql_approve3, (approved, UID))
+            db.commit()
+            cursor.close()
+
+        elif 10000000 <= value_from_AdminHome <= 999000000:
+            sql_approve4 = "UPDATE Student SET suggestion=%s WHERE UserID=%s"
+            cursor.execute(sql_approve4, (approved, UID))
+            db.commit()
+            cursor.close()
+
+        # denied student------------------------
+        elif -1 >= value_from_AdminHome >= -999:
+            sql_denied1 = "UPDATE Student SET approved=%s WHERE UserID=%s"
+            cursor.execute(sql_denied1, (denied, UID))
+            db.commit()
+            cursor.close()
+            print("Denied sucker")
+
+            # denied sponsor------------------------
+        elif -1000 >= value_from_AdminHome >= -99900:
+            sql_denied2 = "UPDATE Sponsor SET approved=%s WHERE UserID=%s"
+            cursor.execute(sql_denied2, (denied, UID))
+            db.commit()
+            cursor.close()
+            print("Denied sucker")
+
+            # denied internship------------------------
+        elif -100000 >= value_from_AdminHome >= -9990000:
+            sql_denied3 = "UPDATE Internship SET approved=%s WHERE postID=%s"
+            cursor.execute(sql_denied3, (denied, UID))
+            db.commit()
+            cursor.close()
+            print("Denied sucker")
+
+    return 'hi'
+
+
+@app.route('/recommendation')
+def recommendation():
+    c.execute('Select * from Student WHERE suggestion = 1')
+    intern_data = c.fetchall()
+
+    return render_template('recommendation.html', intern_data=intern_data)
+
+
+@app.route('/reco/', methods=['GET', 'POST'])
+def reco():
+    cursor = db.cursor()
+    clear_value = 1
+    print("dndsidjf")
+    if request.method == "POST":
+        sql_approve1 = "UPDATE Student SET suggestion=0 WHERE suggestion=%s"
+        cursor.execute(sql_approve1, (clear_value))
+        db.commit()
+        cursor.close()
+        print("we did it")
+    return 'hi'
+
 if __name__ == '__main__':  # You can run the main.py and type "localhost:8080" in your
 	app.run(host='0.0.0.0', port=8080, debug=True)  # broswer to test the main.py in your computer.
