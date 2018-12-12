@@ -4,11 +4,11 @@ from flask_bootstrap import Bootstrap
 from flask_moment import Moment
 from flask_wtf import FlaskForm
 from flask_login import LoginManager, UserMixin, login_user, logout_user, current_user, login_required, current_user, \
-    login_required
+                        login_required
 from werkzeug.urls import url_parse
 from werkzeug.security import check_password_hash, generate_password_hash
 from wtforms import Form, StringField, SubmitField, IntegerField, PasswordField, SelectField, DecimalField, HiddenField, \
-    TextAreaField, validators
+                    TextAreaField, validators
 from wtforms.validators import DataRequired, NumberRange, EqualTo, Email
 import pymysql
 from flask_user import roles_required  # we will have three roles; admin, intern, sponsor
@@ -18,8 +18,8 @@ import random
 
 
 class User(UserMixin):
-    def __init__(self, UserID, email, password, role):
-        self.id = UserID
+    def __init__(self, id, email, password, role):
+        self.id = id
         self.email = email
         self.pass_hash = generate_password_hash(password)
         print(self.pass_hash, file=sys.stderr)
@@ -39,11 +39,11 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'TheConnect is the best string'  # various flask extensions need a "secret key"
 bootstrap = Bootstrap(app)  # invokes bootstrap
 moment = Moment(app)  # invokes bootstrap
-login_manager = LoginManager(app)
+login_manager = LoginManager()
+login_manager.init_app(app)
 login_manager.login_view = 'login'
 db = pymysql.connect(host='35.231.51.121', user='root', password='connect1234', db='theConnect')
 c = db.cursor()
-user_db = {}
 
 
 # user roles
@@ -82,13 +82,14 @@ def is_student():
 # it exists, None otherwise.
 @login_manager.user_loader
 def load_user(id):
-	c.execute('Select * from User where UserID = %s' %(id))
-	data = c.fetchall()
-	
-	for row in data:
-		UserID,email,password,role = row[0],row[1],row[2],row[3]
-		user = User(UserID,email,password,role)
-	return user
+    c.execute('SELECT * FROM User WHERE UserID = %s;' %(id))
+    data = c.fetchall()
+
+    for row in data:
+        UserID, email, password, role = row[0], row[1], row[2], row[3]
+        user = User(UserID, email, password, role)
+    return user
+
 
 @app.route('/base')  # This is the base.html that every webpages uses.
 def base():
@@ -119,42 +120,41 @@ def internal_server_error(e):
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
-	title = "TheConnect"
-	logo_link = "/"
-	UserID = current_user.getID()
-	role = current_user.getRole()
+    title = "TheConnect"
+    logo_link = "/"
+    form = loginForm()
 
-	if current_user.is_authenticated:
-		if user.getRole() is 'Sponsor':
-			return redirect('sponsor/%s'%(UserID))
-		elif role is 'Faculty':
-			return redirect('admin_home')
-		else:
-			return redirect('intern/%s'%(UserID))
+    if current_user.is_authenticated:
+        user = current_user
+        if user.getRole() == 'Sponsor':
+            return redirect('sponsor/%s'%(user.getID()))
+        elif user.getRole() == 'Faculty':
+            return redirect('admin_home')
+        else:
+            return redirect("intern/%s"%(user.getID()))
 
-	form = loginForm()
-	if form.validate_on_submit():
-		UserID = form.UserID.data
-		c.execute('SELECT * FROM User WHERE UserID = %s;' % (UserID))
-		data = c.fetchall()
+    if form.validate_on_submit():
+        UserID = form.UserID.data
+        c.execute('SELECT * FROM User WHERE UserID = %s;' %(UserID))
+        data = c.fetchall()
 
-		for row in data:
-			UserID,email,password,role = row[0],row[1],row[2],row[3]
-			user = User(UserID,email,password,role)
-			user_db[UserID] = user
-			valid_password = check_password_hash(user.pass_hash, form.password.data)
-			if user is None or not valid_password:
-				print('Invalid username or password', file=sys.stderr)
-				redirect(url_for('home'))
-			else:
-				login_user(user)
-				if role is 'Sponsor':
-					return redirect('sponsor/%s'%(UserID))
-				elif role is 'Faculty':
-					return redirect('admin_home')
-				else:
-					return redirect('intern/%s'%(UserID))
-	return render_template('landing.html', form=form, title=title, logo_link=logo_link)
+        for row in data:
+            UserID,email,password,role = row[0],row[1],row[2],row[3]
+            user = User(UserID,email,password,role)
+
+            valid_password = check_password_hash(user.pass_hash, form.password.data)
+            if user is None or not valid_password:
+                print('Invalid username or password', file=sys.stderr)
+                redirect(url_for('home'))
+            else:
+                login_user(user)
+                if role == 'Sponsor':
+                    return redirect('sponsor/%s'%(UserID))
+                elif role == 'Faculty':
+                    return redirect('admin_home')
+                else:
+                    return redirect('intern/%s'%(UserID))
+    return render_template('landing.html', form=form, title=title, logo_link=logo_link)
 
 @app.route('/logout')
 def logout():
@@ -165,34 +165,34 @@ def logout():
 @app.route('/intern/<UserID>')
 @login_required
 def intern_profile(UserID):
-	title = "Profile"
-	name = UserID
-	logo_link = "/"
-	edit = ("/edit_profile/intern/%s" %(UserID))
-	# profile_pic = "..\static\img\s_profile.png"  testing out profile pic
-	c.execute('Select * from Student where UserID = %s' %(name))
-	data = c.fetchall()
+    title = "Profile"
+    name = UserID
+    logo_link = "/"
+    edit = ("/edit_profile/intern/%s" %(UserID))
+    # profile_pic = "..\static\img\s_profile.png"  testing out profile pic
+    c.execute('Select * from Student where UserID = %s' %(name))
+    data = c.fetchall()
 
-	for row in data:
-		UserID = row[0]
-		f_name = row[1]
-		l_name = row[2]
-		degree = row[6]
-		gpa = row[7]
-		email = row[4]
-		phone = row[5]
-		interest = row[12]
-		biography = row[13]
-		availability = row[14]
+    for row in data:
+        UserID = row[0]
+        f_name = row[1]
+        l_name = row[2]
+        degree = row[6]
+        gpa = row[7]
+        email = row[4]
+        phone = row[5]
+        interest = row[12]
+        biography = row[13]
+        availability = row[14]
 
-	school = "Southern"
-	profile_pic = "https://raw.githubusercontent.com/scsu-csc330-400/blu-test/help_jason/Static/\
+    school = "Southern"
+    profile_pic = "https://raw.githubusercontent.com/scsu-csc330-400/blu-test/help_jason/Static/\
 	img/b.jpg?token=AoQ7TSJDqVpIdxBM_4hwk9J2QSluOd47ks5b7GhvwA%3D%3D"
-	biography = biography
+    biography = biography
 
-	return render_template('intern_profile.html', profile_pic=profile_pic, logo_link=logo_link, edit=edit, first_name=f_name, last_name=l_name, \
+    return render_template('intern_profile.html', profile_pic=profile_pic, logo_link=logo_link, edit=edit, first_name=f_name, last_name=l_name, \
                            degree=degree, school=school, gpa=gpa, email=email, phone=phone, interest=interest, \
-                           biography=biography,)
+                           biography=biography,availability=availability)
 
 
 @app.route('/sponsor/<UserID>')
@@ -200,7 +200,8 @@ def intern_profile(UserID):
 def sponsor_profile(UserID):
     title = "Profile"
     name = UserID
-    # profile_pic = "..\static\img\s_profile.png"  testing out profile pic
+    edit = ("/edit_profile/sponsor/%s" %(UserID))
+
     c.execute('Select * from Sponsor where UserID = %s' %(name))
     data = c.fetchall()
 
@@ -219,7 +220,8 @@ def sponsor_profile(UserID):
     b.jpg?token=AoQ7TSJDqVpIdxBM_4hwk9J2QSluOd47ks5b7GhvwA%3D%3D"
 
     return render_template('sponsor_profile.html', profile_pic=profile_pic, company=company, address=address, \
-                           website=website, phone=phone, zipcode=zipcode, city=city, description=description, state=state)
+                           website=website, phone=phone, zipcode=zipcode, city=city, description=description, \
+                           state=state, edit=edit)
 
 @app.route('/edit_profile/intern/<UserID>', methods=['GET', 'POST'])
 @login_required
@@ -264,6 +266,54 @@ def edit_profile_intern(UserID):
         form.bio.data = bio
     return render_template('edit_profile_intern.html', form=form, title=title, logo_link=logo_link)
 
+@app.route('/edit_profile/sponsor/<UserID>', methods=['GET', 'POST'])
+@login_required
+def edit_profile_sponsor(UserID):
+    form = editSponsorProfileForm()
+    title = 'Edit Profile'
+    logo_link = "/"
+    id = UserID
+
+
+    if form.validate_on_submit():
+        company = form.company.data
+        website = form.website.data
+        phone = form.phone.data
+        address = form.address.data
+        city = form.city.data
+        state = form.state.data
+        zipcode = form.zipcode.data
+        description = form.description.data
+        c.execute('UPDATE Sponsor SET company = "%s", website = "%s", phone = "%s", \
+        address = "%s", city = "%s", state = "%s", zipcode = "%s", description = "%s" \
+        WHERE UserID = "%s"' % (company, website, phone, address, city, state, zipcode, description, id))
+        db.commit()
+        flash('Your changes have been saved.')
+        return redirect('sponsor/%s'%(UserID))
+
+    elif request.method == 'GET':
+        c.execute('Select * from Sponsor where UserID = %s' %(id))
+        data = c.fetchall()
+
+        for row in data:
+            company = row[1]
+            website = row[3]
+            phone = row[4]
+            address = row[2]
+            city = row[6]
+            state = row[8]
+            zipcode = row[5]
+            description = row[7]
+        form.company.data = company
+        form.website.data = website
+        form.phone.data = phone
+        form.address.data = address
+        form.city.data = city
+        form.state.data = state
+        form.zipcode.data = zipcode
+        form.description.data = description
+    return render_template('edit_profile_sponsor.html', form=form, title=title, logo_link=logo_link)
+
 @app.route('/admin_home', methods=['GET', 'POST'])  # doesnt work yet, needs to define the class.
 @login_required
 # @roles_required('admin')
@@ -295,21 +345,21 @@ def admin_home():
 @app.route('/create_internship', methods=['GET', 'POST'])
 #@login_required
 def create_internship():
-	form = createInternship()
-	title = "Internship"
-	logo_link = "/"
-	
-	if form.validate_on_submit():
-		company = form.company.data
-		heading = form.heading.data
-		body = form.body.data
-		startDate = form.startDate.data
-		endDate = form.endDate.data
-		gpa = form.gpa.data
-		pay = form.pay.data
-		approved = 0
-		referral = form.referral.data
-		postID = str(random.randrange(100000,1000000))
+    form = createInternship()
+    title = "Internship"
+    logo_link = "/"
+
+    if form.validate_on_submit():
+        company = form.company.data
+        heading = form.heading.data
+        body = form.body.data
+        startDate = form.startDate.data
+        endDate = form.endDate.data
+        gpa = form.gpa.data
+        pay = form.pay.data
+        approved = 0
+        referral = form.referral.data
+        postID = str(random.randrange(100000,1000000))
         #postID needs loop to check for duplicates
 
 		c.execute('INSERT INTO Internship values("%s","%s","%s","%s","%s","%s","%s","s","s","%s")' %(company,heading,body,startDate,endDate,gpa,pay,approved,referral,postID))
