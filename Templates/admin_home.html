@@ -42,24 +42,200 @@
                                href="#Intern">Intern</a>
                             <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab"
                                href="#nav-profile">Sponsor</a>
-                            <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab"
-                               href="#nav-contact">Posting</a>
+                            <a class="nav-item nav-link" id="nav-internship-tab" data-toggle="tab"
+                               href="#nav-internship">Posting</a>
+							<a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab"
+                               href="#nav-contact">Contact Requests</a>
+							<a class="nav-item nav-link" id="nav-ticket-tab" data-toggle="tab"
+                               href="#nav-ticket">Tickets</a>
                         </div>
                         <div class="tab-content py-3 px-3 px-sm-0" id="nav-tabContent">
                             <div class="tab-pane fade show active" id="Intern">
-                                Intern Text
+                                <div class="card card-body ">
+									<table class="table">
+										{# VIEW Students VIEW Students VIEW Students VIEW Students VIEW Students VIEW Students VIEW Students  #}
+										<h4> Students</h4>
+										<thead>
+										<tr>
+											<th scope="col">UID</th>
+											<th scope="col">First</th>
+											<th scope="col">Last</th>
+											<th scope="col">Major</th>
+											<th scope="col">GPA</th>
+										</tr>
+										</thead>
+										<tbody>
 
-                                More <br>
-                                More <br>
-                                sdfsd <br>
-                                fsdfsd <br>
-                                fsdfds <br>
+										{% for row in intern_data %}
+											{% set x = loop.index * 1 %} {# range > 1 #}
+											{% set y = loop.index * -1 %} {# range > 1 #}
+											<tr id="{{ loop.index * 1.01 }}">
+												<th scope="row" id="{{ loop.index }}" class="student_verifier">{{ row[0] }}</th>
+												{# UserID #}
+												<td>{{ row[1] }}</td>
+												{# First #}
+												<td>{{ row[2] }}</td>
+												{# last #}
+												<td>{{ row[7] }}</td>
+												{# Major #}
+												<td>{{ row[6] }}</td>
+												{# GPA #}
+												
+											</tr>
+										{% endfor %}
+										</tbody>
+									</table>
+								</div>
                             </div>
                             <div class="tab-pane fade" id="nav-profile">
-                                Sponsor Text
+                                <div class="card card-body ">
+									<table class="table">
+										{# VIEW SPonsors VIEW SPonsors VIEW SPonsors VIEW SPonsors VIEW SPonsors VIEW SPonsors VIEW SPonsors VIEW SPonsors #}
+										<h4> Sponsors</h4>
+										<thead>
+										<tr>
+											<th scope="col">UID</th>
+											<th scope="col">Company</th>
+											<th scope="col">Website</th>
+											<th scope="col">Phone</th>
+											<th scope="col">Approved</th>
+										</tr>
+										</thead>
+										<tbody>
+
+										{% for row in all_sponsor_data %}
+											{% set x = loop.index * 1 %} {# range > 1 #}
+											{% set y = loop.index * -1 %} {# range > 1 #}
+											<tr id="{{ loop.index * 1.01 }}">
+												<th scope="row" id="{{ loop.index }}" class="student_verifier">{{ row[0] }}</th>
+												{# UserID #}
+												<td>{{ row[1] }}</td>
+												{# Company #}
+												<td>{{ row[3] }}</td>
+												{# website #}
+												<td>{{ row[4] }}</td>
+												{# phone #}
+												<td>{{ row[9] }}</td>
+												{# approved #}
+												
+											</tr>
+										{% endfor %}
+										</tbody>
+									</table>
+								</div>
                             </div>
-                            <div class="tab-pane fade" id="nav-contact">
-                                Intership Posting
+                            <div class="tab-pane fade" id="nav-internship">
+                                <div class="card card-body ">
+									<table class="table">
+										{# VIEW INTERNSHIPS VIEW INTERNSHIPS VIEW INTERNSHIPS VIEW INTERNSHIPS VIEW INTERNSHIPS VIEW INTERNSHIPS  #}
+										<h4> Internship Postings</h4>
+										<thead>
+										<tr>
+											<th scope="col">PostID</th>
+											<th scope="col">Company</th>
+											<th scope="col">Heading</th>
+											<th scope="col">startDate</th>
+											<th scope="col">endDate</th>
+											<th scope="col">Pay</th>
+										</tr>
+										</thead>
+										<tbody>
+
+										{% for row in approve_internship_data %}
+											{% set x = loop.index * 1 %} {# range > 1 #}
+											{% set y = loop.index * -1 %} {# range > 1 #}
+											<tr id="{{ loop.index * 1.01 }}">
+												<th scope="row" id="{{ loop.index }}" class="student_verifier">{{ row[9] }}</th>
+												{# postID #}
+												<td>{{ row[0] }}</td>
+												{# Company #}
+												<td>{{ row[1] }}</td>
+												{# heading #}
+												<td>{{ row[3] }}</td>
+												{# startDate #}
+												<td>{{ row[4] }}</td>
+												{# EndDate #}
+												<td>{{ row[6] }}</td>
+												{# Pay #}
+											
+											</tr>
+										{% endfor %}
+										</tbody>
+									</table>
+								</div>
+                            </div>
+							<div class="tab-pane fade" id="nav-contact">
+								<div class="card card-body ">
+									<table class="table">
+										{# VIEW CONTACT REQUESTS VIEW CONTACT REQUESTS VIEW CONTACT REQUESTS VIEW CONTACT REQUESTS VIEW CONTACT REQUESTS #}
+										<h4> Contact Requests</h4>
+										<thead>
+										<tr>
+											<th scope="col">Name</th>
+											<th scope="col">Email</th>
+											<th scope="col">Subject</th>
+											<th scope="col">Message</th>
+										</tr>
+										</thead>
+										<tbody>
+
+										{% for row in contact_data %}
+											{% set x = loop.index * 1 %} {# range > 1 #}
+											{% set y = loop.index * -1 %} {# range > 1 #}
+											<tr id="{{ loop.index * 1.01 }}">
+												<th scope="row" id="{{ loop.index }}" class="student_verifier">{{ row[0] }}</th>
+												{# name #}
+												<td>{{ row[1] }}</td>
+												{# email #}
+												<td>{{ row[2] }}</td>
+												{# subject #}
+												<td>{{ row[3] }}</td>
+												{# message #}
+												<td>
+													<button type="button" class="btn btn-danger btn-sm" value="{{ row[0] }}"
+															href="#" id="{{ y }}">Delete <i class="oi oi-x"></i>
+													</button>
+												</td>
+											</tr>
+										{% endfor %}
+										</tbody>
+									</table>
+								</div>
+							</div>
+							<div class="tab-pane fade" id="nav-ticket">
+                                <div class="card card-body ">
+									<table class="table">
+										{# VIEW TICKET REQUESTS VIEW TICKET REQUESTS VIEW TICKET REQUESTS VIEW TICKET REQUESTS VIEW TICKET REQUESTS  #}
+										<h4> Tickets</h4>
+										<thead>
+										<tr>
+											<th scope="col">Error Type</th>
+											<th scope="col">email</th>
+											<th scope="col">Description of Error</th>
+										</tr>
+										</thead>
+										<tbody>
+
+										{% for row in ticket_data %}
+											{% set x = loop.index * 1 %} {# range > 1 #}
+											{% set y = loop.index * -1 %} {# range > 1 #}
+											<tr id="{{ loop.index * 1.01 }}">
+												<th scope="row" id="{{ loop.index }}" class="student_verifier">{{ row[0] }}</th>
+												{# Error Type #}
+												<td>{{ row[1] }}</td>
+												{# email #}
+												<td>{{ row[2] }}</td>
+												{# Error Description #}
+												<td>
+													<button type="button" class="btn btn-danger btn-sm" value="{{ row[0] }}"
+															href="#" id="{{ y }}">Delete <i class="oi oi-x"></i>
+													</button>
+												</td>
+											</tr>
+										{% endfor %}
+										</tbody>
+									</table>
+								</div>
                             </div>
                         </div>
                     </div>

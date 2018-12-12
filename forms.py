@@ -165,6 +165,11 @@ class studentSearch(FlaskForm):
 
 #Internship Application
 
+class View(FlaskForm):
+    View = SubmitField("View")
+
+class Delete(FlaskForm):
+    Delete = SubmitField("Delete")
 
 class Approve(FlaskForm):
     approve = SubmitField("Approve")

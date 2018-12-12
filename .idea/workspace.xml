@@ -3,11 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="f239e7f2-439b-4737-89aa-af16eb2bc80e" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/Templates/base.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Templates/create_student.html" beforeDir="false" afterPath="$PROJECT_DIR$/Templates/create_student.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Templates/create_ticket.html" beforeDir="false" afterPath="$PROJECT_DIR$/Templates/create_ticket.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Templates/intern_profile.html" beforeDir="false" afterPath="$PROJECT_DIR$/Templates/intern_profile.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Templates/sponsor_profile.html" beforeDir="false" afterPath="$PROJECT_DIR$/Templates/sponsor_profile.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Templates/admin_home.html" beforeDir="false" afterPath="$PROJECT_DIR$/Templates/admin_home.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/forms.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
@@ -73,18 +69,18 @@
           <entry key="project.open.time.2" value="1" />
           <entry key="project.open.time.20" value="1" />
           <entry key="project.open.time.3" value="2" />
-          <entry key="project.open.time.4" value="1" />
-          <entry key="project.opened" value="6" />
+          <entry key="project.open.time.4" value="2" />
+          <entry key="project.opened" value="7" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="py" value="984" />
+          <entry key="py" value="1524" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="Python" value="984" />
+          <entry key="Python" value="1524" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -104,8 +100,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4083">
-              <caret line="477" column="21" lean-forward="true" selection-start-line="477" selection-start-column="21" selection-end-line="477" selection-end-column="21" />
+            <state relative-caret-position="456">
+              <caret line="361" column="60" selection-start-line="361" selection-start-column="60" selection-end-line="361" selection-end-column="60" />
               <folding>
                 <element signature="e#14#107#0" expanded="true" />
               </folding>
@@ -218,7 +214,7 @@
     </packageJsonPaths>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="438" />
+    <option name="x" value="34" />
     <option name="y" value="-17" />
     <option name="width" value="1159" />
     <option name="height" value="1047" />
@@ -281,7 +277,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Unknown.blu-prod1361913624">
+  <component name="RunManager" selected="Unknown.blu-prod266655169">
     <configuration name="NomNomGame.html" type="JavascriptDebugType" factoryName="JavaScript Debug" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/blu-prod/NomNomGame.html">
       <method v="2" />
     </configuration>
@@ -331,20 +327,6 @@
       <option name="launchJavascriptDebuger" value="false" />
       <method v="2" />
     </configuration>
-    <configuration default="true" type="tests" factoryName="Unittests">
-      <module name="blu-prod" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;&quot;" />
-      <option name="_new_targetType" value="&quot;PATH&quot;" />
-      <method v="2" />
-    </configuration>
     <list>
       <item itemvalue="Python.scratch" />
     </list>
@@ -369,8 +351,9 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.14120126" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.14120126" />
       <window_info id="Structure" order="1" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -432,8 +415,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4083">
-          <caret line="477" column="21" lean-forward="true" selection-start-line="477" selection-start-column="21" selection-end-line="477" selection-end-column="21" />
+        <state relative-caret-position="456">
+          <caret line="361" column="60" selection-start-line="361" selection-start-column="60" selection-end-line="361" selection-end-column="60" />
           <folding>
             <element signature="e#14#107#0" expanded="true" />
           </folding>
