@@ -29,13 +29,14 @@
         <div class="card-title bg-white text-center" style="margin-top: 20px">
             <h5>{% if company %}{{company}} {% else %} company {% endif %}</h5>
         <div class="card-body text-left">
+			<p><b>UserID:</b> {{UserID}}</p>
             <p><b>Address:</b> {{address}}</p>
             <p><b>City:</b> {{city}}</p>
             <p><b>State:</b> {{state}}</p>
             <p><b>Zipcode:</b> {{zipcode}}</p>
             <p><b>Phone:</b> {{phone}}</p>
             <p><b>Website:</b> {{website}}</p>
-
+            <p><a href={{edit}} class="btn btn-primary">Edit profile</a></p>
         </div>
         </div>
     </div>

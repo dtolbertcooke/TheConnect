@@ -10,7 +10,45 @@
 {% endblock %}
 
 {% block head %}
-{{ super() }}
+<div class="row">
+    <div class="col-5">
+        <div class="card text-light bg-secondary mb-3" style="width: 25em;margin:50 auto;">
+        <h5 class="card-title">Biography</h5>
+            <div class="card-body bg-white text-dark">
+				<a>{{biography}}</a>
+            </div>
+		<h5 class="card-title">Interests</h5>
+			<div class="card-body bg-white text-dark">
+				<a>{{interest}}</a>
+            </div>
+            <h5 class="card-title">Resume</h5>
+
+            <a href="/user_resume" class="btn btn-primary">LAUNCH RESUME</a>
+        </div>
+    </div>
+    <div class="card text-dark bg-secondary mb-3 text-nowrap " style="width: 25em;margin:50 auto;">
+
+        <img src={{profile_pic}} class="card-img rounded-circle" onerror="this.src='../static/img/b.jpg'"
+          style="margin-top: 10px;">
+        <div class="card-title bg-white text-center" style="margin-top: 20px">
+            <h5>{% if first_name %}{{first_name}} {{last_name}}{% else %} Full Name {% endif %}</h5>
+        <div class="card-body text-left">
+			<p><b>UserID:</b> {{UserID}}</p>
+            <p><b>Degree:</b> {{degree}}</p>
+            <p><b>School:</b> {{school}}</p>
+            <p><b>GPA:</b> {{gpa}}</p>
+            <p><b>Email:</b> {{email}}</p>
+            <p><b>Phone:</b> {{phone}}</p>
+			<p><b>Availability:</b> {{availability}}</p>
+			<a class="btn btn-primary" href={{edit}} role="button">Edit Profile</a>
+        </div>
+        </div>
+    </div>
+</div>
+
+
+
+
 {% endblock %}
 
 

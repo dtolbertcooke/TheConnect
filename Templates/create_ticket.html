@@ -8,17 +8,14 @@
     <!--return render_template('(name_of_your).html', titile=title)-->
 <!------------------Add this portion to the main.py------------------>
 
+
 <!-------- Your title for the webpage goes here------------->
 {% block title %}{{title}}{% endblock %}
 
 
-{% block doc %}
-{{super()}}
-{% endblock %}
-
 <!--This contains the navbar elements-->
 {% block navbar %}
- {{ super() }}                          
+ {{ super() }}                        
 {% endblock %}
 
 <!--This contains the TheConnect image-->
@@ -27,15 +24,16 @@
 {% endblock %}
 
 
+<!--This contains the three Cards below the TheConnect image-->
 {% block content %}
-	<div class="container-fluid col-8" style="margin-top: 30px">
-	<h1>Report Issue</h1>
-	<div class="card text-left">
-		<div class="card-header" >
-			{{ wtf.quick_form(form) }}
-		</div>
-	</div>
-	</div>
+<div class="container-fluid col-8" style="margin-top: 30px">
+<h1>Contact</h1>
+<div class="card text-left">
+  <div class="card-header" >
+	{{ wtf.quick_form(form) }}
+  </div>
+</div>
+</div>
 {% endblock %}
 
 
