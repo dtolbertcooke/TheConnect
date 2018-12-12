@@ -190,9 +190,9 @@ def intern_profile(UserID):
 	img/b.jpg?token=AoQ7TSJDqVpIdxBM_4hwk9J2QSluOd47ks5b7GhvwA%3D%3D"
 	biography = biography
 
-	return render_template('intern_profile.html',UserID=UserID, profile_pic=profile_pic, logo_link=logo_link, edit=edit, first_name=f_name, last_name=l_name, \
-						   degree=degree, school=school, gpa=gpa, email=email, phone=phone, interest=interest, \
-						   biography=biography,availability=availability)
+	return render_template('intern_profile.html',UserID=UserID, profile_pic=profile_pic, logo_link=logo_link, edit=edit,
+						   first_name=f_name, last_name=l_name, degree=degree, school=school, gpa=gpa, email=email,
+						   phone=phone, interest=interest, biography=biography,availability=availability)
 
 
 @app.route('/sponsor/<UserID>')
@@ -216,12 +216,28 @@ def sponsor_profile(UserID):
 		description = row[7]
 		state = row[8]
 
+	c.execute('Select postID, heading, startDate, endDate from Internship where company like "%s"' %(company))
+	data2 = c.fetchall()
+
+	if len(data2)==0:
+		postID = 0
+		heading=''
+		startDate=''
+		endDate=''
+	elif len(data2)>=1:
+		for row2 in data2:
+			postID = row2[0]
+			heading = row2[1]
+			startDate = row2[2]
+			endDate = row2[3]
+
 	profile_pic = "https://raw.githubusercontent.com/scsu-csc330-400/blu-test/help_jason/Static/img/\
 	b.jpg?token=AoQ7TSJDqVpIdxBM_4hwk9J2QSluOd47ks5b7GhvwA%3D%3D"
 
-	return render_template('sponsor_profile.html', UserID=UserID, profile_pic=profile_pic, company=company, address=address, \
-						   website=website, phone=phone, zipcode=zipcode, city=city, description=description, \
-						   state=state, edit=edit)
+	return render_template('sponsor_profile.html', UserID=UserID, profile_pic=profile_pic, company=company, address=address,
+						   website=website, phone=phone, zipcode=zipcode, city=city, description=description,
+						   state=state, edit=edit, data2=data2, postID=postID, heading=heading, startDate=startDate,
+						   endDate=endDate)
 
 @app.route('/edit_profile/intern/<UserID>', methods=['GET', 'POST'])
 @login_required
@@ -345,7 +361,7 @@ def admin_home():
 						   form_den=form_den, unq_id=unq_id, intern_data=intern_data, sponsor_data=sponsor_data,
 						   contact_data=contact_data, ticket_data=ticket_data, referral_requested_data=referral_requested_data,
 						   internship_data = internship_data, form_view=form_view,form_delete=form_delete,
-                           all_sponsor_data=all_sponsor_data)
+						   all_sponsor_data=all_sponsor_data)
 
 
 #create users
@@ -355,6 +371,7 @@ def create_internship():
 	form = createInternship()
 	title = "Internship"
 	logo_link = "/"
+	name = current_user.getID()
 
 	if form.validate_on_submit():
 		company = form.company.data
@@ -564,6 +581,55 @@ def search_results(search):
 		flash('No Results')
 		return redirect(url_for('internships'))
 	return render_template('internships.html', data=data, form=form, logo_link=logo_link)
+
+@app.route('/view_internship/<postID>', methods=["GET","POST"])
+#login.required
+def viewInternship(postID):
+	logo_link = "/"
+	sql = ('SELECT * FROM Internship WHERE postID = %s' %(postID))
+	c.execute(sql)
+	data = c.fetchall()
+
+	for row in data:
+		company = row[0]
+		title = row[1]
+		body= row[2]
+		start = row[3]
+		end = row[4]
+		gpa = row[5]
+		pay = row[6]
+		post = postID
+
+		
+	return render_template('view_internship.html', data=data, logo_link=logo_link, company=company, title=title,
+						   body=body, start=start, end=end, gpa=gpa, pay=pay, post=post)
+
+@app.route('/submit_application', methods=["GET","POST"])
+#login.required
+def submitApplication():
+	user = current_user.getID()
+	sql = ('SELECT * FROM Student WHERE UserID=%s' %(user))
+	c.execute(sql)
+	student_data = c.fetchall()
+	
+	applicationID = str(random.randrange(100000,1000000))
+	for row in student_data:
+		f_name = row[1]
+		l_name = row[2]
+		degree = row[6]
+		gpa = row[7]
+		phone = row[5]
+		interest = row[12]
+		availability = row[14]
+		bio = row[13]
+		postID = "2509"
+
+
+	sql = ('INSERT INTO Applicants values("%s","%s","%s","%s","%s","%s","%s","%s","%s","%s")' %(applicationID, f_name, l_name, degree, gpa, phone, interest, availability, bio, postID))
+	c.execute(sql)
+	db.commit()
+
+	return render_template('internships.html', user=user, id=id, data=data, form=form, logo_link=logo_link)
 
 if __name__ == '__main__':  # You can run the main.py and type "localhost:8080" in your
 	app.run(host='0.0.0.0', port=8080, debug=True)  # broswer to test the main.py in your computer.

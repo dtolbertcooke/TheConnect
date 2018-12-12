@@ -21,6 +21,35 @@
                 {{description}}
             </div>
         </div>
+
+        <div class="card text-light bg-secondary mb-3" style="width: 25em;margin:50 auto;">
+        <h5 class="card-title">Postings</h5>
+            <div class="card-body bg-white text-dark">
+              <table class="table">
+                <thead>
+                <tr>
+                  <th scope="col-2 text-left">postID</th>
+                  <th scope="col-2">heading</th>
+                  <th scope="col-2">startDate</th>
+                  <th scope="col-2">endDate</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for row in data2 %}
+                  <tr>
+                    <th><a href="">{{ row[0] }}</a></th>
+                    <th>{{ row[1] }}</th>
+                    <td>{{ row[2] }}</td>
+                    <td>{{ row[3] }}</td>
+                  </tr>
+                {% endfor %}
+                </tbody>
+              </table>
+              </tbody>
+            </table>
+            </div>
+        </div>
+
     </div>
     <div class="card text-dark bg-secondary mb-3 text-nowrap col-4">
 
@@ -37,14 +66,11 @@
             <p><b>Phone:</b> {{phone}}</p>
             <p><b>Website:</b> {{website}}</p>
             <p><a href={{edit}} class="btn btn-primary">Edit profile</a></p>
+            <p><a href='/create_internship' class="btn btn-primary">Create internship</a></p>
         </div>
         </div>
     </div>
 </div>
-
-
-
-
 {% endblock %}
 
 
