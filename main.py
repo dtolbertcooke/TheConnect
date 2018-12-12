@@ -231,13 +231,32 @@ def sponsor_profile(UserID):
 			startDate = row2[2]
 			endDate = row2[3]
 
+	c.execute('SELECT * FROM Applicants')
+	data3 = c.fetchall()
+
+	if len(data3)==0:
+		fName = 'First'
+		lName = 'Last'
+		startDate='01/01/18'
+		endDate='12/31/18'
+	elif len(data3)>=1:
+		for row3 in data3:
+			fName = row3[1]
+			lName = row3[2]
+			degree = row3[3]
+			gpa = row3[4]
+			phone1 = row3[5]
+
+
+	
+
 	profile_pic = "https://raw.githubusercontent.com/scsu-csc330-400/blu-test/help_jason/Static/img/\
 	b.jpg?token=AoQ7TSJDqVpIdxBM_4hwk9J2QSluOd47ks5b7GhvwA%3D%3D"
 
 	return render_template('sponsor_profile.html', UserID=UserID, profile_pic=profile_pic, company=company, address=address,
 						   website=website, phone=phone, zipcode=zipcode, city=city, description=description,
 						   state=state, edit=edit, data2=data2, postID=postID, heading=heading, startDate=startDate,
-						   endDate=endDate)
+						   endDate=endDate, fName=fName, lName=lName, degree=degree, gpa=gpa, phone1=phone1, data3=data3)
 
 @app.route('/edit_profile/intern/<UserID>', methods=['GET', 'POST'])
 @login_required

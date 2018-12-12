@@ -15,14 +15,14 @@
 {% block head %}
 <div class="row">
     <div class="col-5">
-        <div class="card text-light bg-secondary mb-3" style="width: 25em;margin:50 auto;">
+        <div class="card text-light bg-secondary mb-3" style="width: 30em;margin:50 auto;">
         <h5 class="card-title">Description</h5>
             <div class="card-body bg-white text-dark">
                 {{description}}
             </div>
         </div>
 
-        <div class="card text-light bg-secondary mb-3" style="width: 25em;margin:50 auto;">
+        <div class="card text-light bg-secondary mb-3" style="width: 30em;margin:50 auto;">
         <h5 class="card-title">Postings</h5>
             <div class="card-body bg-white text-dark">
               <table class="table">
@@ -50,8 +50,38 @@
             </div>
         </div>
 
+
+		<div class="card text-light bg-secondary mb-3" style="width: 30em;margin:50 auto;">
+        <h5 class="card-title">Applicants</h5>
+            <div class="card-body bg-white text-dark">
+              <table class="table">
+                <thead>
+                <tr>
+                  <th scope="col-2 text-left">First</th>
+                  <th scope="col-2">Last</th>
+                  <th scope="col-2">Degree</th>
+                  <th scope="col-2">GPA</th>
+				  <th scope="col-2">Phone</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for row in data3 %}
+                  <tr>
+                    <th><a href="">{{ fName }}</a></th>
+                    <th>{{ lName }}</th>
+                    <td>{{ degree }}</td>
+                    <td>{{ gpa }}</td>
+					<td>{{ phone1 }}</td>
+                {% endfor %}
+                </tbody>
+              </table>
+              </tbody>
+            </table>
+            </div>
+        </div>
+
     </div>
-    <div class="card text-dark bg-secondary mb-3 text-nowrap col-4">
+    <div class="card text-dark bg-secondary mb-3 text-nowrap" style="width: 30em;margin:50 auto; height:100px;">
 
         <img src={{profile_pic}} class="card-img rounded-circle" onerror="this.src='../static/img/b.jpg'"
           style="margin-top: 10px;">
