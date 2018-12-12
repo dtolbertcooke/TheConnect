@@ -370,6 +370,8 @@ def admin_home():
 	contact_data = c.fetchall()
 	c.execute('Select * from Error')
 	ticket_data = c.fetchall()
+	c.execute('Select * from Student WHERE GPA >= 3.8 and suggestion = 0')
+	top_student_data = c.fetchall()
 
 	form_app = Approve()
 	form_den = Deny()
@@ -380,7 +382,7 @@ def admin_home():
 						   form_den=form_den, unq_id=unq_id, intern_data=intern_data, sponsor_data=sponsor_data,
 						   contact_data=contact_data, ticket_data=ticket_data, referral_requested_data=referral_requested_data,
 						   internship_data = internship_data, form_view=form_view,form_delete=form_delete,
-						   all_sponsor_data=all_sponsor_data)
+						   all_sponsor_data=all_sponsor_data, top_student_data=top_student_data)
 
 
 #create users
