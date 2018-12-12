@@ -350,6 +350,8 @@ def create_internship():
 	logo_link = "/"
 
 	if form.validate_on_submit():
+		approved = 0
+		postID = str(random.randrange(100000,1000000))        #postID needs loop to check for duplicates
 		company = form.company.data
 		heading = form.heading.data
 		body = form.body.data
@@ -357,12 +359,9 @@ def create_internship():
 		endDate = form.endDate.data
 		gpa = form.gpa.data
 		pay = form.pay.data
-		approved = 0
 		referral = form.referral.data
-		postID = str(random.randrange(100000,1000000))
-        #postID needs loop to check for duplicates
 
-		c.execute('INSERT INTO Internship values("%s","%s","%s","%s","%s","%s","%s","s","s","%s")' %(company,heading,body,startDate,endDate,gpa,pay,approved,referral,postID))
+		c.execute('INSERT INTO Internship values("%s","%s","%s","%s","%s","%s","%s","%s","%s","%s")' % (company, heading, body, startDate, endDate, gpa, pay, approved, referral, postID))
 		db.commit()
 		return redirect(url_for('home'))
 	return render_template('create_internship.html', form=form, title=title, logo_link=logo_link)
@@ -515,7 +514,7 @@ def user_resume():
 #view and search
 @app.route('/internships', methods=["GET","POST"])
 #@login_required
-# @roles_required('admin')
+# @roles_required('admin','intern')
 def internships():
 	title = "Opportunities"
 	logo_link = "/"
@@ -523,12 +522,11 @@ def internships():
 	#need to set approved to 1 once internships begin to be approved
 	c.execute('SELECT * FROM Internship')
 	data = c.fetchall()
-
+	internship_link = "/view_internship/%s" %(2509)
 	if request.method == 'POST':
 		return search_results(form)
 
-
-	return render_template('internships.html',title=title, data=data, form=form, logo_link=logo_link)
+	return render_template('internships.html',title=title, data=data, form=form, logo_link=logo_link, internship_link=internship_link)
 
 @app.route('/students', methods=["GET","POST"])
 #@login_required
@@ -562,5 +560,55 @@ def search_results(search):
 		return redirect(url_for('internships'))
 	return render_template('internships.html', data=data, form=form, logo_link=logo_link)
 
+@app.route('/view_internship/<postID>', methods=["GET","POST"])
+#login.required
+def viewInternship(postID):
+	logo_link = "/"
+	sql = ('SELECT * FROM Internship WHERE postID = %s' %(postID))
+	c.execute(sql)
+	data = c.fetchall()
+
+	for row in data:
+		company = row[0]
+		title = row[1]
+		body= row[2]
+		start = row[3]
+		end = row[4]
+		gpa = row[5]
+		pay = row[6]
+		post = postID
+	if request.method == "POST":
+		submitApplication()
+		
+	return render_template('view_internship.html', data=data, logo_link=logo_link, company=company, title=title, body=body, start=start, end=end, gpa=gpa, pay=pay, post=post)
+
+@app.route('/submit_application', methods=["GET","POST"])
+#login.required
+def submitApplication():
+	user = current_user.getID()
+	sql = ('SELECT * FROM Student WHERE UserID=%s' %(user))
+	c.execute(sql)
+	student_data = c.fetchall()
+	
+	applicationID = str(random.randrange(100000,1000000))
+	for row in student_data:
+		f_name = row[1]
+		l_name = row[2]
+		degree = row[6]
+		gpa = row[7]
+		phone = row[5]
+		interest = row[12]
+		availability = row[14]
+		bio = row[13]
+		postID = "2509"
+
+
+	sql = ('INSERT INTO Applicants values("%s","%s","%s","%s","%s","%s","%s","%s","%s","%s")' %(applicationID, f_name, l_name, degree, gpa, phone, interest, availability, bio, postID))
+	c.execute(sql)
+	db.commit()
+
+	return render_template('internships.html', user=user, id=id, data=data, form=form, logo_link=logo_link)
+
 if __name__ == '__main__':  # You can run the main.py and type "localhost:8080" in your
     app.run(host='0.0.0.0', port=8080, debug=True)  # broswer to test the main.py in your computer.
+ 
