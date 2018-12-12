@@ -618,7 +618,7 @@ def viewInternship(postID):
 		end = row[4]
 		gpa = row[5]
 		pay = row[6]
-		post = postID
+		post = row[9]
 
 		
 	return render_template('view_internship.html', data=data, logo_link=logo_link, company=company, title=title,
