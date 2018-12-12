@@ -3,11 +3,11 @@
 {% block title %}Admin Home{% endblock %}
 
 {% block doc %}
-    {{ super() }}
+{{ super() }}
 {% endblock %}
 
 {% block navbar %}
-    {{ super() }}
+{{ super() }}
 {% endblock %}
 
 {% block head %}
@@ -16,547 +16,553 @@
 
 
 {% block content %}
-    <div class="container-fluid">
-        <div class="container-fluid border-dark mb-3" style="max-width: 18rem;"></div>
-        <h1 class="my-4 card-header border-dark mb-3 text-center">Welcome Admin</h1>
-        <div class="card-body bg-light border-dark mb-3 text-center"><h3>Tools</h3>
-            <p>
-                <button class="btn btn-primary" type="button" href="#Manage" data-toggle="collapse"
-                        data-target="#Manage">
-                    Manage <i class="oi oi-expand-down"></i>
-                </button>
-                <button class="btn btn-primary" type="button" href="#Intern_Suggestion" data-toggle="collapse"
-                        data-target="#Intern_Suggestion">
-                    Intern Suggestion <i class="oi oi-expand-down"></i>
-                </button>
-            </p>
-            <div class="col card text-center ">
-                <div class="collapse multi-collapse" id="Manage">
-                    <div class="card-header">
-                        <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
-                            <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab"
-                               href="#Intern">Intern</a>
-                            <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab"
-                               href="#nav-profile">Sponsor</a>
-                            <a class="nav-item nav-link" id="nav-internship-tab" data-toggle="tab"
-                               href="#nav-internship">Posting</a>
-							<a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab"
-                               href="#nav-contact">Contact Requests</a>
-							<a class="nav-item nav-link" id="nav-ticket-tab" data-toggle="tab"
-                               href="#nav-ticket">Tickets</a>
+<div class="container-fluid">
+    <div class="container-fluid border-dark mb-3" style="max-width: 18rem;"></div>
+    <h1 class="my-4 card-header border-dark mb-3 text-center">Welcome Admin</h1>
+    <div class="card-body bg-light border-dark mb-3 text-center"><h3>Tools</h3>
+        <p>
+            <button class="btn btn-primary" type="button" href="#Manage" data-toggle="collapse"
+                    data-target="#Manage">
+                Manage <i class="oi oi-expand-down"></i>
+            </button>
+            <button class="btn btn-primary" type="button" href="#Intern_Suggestion" data-toggle="collapse"
+                    data-target="#Intern_Suggestion">
+                Intern Suggestion <i class="oi oi-expand-down"></i>
+            </button>
+        </p>
+        <div class="col card text-center ">
+            <div class="collapse multi-collapse" id="Manage">
+                <div class="card-header">
+                    <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+                        <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab"
+                           href="#Intern">Intern</a>
+                        <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab"
+                           href="#nav-profile">Sponsor</a>
+                        <a class="nav-item nav-link" id="nav-internship-tab" data-toggle="tab"
+                           href="#nav-internship">Posting</a>
+                        <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab"
+                           href="#nav-contact">Contact Requests</a>
+                        <a class="nav-item nav-link" id="nav-ticket-tab" data-toggle="tab"
+                           href="#nav-ticket">Tickets</a>
+                    </div>
+                    <div class="tab-content py-3 px-3 px-sm-0" id="nav-tabContent">
+                        <div class="tab-pane fade show active" id="Intern">
+                            <div class="card card-body ">
+                                <table class="table">
+                                    {# VIEW Students VIEW Students VIEW Students VIEW Students VIEW Students VIEW
+                                    Students VIEW Students #}
+                                    <h4> Students</h4>
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">UID</th>
+                                        <th scope="col">First</th>
+                                        <th scope="col">Last</th>
+                                        <th scope="col">Major</th>
+                                        <th scope="col">GPA</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+
+                                    {% for row in intern_data %}
+                                    <tr id="{{ loop.index * 1.01 }}">
+                                        <th scope="row" id="{{ loop.index }}" class="student_verifier">{{ row[0] }}</th>
+                                        {# UserID #}
+                                        <td>{{ row[1] }}</td>
+                                        {# First #}
+                                        <td>{{ row[2] }}</td>
+                                        {# last #}
+                                        <td>{{ row[7] }}</td>
+                                        {# Major #}
+                                        <td>{{ row[6] }}</td>
+                                        {# GPA #}
+
+                                    </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
-                        <div class="tab-content py-3 px-3 px-sm-0" id="nav-tabContent">
-                            <div class="tab-pane fade show active" id="Intern">
-                                <div class="card card-body ">
-									<table class="table">
-										{# VIEW Students VIEW Students VIEW Students VIEW Students VIEW Students VIEW Students VIEW Students  #}
-										<h4> Students</h4>
-										<thead>
-										<tr>
-											<th scope="col">UID</th>
-											<th scope="col">First</th>
-											<th scope="col">Last</th>
-											<th scope="col">Major</th>
-											<th scope="col">GPA</th>
-										</tr>
-										</thead>
-										<tbody>
+                        <div class="tab-pane fade" id="nav-profile">
+                            <div class="card card-body ">
+                                <table class="table">
+                                    {# VIEW SPonsors VIEW SPonsors VIEW SPonsors VIEW SPonsors VIEW SPonsors VIEW
+                                    SPonsors VIEW SPonsors VIEW SPonsors #}
+                                    <h4> Sponsors</h4>
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">UID</th>
+                                        <th scope="col">Company</th>
+                                        <th scope="col">Website</th>
+                                        <th scope="col">Phone</th>
+                                        <th scope="col">Approved</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
 
-										{% for row in intern_data %}
-											<tr id="{{ loop.index * 1.01 }}">
-												<th scope="row" id="{{ loop.index }}" class="student_verifier">{{ row[0] }}</th>
-												{# UserID #}
-												<td>{{ row[1] }}</td>
-												{# First #}
-												<td>{{ row[2] }}</td>
-												{# last #}
-												<td>{{ row[7] }}</td>
-												{# Major #}
-												<td>{{ row[6] }}</td>
-												{# GPA #}
-												
-											</tr>
-										{% endfor %}
-										</tbody>
-									</table>
-								</div>
+                                    {% for row in all_sponsor_data %}
+                                    {% set x = loop.index * 1 %} {# range > 1 #}
+                                    {% set y = loop.index * -1 %} {# range > 1 #}
+                                    <tr id="{{ loop.index * 1.01 }}">
+                                        <th scope="row" id="{{ loop.index }}" class="student_verifier">{{ row[0] }}</th>
+                                        {# UserID #}
+                                        <td>{{ row[1] }}</td>
+                                        {# Company #}
+                                        <td>{{ row[3] }}</td>
+                                        {# website #}
+                                        <td>{{ row[4] }}</td>
+                                        {# phone #}
+                                        <td>{{ row[9] }}</td>
+                                        {# approved #}
+
+                                    </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
                             </div>
-                            <div class="tab-pane fade" id="nav-profile">
-                                <div class="card card-body ">
-									<table class="table">
-										{# VIEW SPonsors VIEW SPonsors VIEW SPonsors VIEW SPonsors VIEW SPonsors VIEW SPonsors VIEW SPonsors VIEW SPonsors #}
-										<h4> Sponsors</h4>
-										<thead>
-										<tr>
-											<th scope="col">UID</th>
-											<th scope="col">Company</th>
-											<th scope="col">Website</th>
-											<th scope="col">Phone</th>
-											<th scope="col">Approved</th>
-										</tr>
-										</thead>
-										<tbody>
+                        </div>
+                        <div class="tab-pane fade" id="nav-internship">
+                            <div class="card card-body ">
+                                <table class="table">
+                                    {# VIEW INTERNSHIPS VIEW INTERNSHIPS VIEW INTERNSHIPS VIEW INTERNSHIPS VIEW
+                                    INTERNSHIPS VIEW INTERNSHIPS #}
+                                    <h4> Internship Postings</h4>
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">PostID</th>
+                                        <th scope="col">Company</th>
+                                        <th scope="col">Heading</th>
+                                        <th scope="col">startDate</th>
+                                        <th scope="col">endDate</th>
+                                        <th scope="col">Pay</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
 
-										{% for row in all_sponsor_data %}
-											{% set x = loop.index * 1 %} {# range > 1 #}
-											{% set y = loop.index * -1 %} {# range > 1 #}
-											<tr id="{{ loop.index * 1.01 }}">
-												<th scope="row" id="{{ loop.index }}" class="student_verifier">{{ row[0] }}</th>
-												{# UserID #}
-												<td>{{ row[1] }}</td>
-												{# Company #}
-												<td>{{ row[3] }}</td>
-												{# website #}
-												<td>{{ row[4] }}</td>
-												{# phone #}
-												<td>{{ row[9] }}</td>
-												{# approved #}
-												
-											</tr>
-										{% endfor %}
-										</tbody>
-									</table>
-								</div>
+                                    {% for row in approve_internship_data %}
+                                    {% set x = loop.index * 1 %} {# range > 1 #}
+                                    {% set y = loop.index * -1 %} {# range > 1 #}
+                                    <tr id="{{ loop.index * 1.01 }}">
+                                        <th scope="row" id="{{ loop.index }}" class="student_verifier">{{ row[9] }}</th>
+                                        {# postID #}
+                                        <td>{{ row[0] }}</td>
+                                        {# Company #}
+                                        <td>{{ row[1] }}</td>
+                                        {# heading #}
+                                        <td>{{ row[3] }}</td>
+                                        {# startDate #}
+                                        <td>{{ row[4] }}</td>
+                                        {# EndDate #}
+                                        <td>{{ row[6] }}</td>
+                                        {# Pay #}
+
+                                    </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
                             </div>
-                            <div class="tab-pane fade" id="nav-internship">
-                                <div class="card card-body ">
-									<table class="table">
-										{# VIEW INTERNSHIPS VIEW INTERNSHIPS VIEW INTERNSHIPS VIEW INTERNSHIPS VIEW INTERNSHIPS VIEW INTERNSHIPS  #}
-										<h4> Internship Postings</h4>
-										<thead>
-										<tr>
-											<th scope="col">PostID</th>
-											<th scope="col">Company</th>
-											<th scope="col">Heading</th>
-											<th scope="col">startDate</th>
-											<th scope="col">endDate</th>
-											<th scope="col">Pay</th>
-										</tr>
-										</thead>
-										<tbody>
+                        </div>
+                        <div class="tab-pane fade" id="nav-contact">
+                            <div class="card card-body ">
+                                <table class="table">
+                                    {# VIEW CONTACT REQUESTS VIEW CONTACT REQUESTS VIEW CONTACT REQUESTS VIEW CONTACT
+                                    REQUESTS VIEW CONTACT REQUESTS #}
+                                    <h4> Contact Requests</h4>
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Email</th>
+                                        <th scope="col">Subject</th>
+                                        <th scope="col">Message</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
 
-										{% for row in approve_internship_data %}
-											{% set x = loop.index * 1 %} {# range > 1 #}
-											{% set y = loop.index * -1 %} {# range > 1 #}
-											<tr id="{{ loop.index * 1.01 }}">
-												<th scope="row" id="{{ loop.index }}" class="student_verifier">{{ row[9] }}</th>
-												{# postID #}
-												<td>{{ row[0] }}</td>
-												{# Company #}
-												<td>{{ row[1] }}</td>
-												{# heading #}
-												<td>{{ row[3] }}</td>
-												{# startDate #}
-												<td>{{ row[4] }}</td>
-												{# EndDate #}
-												<td>{{ row[6] }}</td>
-												{# Pay #}
-											
-											</tr>
-										{% endfor %}
-										</tbody>
-									</table>
-								</div>
+                                    {% for row in contact_data %}
+                                    {% set x = loop.index * 1 %} {# range > 1 #}
+                                    {% set y = loop.index * -1 %} {# range > 1 #}
+                                    <tr id="{{ loop.index * 1.01 }}">
+                                        <th scope="row" id="{{ loop.index }}" class="student_verifier">{{ row[0] }}</th>
+                                        {# name #}
+                                        <td>{{ row[1] }}</td>
+                                        {# email #}
+                                        <td>{{ row[2] }}</td>
+                                        {# subject #}
+                                        <td>{{ row[3] }}</td>
+                                        {# message #}
+
+                                    </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
                             </div>
-							<div class="tab-pane fade" id="nav-contact">
-								<div class="card card-body ">
-									<table class="table">
-										{# VIEW CONTACT REQUESTS VIEW CONTACT REQUESTS VIEW CONTACT REQUESTS VIEW CONTACT REQUESTS VIEW CONTACT REQUESTS #}
-										<h4> Contact Requests</h4>
-										<thead>
-										<tr>
-											<th scope="col">Name</th>
-											<th scope="col">Email</th>
-											<th scope="col">Subject</th>
-											<th scope="col">Message</th>
-										</tr>
-										</thead>
-										<tbody>
+                        </div>
+                        <div class="tab-pane fade" id="nav-ticket">
+                            <div class="card card-body ">
+                                <table class="table">
+                                    {# VIEW TICKET REQUESTS VIEW TICKET REQUESTS VIEW TICKET REQUESTS VIEW TICKET
+                                    REQUESTS VIEW TICKET REQUESTS #}
+                                    <h4> Tickets</h4>
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">Error Type</th>
+                                        <th scope="col">email</th>
+                                        <th scope="col">Description of Error</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
 
-										{% for row in contact_data %}
-											{% set x = loop.index * 1 %} {# range > 1 #}
-											{% set y = loop.index * -1 %} {# range > 1 #}
-											<tr id="{{ loop.index * 1.01 }}">
-												<th scope="row" id="{{ loop.index }}" class="student_verifier">{{ row[0] }}</th>
-												{# name #}
-												<td>{{ row[1] }}</td>
-												{# email #}
-												<td>{{ row[2] }}</td>
-												{# subject #}
-												<td>{{ row[3] }}</td>
-												{# message #}
-												
-											</tr>
-										{% endfor %}
-										</tbody>
-									</table>
-								</div>
-							</div>
-							<div class="tab-pane fade" id="nav-ticket">
-                                <div class="card card-body ">
-									<table class="table">
-										{# VIEW TICKET REQUESTS VIEW TICKET REQUESTS VIEW TICKET REQUESTS VIEW TICKET REQUESTS VIEW TICKET REQUESTS  #}
-										<h4> Tickets</h4>
-										<thead>
-										<tr>
-											<th scope="col">Error Type</th>
-											<th scope="col">email</th>
-											<th scope="col">Description of Error</th>
-										</tr>
-										</thead>
-										<tbody>
-
-										{% for row in ticket_data %}
-											{% set x = loop.index * 1 %} {# range > 1 #}
-											{% set y = loop.index * -1 %} {# range > 1 #}
-											<tr id="{{ loop.index * 1.01 }}">
-												<th scope="row" id="{{ loop.index }}" class="student_verifier">{{ row[0] }}</th>
-												{# Error Type #}
-												<td>{{ row[1] }}</td>
-												{# email #}
-												<td>{{ row[2] }}</td>
-												{# Error Description #}
-												<td>
-													<button type="button" class="btn btn-danger btn-sm" value="{{ row[0] }}"
-															href="#" id="{{ y }}">Delete <i class="oi oi-x"></i>
-													</button>
-												</td>
-											</tr>
-										{% endfor %}
-										</tbody>
-									</table>
-								</div>
+                                    {% for row in ticket_data %}
+                                    {% set x = loop.index * 1 %} {# range > 1 #}
+                                    {% set y = loop.index * -1 %} {# range > 1 #}
+                                    <tr id="{{ loop.index * 1.01 }}">
+                                        <th scope="row" id="{{ loop.index }}" class="student_verifier">{{ row[0] }}</th>
+                                        {# Error Type #}
+                                        <td>{{ row[1] }}</td>
+                                        {# email #}
+                                        <td>{{ row[2] }}</td>
+                                        {# Error Description #}
+                                        <td>
+                                            <button type="button" class="btn btn-danger btn-sm" value="{{ row[0] }}"
+                                                    href="#" id="{{ y }}">Delete <i class="oi oi-x"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
 
 
-            <div class="collapse multi-collapse" id="Intern_Suggestion" style="margin-top: 10px">
-                <div class="card card-body">
-                    <table class="table">
-                        <h4> Intern Suggestion</h4>
-                        <h6> GPA greater than 3.8</h6>
-                        <button type="submit" class="btn btn-primary btn-sm" id="clear" href="#" onclick="clearReco()"
-                        >Clear <i
-                                class="oi oi-cog"></i>
-                        </button>
-                        <thead>
-                        <tr>
-                            <th scope="col">UID</th>
-                            <th scope="col">First</th>
-                            <th scope="col">Last</th>
-                            <th scope="col">Major</th>
-                            <th scope="col">GPA</th>
-                            <th scope="col">Suggest</th>
-                        </tr>
-                        </thead>
-                        <tbody>
+        <div class="collapse multi-collapse" id="Intern_Suggestion" style="margin-top: 10px">
+            <div class="card card-body">
+                <table class="table">
+                    <h4> Intern Suggestion</h4>
+                    <h6> GPA greater than 3.8</h6>
+                    <button type="submit" class="btn btn-primary btn-sm" id="clear" href="#" onclick="clearReco()"
+                    >Clear <i
+                            class="oi oi-cog"></i>
+                    </button>
+                    <thead>
+                    <tr>
+                        <th scope="col">UID</th>
+                        <th scope="col">First</th>
+                        <th scope="col">Last</th>
+                        <th scope="col">Major</th>
+                        <th scope="col">GPA</th>
+                        <th scope="col">Suggest</th>
+                    </tr>
+                    </thead>
+                    <tbody>
 
-                        {% for row in top_student_data %}
-                            {% set x = loop.index * 10000000 %}
-                            <tr id="{{ loop.index * 1.000001 }}">
-                                <td>{{ row[0] }}</td>
-                                <td>{{ row[1].upper() }}</td>
-                                <td>{{ row[2].upper() }}</td>
-                                <td>{{ row[6].upper() }}</td>
-                                <td>{{ row[7] }}</td>
-                                <td>
-                                    <button type="button" class="btn btn-primary btn-sm" id="{{ x }}" href="#"
-                                            value="{{ row[0] }}">Suggest <i
-                                            class="oi oi-aperture"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                        {% endfor %}
+                    {% for row in top_student_data %}
+                    {% set x = loop.index * 10000000 %}
+                    <tr id="{{ loop.index * 1.000001 }}">
+                        <td>{{ row[0] }}</td>
+                        <td>{{ row[1].upper() }}</td>
+                        <td>{{ row[2].upper() }}</td>
+                        <td>{{ row[6].upper() }}</td>
+                        <td>{{ row[7] }}</td>
+                        <td>
+                            <button type="button" class="btn btn-primary btn-sm" id="{{ x }}" href="#"
+                                    value="{{ row[0] }}">Suggest <i
+                                    class="oi oi-aperture"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    {% endfor %}
 
 
-                        </tbody>
-                    </table>
-                </div>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
+</div>
 
 
-    <div class="container-fluid text-center card-header border-dark mb-3">
-        <div class="text-center border-dark mb-3"><h3>Verification</h3></div>
-        <p>
-            <button class="btn btn-primary" data-toggle="collapse" href="#Verify_User" role="button"
-                    aria-expanded="false"
-                    aria-controls="multiCollapseExample1">Verify User <i class="oi oi-expand-down"></i></button>
-            <button class="btn btn-primary" type="button" href="#Approve_Sponsorship" data-toggle="collapse"
-                    data-target="#Approve_Sponsorship" aria-expanded="false" aria-controls="multiCollapseExample2">
-                Approve
-                Sponsorship <i class="oi oi-expand-down"></i></button>
-            <button class="btn btn-info" type="button" href="#Referrals" data-toggle="collapse"
-                    data-target="#Referrals"
-                    aria-expanded="false" aria-controls="multiCollapseExample2">Referrals <i
-                    class="oi oi-expand-down"></i>
-            </button>
-            <button class="btn btn-light" type="button" href="#Add_New_Admin" data-toggle="collapse"
-                    data-target="#Add_New_Admin" aria-expanded="false" aria-controls="multiCollapseExample2">Add New
-                Admin
-                <i class="oi oi-expand-down"></i></button>
-        </p>
-        <div class="row justify-content-center">
-            <div class="collapse multi-collapse" id="Verify_User">
-                <div class="card card-body ">
-                    <table class="table">
-                        {# VERIFY USER TOOL VERIFY USER TOOL VERIFY USER TOOL VERIFY USER TOOL VERIFY USER TOOL VERIFY USER TOOL VERIFY USER TOOL#}
-                        <h4> Verify Student</h4>
-                        <thead>
-                        <tr>
-                            <th scope="col">UID</th>
-                            <th scope="col">First</th>
-                            <th scope="col">Last</th>
-                            <th scope="col">Account</th>
-                            <th scope="col">Major</th>
-                            <th scope="col">GPA</th>
-                            <th scope="col">Approve</th>
-                            <th scope="col">Deny</th>
-                        </tr>
-                        </thead>
-                        <tbody>
+<div class="container-fluid text-center card-header border-dark mb-3">
+    <div class="text-center border-dark mb-3"><h3>Verification</h3></div>
+    <p>
+        <button class="btn btn-primary" data-toggle="collapse" href="#Verify_User" role="button"
+                aria-expanded="false"
+                aria-controls="multiCollapseExample1">Verify User <i class="oi oi-expand-down"></i></button>
+        <button class="btn btn-primary" type="button" href="#Approve_Sponsorship" data-toggle="collapse"
+                data-target="#Approve_Sponsorship" aria-expanded="false" aria-controls="multiCollapseExample2">
+            Approve
+            Sponsorship <i class="oi oi-expand-down"></i></button>
+        <button class="btn btn-info" type="button" href="#Referrals" data-toggle="collapse"
+                data-target="#Referrals"
+                aria-expanded="false" aria-controls="multiCollapseExample2">Referrals <i
+                class="oi oi-expand-down"></i>
+        </button>
+        <button class="btn btn-light" type="button" href="#Add_New_Admin" data-toggle="collapse"
+                data-target="#Add_New_Admin" aria-expanded="false" aria-controls="multiCollapseExample2">Add New
+            Admin
+            <i class="oi oi-expand-down"></i></button>
+    </p>
+    <div class="row justify-content-center">
+        <div class="collapse multi-collapse" id="Verify_User">
+            <div class="card card-body ">
+                <table class="table">
+                    {# VERIFY USER TOOL VERIFY USER TOOL VERIFY USER TOOL VERIFY USER TOOL VERIFY USER TOOL VERIFY USER
+                    TOOL VERIFY USER TOOL#}
+                    <h4> Verify Student</h4>
+                    <thead>
+                    <tr>
+                        <th scope="col">UID</th>
+                        <th scope="col">First</th>
+                        <th scope="col">Last</th>
+                        <th scope="col">Account</th>
+                        <th scope="col">Major</th>
+                        <th scope="col">GPA</th>
+                        <th scope="col">Approve</th>
+                        <th scope="col">Deny</th>
+                    </tr>
+                    </thead>
+                    <tbody>
 
-                        {% for row in intern_data %}
-                            {% set x = loop.index * 1 %} {# range > 1 #}
-                            {% set y = loop.index * -1 %} {# range > 1 #}
-                            <tr id="{{ loop.index * 1.01 }}">
-                                <th scope="row" id="{{ loop.index }}" class="student_verifier">{{ row[0] }}</th>
-                                {# UID #}
-                                <td>{{ row[1] }}</td>
-                                {# First #}
-                                <td>{{ row[2] }}</td>
-                                {# Last #}
-                                <td>{{ row[4] }}</td>
-                                {# Account #}
-                                <td>{{ row[6].upper() }}</td>
-                                {# Major #}
-                                <td>{{ row[7] }}</td>
-                                {# Major #}
-                                <td>
-                                    <button type="button" class="btn btn-primary btn-sm" id="{{ x }}" href="#"
-                                            value="{{ row[0] }}">Approve <i
-                                            class="oi oi-check"></i>
-                                    </button>
-                                </td>
-                                <td>
-                                    <button type="button" class="btn btn-danger btn-sm" value="{{ row[0] }}"
-                                            href="#" id="{{ y }}">Deny <i class="oi oi-x"></i>
-                                    </button>
-                                </td>
-                            </tr>
+                    {% for row in intern_data %}
+                    {% set x = loop.index * 1 %} {# range > 1 #}
+                    {% set y = loop.index * -1 %} {# range > 1 #}
+                    <tr id="{{ loop.index * 1.01 }}">
+                        <th scope="row" id="{{ loop.index }}" class="student_verifier">{{ row[0] }}</th>
+                        {# UID #}
+                        <td>{{ row[1] }}</td>
+                        {# First #}
+                        <td>{{ row[2] }}</td>
+                        {# Last #}
+                        <td>{{ row[4] }}</td>
+                        {# Account #}
+                        <td>{{ row[6].upper() }}</td>
+                        {# Major #}
+                        <td>{{ row[7] }}</td>
+                        {# Major #}
+                        <td>
+                            <button type="button" class="btn btn-primary btn-sm" id="{{ x }}" href="#"
+                                    value="{{ row[0] }}">Approve <i
+                                    class="oi oi-check"></i>
+                            </button>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-danger btn-sm" value="{{ row[0] }}"
+                                    href="#" id="{{ y }}">Deny <i class="oi oi-x"></i>
+                            </button>
+                        </td>
+                    </tr>
 
-                        {% endfor %}
+                    {% endfor %}
 
-                        </tbody>
-                    </table>
-                    <table class="table">
-                        {#APPROVE SPONSORSHIP TOOLAPPROVE SPONSORSHIP TOOLAPPROVE SPONSORSHIP TOOLAPPROVE SPONSORSHIP TOOL APPROVE SPONSORSHIP TOOL APPROVE SPONSORSHIP TOOL#}
-                        <h4> Verify Sponsor</h4>
-                        <thead>
-                        <tr>
-                            <th scope="col">UID</th>
-                            <th scope="col">Company</th>
-                            <th scope="col">Website</th>
-                            <th scope="col">Phone</th>
-                            <th scope="col">Address</th>
-                            <th scope="col">City</th>
-                            <th scope="col">State</th>
-                            <th scope="col">Description</th>
-                            <th scope="col">Approve</th>
-                            <th scope="col">Deny</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {% for row in sponsor_data %}
-                            <tr id="{{ loop.index * 1.0001 }}">
-                                {% set x = loop.index * 1000 %}
-                                {% set y = loop.index * -1000 %}
-                                <th scope="row" class="sponsor_verifier">{{ row[0] }}</th>
-                                {# UID #}
-                                <td>{{ row[1] }}</td>
-                                {# Company #}
-                                <td><a href="{{ row[3] }}">{{ row[3] }}</a></td>
-                                {# Website #}
-                                <td>{{ row[4] }}</td>
-                                {# Phone #}
-                                <td>{{ row[2] }}</td>
-                                {# Address #}
-                                <td>{{ row[6] }}</td>
-                                {# City #}
-                                <td>{{ row[8] }}</td>
-                                {# State #}
-                                <td>{{ row[7] }}</td>
-                                {# Description #}
-                                <td>
-                                    <button type="button" class="btn btn-primary btn-sm" id="{{ x }}" href="#"
-                                            value="{{ row[0] }}">Approve <i
-                                            class="oi oi-check"></i>
-                                    </button>
-                                </td>
-                                <td>
-                                    <button type="button" class="btn btn-danger btn-sm" value="{{ row[0] }}"
-                                            href="#" id="{{ y }}">Deny <i class="oi oi-x"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
+                    </tbody>
+                </table>
+                <table class="table">
+                    {#APPROVE SPONSORSHIP TOOLAPPROVE SPONSORSHIP TOOLAPPROVE SPONSORSHIP TOOLAPPROVE SPONSORSHIP TOOL
+                    APPROVE SPONSORSHIP TOOL APPROVE SPONSORSHIP TOOL#}
+                    <h4> Verify Sponsor</h4>
+                    <thead>
+                    <tr>
+                        <th scope="col">UID</th>
+                        <th scope="col">Company</th>
+                        <th scope="col">Website</th>
+                        <th scope="col">Phone</th>
+                        <th scope="col">Address</th>
+                        <th scope="col">City</th>
+                        <th scope="col">State</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Approve</th>
+                        <th scope="col">Deny</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for row in sponsor_data %}
+                    <tr id="{{ loop.index * 1.0001 }}">
+                        {% set x = loop.index * 1000 %}
+                        {% set y = loop.index * -1000 %}
+                        <th scope="row" class="sponsor_verifier">{{ row[0] }}</th>
+                        {# UID #}
+                        <td>{{ row[1] }}</td>
+                        {# Company #}
+                        <td><a href="{{ row[3] }}">{{ row[3] }}</a></td>
+                        {# Website #}
+                        <td>{{ row[4] }}</td>
+                        {# Phone #}
+                        <td>{{ row[2] }}</td>
+                        {# Address #}
+                        <td>{{ row[6] }}</td>
+                        {# City #}
+                        <td>{{ row[8] }}</td>
+                        {# State #}
+                        <td>{{ row[7] }}</td>
+                        {# Description #}
+                        <td>
+                            <button type="button" class="btn btn-primary btn-sm" id="{{ x }}" href="#"
+                                    value="{{ row[0] }}">Approve <i
+                                    class="oi oi-check"></i>
+                            </button>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-danger btn-sm" value="{{ row[0] }}"
+                                    href="#" id="{{ y }}">Deny <i class="oi oi-x"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
             </div>
         </div>
-        <div class="row justify-content-center">
-            <div class="collapse multi-collapse" id="Approve_Sponsorship">
-                <div class="card card-body ">
-                    <table class="table">
-                        <h4> Approve Sponsorship</h4>
-                        <thead>
-                        <tr>
-                            <th scope="col">Sponsor</th>
-                            <th scope="col">Title</th>
-                            <th scope="col">Approve</th>
-                            <th scope="col">Deny</th>
-                        </tr>
-                        </thead>
-                        <tbody>
+    </div>
+    <div class="row justify-content-center">
+        <div class="collapse multi-collapse" id="Approve_Sponsorship">
+            <div class="card card-body ">
+                <table class="table">
+                    <h4> Approve Sponsorship</h4>
+                    <thead>
+                    <tr>
+                        <th scope="col">Sponsor</th>
+                        <th scope="col">Title</th>
+                        <th scope="col">Approve</th>
+                        <th scope="col">Deny</th>
+                    </tr>
+                    </thead>
+                    <tbody>
 
-                        {#SPONSORSHIP APPROVALSPONSORSHIP APPROVALSPONSORSHIP APPROVALSPONSORSHIP APPROVALSPONSORSHIP APPROVALSPONSORSHIP APPROVALSPONSORSHIP APPROVALSPONSORSHIP APPROVAL#}
-                        {% for row in approve_internship_data %}
-                            {% set x = loop.index * 100000 %}
-                            {% set y = loop.index * -100000 %}
-                            <tr id="{{ loop.index * 1.000001 }}">
-                                <td><a href="https://www.microsoft.com/en-us/">{{ row[0] }}</a></td>
-                                <td><a href="localhost:8080/sponsorship">{{ row[1] }}</a></td>
-                                <td>
-                                    <button type="button" class="btn btn-primary btn-sm" id="{{ x }}" href="#"
-                                            value="{{ row[9] }}">Approve <i
-                                            class="oi oi-check"></i>
-                                    </button>
-                                </td>
-                                <td>
-                                    <button type="button" class="btn btn-danger btn-sm" value="{{ row[9] }}"
-                                            href="#" id="{{ y }}">Deny <i class="oi oi-x"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                        {% endfor %}
+                    {#SPONSORSHIP APPROVALSPONSORSHIP APPROVALSPONSORSHIP APPROVALSPONSORSHIP APPROVALSPONSORSHIP
+                    APPROVALSPONSORSHIP APPROVALSPONSORSHIP APPROVALSPONSORSHIP APPROVAL#}
+                    {% for row in approve_internship_data %}
+                    {% set x = loop.index * 100000 %}
+                    {% set y = loop.index * -100000 %}
+                    <tr id="{{ loop.index * 1.000001 }}">
+                        <td><a href="https://www.microsoft.com/en-us/">{{ row[0] }}</a></td>
+                        <td><a href="localhost:8080/sponsorship">{{ row[1] }}</a></td>
+                        <td>
+                            <button type="button" class="btn btn-primary btn-sm" id="{{ x }}" href="#"
+                                    value="{{ row[9] }}">Approve <i
+                                    class="oi oi-check"></i>
+                            </button>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-danger btn-sm" value="{{ row[9] }}"
+                                    href="#" id="{{ y }}">Deny <i class="oi oi-x"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    {% endfor %}
 
 
-                        </tbody>
-                    </table>
-                </div>
+                    </tbody>
+                </table>
             </div>
         </div>
-        <div class="row justify-content-center">
-            <div class="collapse multi-collapse" id="Referrals">
-                <div class="card card-body ">
-                    <table class="table">
-                        <h4>Referrals</h4>
-                        <thead>
-                        <tr>
-                            <th scope="col">Sponsor</th>
-                            <th scope="col">Sponsorship</th>
-                            <th scope="col">Students Requesting</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {% for row in referral_requested_data %}
-                            <tr>
-                                <td><a href="https://www.microsoft.com/en-us/">{{ row[0] }}</a></td>
-                                <td><a href="localhost:8080/intern">{{ row[1] }}</a></td>
-                                <td>
-                                    <button type="button" class="btn btn-primary" data-toggle="modal"
-                                            data-target="#Students">
-                                        Requesting
-                                    </button>
-                                    <div class="modal fade" id="Students" tabindex="-1" role="dialog"
-                                         aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                                                    <button type="button" class="close" data-dismiss="modal"
-                                                            aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    ...
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary"
-                                                            data-dismiss="modal">Close
-                                                    </button>
-                                                    <button type="button" class="btn btn-primary">Save changes</button>
-                                                </div>
-                                            </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="collapse multi-collapse" id="Referrals">
+            <div class="card card-body ">
+                <table class="table">
+                    <h4>Referrals</h4>
+                    <thead>
+                    <tr>
+                        <th scope="col">Sponsor</th>
+                        <th scope="col">Sponsorship</th>
+                        <th scope="col">Students Requesting</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for row in referral_requested_data %}
+                    <tr>
+                        <td><a href="https://www.microsoft.com/en-us/">{{ row[0] }}</a></td>
+                        <td><a href="localhost:8080/intern">{{ row[1] }}</a></td>
+                        <td>
+                            <button type="button" class="btn btn-primary" data-toggle="modal"
+                                    data-target="#Students">
+                                Requesting
+                            </button>
+                            <div class="modal fade" id="Students" tabindex="-1" role="dialog"
+                                 aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                            <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            ...
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                    data-dismiss="modal">Close
+                                            </button>
+                                            <button type="button" class="btn btn-primary">Save changes</button>
                                         </div>
                                     </div>
-                                </td>
+                                </div>
+                            </div>
+                        </td>
 
-                            </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
             </div>
-        </div>
-        <div class="row justify-content-center">
-            <div class="collapse multi-collapse" id="Add_New_Admin">
-                <div class="card card-body ">
-                    <table class="table">
-                        <h4> Add New Admin </h4>
-                        <thead>
-                        <tr>
-                            <th scope="col">First</th>
-                            <th scope="col">Last</th>
-                            <th scope="col">Account</th>
-                            <th scope="col">Approve</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-
-                            <form>
-                                <td>
-                                    <div class="form-group">
-                                        <input type="text" class="form-control" id="InputFirst"
-                                               placeholder="First Name...">
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="form-group">
-                                        <input type="text" class="form-control" id="InputLast"
-                                               placeholder="Last Name...">
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="form-group">
-                                        <input type="email" class="form-control" id="InputEmail"
-                                               placeholder="Snuffy@Southernct.edu">
-                                    </div>
-                                </td>
-                                <td>
-                                    <button type="button" class="btn btn-primary btn-sm">Approve <i
-                                            class="oi oi-check"></i>
-                                    </button>
-                                </td>
-                            </form>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-        <div class="row">
         </div>
     </div>
+    <div class="row justify-content-center">
+        <div class="collapse multi-collapse" id="Add_New_Admin">
+            <div class="card card-body ">
+                <table class="table">
+                    <h4> Add New Admin </h4>
+                    <thead>
+                    <tr>
+                        <th scope="col">First</th>
+                        <th scope="col">Last</th>
+                        <th scope="col">Account</th>
+                        <th scope="col">Approve</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
 
-
+                        <form>
+                            <td>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="InputFirst"
+                                           placeholder="First Name...">
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="InputLast"
+                                           placeholder="Last Name...">
+                                </div>
+                            </td>
+                            <td>
+                                <div class="form-group">
+                                    <input type="email" class="form-control" id="InputEmail"
+                                           placeholder="Snuffy@Southernct.edu">
+                                </div>
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-primary btn-sm">Approve <i
+                                        class="oi oi-check"></i>
+                                </button>
+                            </td>
+                        </form>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+    </div>
+</div>
 
 
 {% endblock %}
@@ -564,7 +570,7 @@
 
 {% block body %}
 
-    <script type=text/javascript>
+<script type=text/javascript>
         {#global variables#}
         let app_den_btn_val = null;
         let app_den_btn_id = null;
@@ -619,5 +625,6 @@
                 url: "/reco/",
             })
         }
-    </script>
+
+</script>
 {% endblock %}
