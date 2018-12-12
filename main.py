@@ -345,21 +345,21 @@ def admin_home():
 @app.route('/create_internship', methods=['GET', 'POST'])
 #@login_required
 def create_internship():
-    form = createInternship()
-    title = "Internship"
-    logo_link = "/"
+	form = createInternship()
+	title = "Internship"
+	logo_link = "/"
 
-    if form.validate_on_submit():
-        company = form.company.data
-        heading = form.heading.data
-        body = form.body.data
-        startDate = form.startDate.data
-        endDate = form.endDate.data
-        gpa = form.gpa.data
-        pay = form.pay.data
-        approved = 0
-        referral = form.referral.data
-        postID = str(random.randrange(100000,1000000))
+	if form.validate_on_submit():
+		company = form.company.data
+		heading = form.heading.data
+		body = form.body.data
+		startDate = form.startDate.data
+		endDate = form.endDate.data
+		gpa = form.gpa.data
+		pay = form.pay.data
+		approved = 0
+		referral = form.referral.data
+		postID = str(random.randrange(100000,1000000))
         #postID needs loop to check for duplicates
 
         c.execute('INSERT INTO Internship values("%s","%s","%s","%s","%s","%s","%s","s","s","%s")' %(company,heading,body,startDate,endDate,gpa,pay,approved,referral,postID))
