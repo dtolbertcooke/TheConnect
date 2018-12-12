@@ -216,12 +216,28 @@ def sponsor_profile(UserID):
         description = row[7]
         state = row[8]
 
+    c.execute('Select postID, heading, startDate, endDate from Internship where company like "%s"' %(company))
+    data2 = c.fetchall()
+
+    if len(data2)==0:
+        postID = 0
+        heading=''
+        startDate=''
+        endDate=''
+    elif len(data2)>=1:
+        for row2 in data2:
+            postID = row2[0]
+            heading = row2[1]
+            startDate = row2[2]
+            endDate = row2[3]
+
     profile_pic = "https://raw.githubusercontent.com/scsu-csc330-400/blu-test/help_jason/Static/img/\
     b.jpg?token=AoQ7TSJDqVpIdxBM_4hwk9J2QSluOd47ks5b7GhvwA%3D%3D"
 
     return render_template('sponsor_profile.html', profile_pic=profile_pic, company=company, address=address, \
                            website=website, phone=phone, zipcode=zipcode, city=city, description=description, \
-                           state=state, edit=edit)
+                           state=state, edit=edit, data2=data2, postID=postID, heading=heading, startDate=startDate, \
+                           endDate=endDate)
 
 @app.route('/edit_profile/intern/<UserID>', methods=['GET', 'POST'])
 @login_required
@@ -345,27 +361,43 @@ def admin_home():
 @app.route('/create_internship', methods=['GET', 'POST'])
 #@login_required
 def create_internship():
-	form = createInternship()
-	title = "Internship"
-	logo_link = "/"
+    form = createInternship()
+    title = "Internship"
+    logo_link = "/"
+    name = current_user.getID()
 
-	if form.validate_on_submit():
-		company = form.company.data
-		heading = form.heading.data
-		body = form.body.data
-		startDate = form.startDate.data
-		endDate = form.endDate.data
-		gpa = form.gpa.data
-		pay = form.pay.data
-		approved = 0
-		referral = form.referral.data
-		postID = str(random.randrange(100000,1000000))
+    c.execute('Select company from Sponsor where UserID = %s' %(name))
+    data = c.fetchall()
+    for row in data:
+        data = row[0]
+
+    if form.validate_on_submit():
+        company = data
+        heading = form.heading.data
+        body = form.body.data
+        startDate = form.startDate.data
+        endDate = form.endDate.data
+        gpa = form.gpa.data
+        pay = form.pay.data
+        approved = 0
+        referral = form.referral.data
+        postID = str(random.randrange(100000,1000000))
         #postID needs loop to check for duplicates
 
-		c.execute('INSERT INTO Internship values("%s","%s","%s","%s","%s","%s","%s","s","s","%s")' %(company,heading,body,startDate,endDate,gpa,pay,approved,referral,postID))
-		db.commit()
-		return redirect(url_for('home'))
-	return render_template('create_internship.html', form=form, title=title, logo_link=logo_link)
+        c.execute('INSERT INTO Internship values("%s","%s","%s","%s","%s","%s","%s","%s","%s","%s")' %(company,heading,body,startDate,endDate,gpa,pay,approved,referral,postID))
+        db.commit()
+        return redirect(url_for('home'))
+    return render_template('create_internship.html', form=form, title=title, logo_link=logo_link)
+
+#name = UserID
+#edit = ("/edit_profile/sponsor/%s" %(UserID))
+
+#c.execute('Select * from Sponsor where UserID = %s' %(name))
+#data = c.fetchall()
+
+#for row in data:
+#    UserID = row[0]
+#    company = row[1]
 
 @app.route('/create_sponsor', methods=['GET', 'POST'])
 def create_sponsor():

@@ -42,7 +42,7 @@ class editSponsorProfileForm(FlaskForm):
 #new internship
 class createInternship(FlaskForm):
 
-	company = StringField('Organization Name', validators=[DataRequired()])
+	#company = StringField('Organization Name', validators=[DataRequired()])
 	heading = StringField('Internship Title', validators=[DataRequired()])
 	body = TextAreaField('Internship Description', validators=[DataRequired()])
 	startDate = DateField('Start Date', format='%m-%d-%Y', validators=[DataRequired()])
@@ -142,20 +142,20 @@ class editStudent(FlaskForm):
 	biography = TextAreaField('Biography')
 	availability = SelectMultipleField('Availability',choices=[('Sunday', 'Sunday'), ('Monday', 'Monday'), ('Tuesday', 'Tuesday'),('Wednesday', 'Wednesday'), ('Thursday', 'Thursday'), ('Friday', 'Friday'),('Saturday','Saturday')])
 	submit = SubmitField('Submit')
-	
+
 #Internship Search Form
 class internshipSearch(FlaskForm):
 	choices = [('heading', 'heading'),('company', 'company'),('startDate', 'startDate'),('endDate','endDate'),('gpa','gpa'),('pay','pay')]
 	search = StringField("Search")
 	select = SelectField("Search by",choices=choices)
 
-	
+
 class studentSearch(FlaskForm):
 	choices = [('heading', 'heading'),('Company', 'Company'),('startDate', 'startDate'),('endDate','endDate'),('gpa','gpa'),('pay','pay')]
 	search = StringField("Search")
 	select = SelectField("Search by",choices=choices)
 
-	
+
 
 
 #Profile Edit
