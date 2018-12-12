@@ -1,5 +1,5 @@
 # The Connect
-from flask import Flask, render_template, redirect, url_for, flash, request, jsonify
+from flask import Flask, render_template, redirect, url_for, flash, request, jsonify, request
 from flask_bootstrap import Bootstrap
 from flask_moment import Moment
 from flask_wtf import FlaskForm
@@ -190,7 +190,7 @@ def intern_profile(UserID):
 	img/b.jpg?token=AoQ7TSJDqVpIdxBM_4hwk9J2QSluOd47ks5b7GhvwA%3D%3D"
     biography = biography
 
-    return render_template('intern_profile.html', profile_pic=profile_pic, logo_link=logo_link, edit=edit, first_name=f_name, last_name=l_name, \
+    return render_template('intern_profile.html',UserID=UserID, profile_pic=profile_pic, logo_link=logo_link, edit=edit, first_name=f_name, last_name=l_name, \
                            degree=degree, school=school, gpa=gpa, email=email, phone=phone, interest=interest, \
                            biography=biography,availability=availability)
 
@@ -219,7 +219,7 @@ def sponsor_profile(UserID):
     profile_pic = "https://raw.githubusercontent.com/scsu-csc330-400/blu-test/help_jason/Static/img/\
     b.jpg?token=AoQ7TSJDqVpIdxBM_4hwk9J2QSluOd47ks5b7GhvwA%3D%3D"
 
-    return render_template('sponsor_profile.html', profile_pic=profile_pic, company=company, address=address, \
+    return render_template('sponsor_profile.html', UserID=UserID, profile_pic=profile_pic, company=company, address=address, \
                            website=website, phone=phone, zipcode=zipcode, city=city, description=description, \
                            state=state, edit=edit)
 
@@ -386,55 +386,56 @@ def create_sponsor():
         state = form.state.data
         zipcode = form.zipcode.data
         description = form.description.data
-
+        approved = 0
         c.execute('INSERT INTO User values("%s","%s","%s","%s")' % (UserID, email, password, role))
-        c.execute('INSERT INTO Sponsor values("%s","%s","%s","%s","%s","%s","%s","%s","%s")' % (
-            UserID, company, address, website, phone, zipcode, city, description, state))
+        c.execute('INSERT INTO Sponsor values("%s","%s","%s","%s","%s","%s","%s","%s","%s","%s")'
+                  %(UserID, company, address, website, phone, zipcode, city, description, state,approved))
 
         db.commit()
-        return redirect(url_for('home'))
+        login_user(User(UserID, email, password, role))
+        return redirect('sponsor/%s'%(UserID))
     return render_template('create_sponsor.html', form=form, title=title, logo_link=logo_link)
 
 
 @app.route('/create_student', methods=['GET', 'POST'])
 def create_student():
-	form = createStudent()
-	title = "Student"
-	logo_link = "/"
+    form = createStudent()
+    title = "Student"
+    logo_link = "/"
 
-	if form.validate_on_submit():
-		role = "Student"
-		UserID = str(random.randrange(100000,1000000))
-		email = form.email.data
-		password = form.password.data
-		fname = form.fname.data
-		lname = form.lname.data
-		phone = form.phone.data
-		address = form.address.data
-		address2 = form.address2.data
-		city = form.city.data
-		state = form.state.data
-		zipcode = form.zipcode.data
-		major = form.major.data
-		gpa = form.gpa.data
-		interest = form.interest.data
-		biography = form.biography.data
-		availability = form.availability.data
-		approved = 0
-		suggestion = 0
+    if form.validate_on_submit():
+        role = "Student"
+        UserID = str(random.randrange(100000,1000000))
+        email = form.email.data
+        password = form.password.data
+        fname = form.fname.data
+        lname = form.lname.data
+        phone = form.phone.data
+        address = form.address.data
+        address2 = form.address2.data
+        city = form.city.data
+        state = form.state.data
+        zipcode = form.zipcode.data
+        major = form.major.data
+        gpa = form.gpa.data
+        interest = form.interest.data
+        biography = form.biography.data
+        availability = form.availability.data
+        approved = 0
+        suggestion = 0
 
-		c.execute('INSERT INTO User values("%s","%s","%s","%s")' % (UserID, email, password, role))
-		c.execute('INSERT INTO Student values("%s","%s","%s","%s","%s","%s","%s",%s,"%s","%s","%s","%s","%s","%s","%s","%s","%s")' % (
-				UserID, fname, lname, address, email, phone, major, gpa, state, address2, city, zipcode, interest, biography, availability, approved, suggestion))
+        c.execute('INSERT INTO User values("%s","%s","%s","%s")' % (UserID, email, password, role))
+        c.execute('INSERT INTO Student values("%s","%s","%s","%s","%s","%s","%s",%s,"%s","%s","%s","%s","%s","%s","%s","%s","%s")' % (
+            UserID, fname, lname, address, email, phone, major, gpa, state, address2, city, zipcode, interest, biography, availability, approved, suggestion))
 
-		db.commit()
-		return redirect(url_for('home'))
+        db.commit()
+        login_user(User(UserID,email,password,role))
+        return redirect('intern/%s'%(UserID))
 
-	return render_template('create_student.html', form=form, title=title, logo_link=logo_link)
+    return render_template('create_student.html', form=form, title=title, logo_link=logo_link)
 
-#create ticket (probably get rid of)
+
 @app.route('/create_ticket', methods=['GET', 'POST'])
-#@login_required
 def create_ticket():
     form = createTicket()
     title = "Report Error"
@@ -443,24 +444,12 @@ def create_ticket():
         errType = form.errType.data
         email = form.email.data
         errDescription = form.errDescription.data
-        c.execute('INSERT INTO Error values("%s","%s","%s","%s",)' % (errType, email, errDescription))
+        c.execute('INSERT INTO Error values("%s","%s","%s")' %(errType, email, errDescription))
         db.commit()
-        return render_template('landing.html', form=form, title=title, nav1=nav1, logo_link=logo_link)
+        return redirect(url_for('home'))
     return render_template('create_ticket.html', form=form, title=title, logo_link=logo_link)
 
-# resume
-# resume_location = "..\static\img\s_resume.jpg"
-# @app.route('/user_resume')
-# def user_resume():
-#    title = "Resume"
-#    logo_link = "/"
-#    resume_location = "..\static\img\s_resume.jpg"
-#    return render_template('user_resume.html', title=title, resume=resume_location, logo_link=logo_link)
 
-# @app.route('/user/<user>')
-# def user_profile():
-#     title = "Profile"
-#     return render_template('sponsor_profile.html', title=title)
 
 @app.route('/success')
 def successful_internship():
@@ -483,11 +472,19 @@ def about():
     return render_template('about.html', title=title, logo_link=logo_link)
 
 
-@app.route('/contact')
+@app.route('/contact', methods=['GET', 'POST'])
 def contact():
     form = contactForm()
     title = "Contact"
     logo_link = "/"
+    if form.validate_on_submit():
+        name = form.name.data
+        email = form.email.data
+        subject = form.subject.data
+        message = form.message.data
+        c.execute('INSERT INTO ContactRequest values("%s","%s","%s","%s")' % (name, email, subject, message))
+        db.commit()
+        return redirect(url_for('home'))
     return render_template('contact.html', form=form, title=title, logo_link=logo_link)
 
 

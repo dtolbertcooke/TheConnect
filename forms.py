@@ -54,7 +54,6 @@ class createInternship(FlaskForm):
 
 #new sponsor
 class createSponsor(FlaskForm):
-    sponsorID = StringField('User ID', validators=[DataRequired()])
     email = StringField('Email Address', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired(), EqualTo('confirm', message='Passwords must match')])
     confirm = PasswordField('Repeat Password')
@@ -106,7 +105,7 @@ class createAdmin(FlaskForm):
 
 #error report
 class createTicket(FlaskForm):
-	errType = SelectField(u'Error Type', choices=[('', ''), ('', ''), ('', '')])
+	errType = SelectField(u'Error Type', choices=[('HTML', 'HTML'), ('SQL', 'SQL'), ('Python', 'Python')])
 	email = StringField('Email address', validators=[DataRequired(), Email()])
 	errDescription = TextAreaField('Error Description ' , validators=[DataRequired()])
 	submit = SubmitField("Submit")
