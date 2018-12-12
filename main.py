@@ -82,8 +82,13 @@ def is_student():
 # it exists, None otherwise.
 @login_manager.user_loader
 def load_user(id):
-    return user_db.get(id)
-
+	c.execute('Select * from User where UserID = %s' %(id))
+	data = c.fetchall()
+	
+	for row in data:
+		UserID,email,password,role = row[0],row[1],row[2],row[3]
+		user = User(UserID,email,password,role)
+	return user
 
 @app.route('/base')  # This is the base.html that every webpages uses.
 def base():
@@ -116,14 +121,16 @@ def internal_server_error(e):
 def home():
 	title = "TheConnect"
 	logo_link = "/"
+	UserID = current_user.getID()
+	role = current_user.getRole()
 
 	if current_user.is_authenticated:
-		if current_user.getRole == 'Sponsor':
-			return redirect(url_for('sponsor_profile/%s'%(UserID)))
-		elif current_user.getRole == 'Faculty':
-			return redirect(url_for('admin_home/%s'%(UserID)))
+		if user.getRole() is 'Sponsor':
+			return redirect('sponsor/%s'%(UserID))
+		elif role is 'Faculty':
+			return redirect('admin_home')
 		else:
-			return redirect(url_for('intern_profile/%s'%(UserID)))
+			return redirect('intern/%s'%(UserID))
 
 	form = loginForm()
 	if form.validate_on_submit():
@@ -141,10 +148,10 @@ def home():
 				redirect(url_for('home'))
 			else:
 				login_user(user)
-				if role == 'Sponsor':
+				if role is 'Sponsor':
 					return redirect('sponsor/%s'%(UserID))
-				elif role == 'Faculty':
-					return redirect('admin_home/%s'%(UserID))
+				elif role is 'Faculty':
+					return redirect('admin_home')
 				else:
 					return redirect('intern/%s'%(UserID))
 	return render_template('landing.html', form=form, title=title, logo_link=logo_link)
@@ -216,6 +223,7 @@ def sponsor_profile(UserID):
 
 @app.route('/edit_profile/intern/<UserID>', methods=['GET', 'POST'])
 @login_required
+# @roles_required('admin','intern')
 def edit_profile_intern(UserID):
     form = editInternProfileForm()
     title = 'Edit Profile'
@@ -285,31 +293,29 @@ def admin_home():
 
 #create users
 @app.route('/create_internship', methods=['GET', 'POST'])
+#@login_required
 def create_internship():
 	form = createInternship()
 	title = "Internship"
 	logo_link = "/"
-
-    if form.validate_on_submit():
-        company = form.company.data
-        heading = form.heading.data
-        body = form.body.data
-        startDate = form.startDate.data
-        endDate = form.endDate.data
-        gpa = form.gpa.data
-        pay = form.pay.data
-        approved = 0
-        referral = form.referral.data
-        postID = str(random.randrange(100000,1000000))
+	
+	if form.validate_on_submit():
+		company = form.company.data
+		heading = form.heading.data
+		body = form.body.data
+		startDate = form.startDate.data
+		endDate = form.endDate.data
+		gpa = form.gpa.data
+		pay = form.pay.data
+		approved = 0
+		referral = form.referral.data
+		postID = str(random.randrange(100000,1000000))
         #postID needs loop to check for duplicates
 
-        c.execute('INSERT INTO Internship values("%s","%s","%s","%s","%s","%s","%s","s","s","%s")' %(company,heading,body,startDate,endDate,gpa,pay,approved,referral,postID))
-        db.commit()
-        return redirect(url_for('home'))
-
-
-        return render_template('successful_internship.html', title=title, nav1=nav1, logo_link=logo_link)
-    return render_template('create_internship.html', form=form, title=title, logo_link=logo_link)
+		c.execute('INSERT INTO Internship values("%s","%s","%s","%s","%s","%s","%s","s","s","%s")' %(company,heading,body,startDate,endDate,gpa,pay,approved,referral,postID))
+		db.commit()
+		return redirect(url_for('home'))
+	return render_template('create_internship.html', form=form, title=title, logo_link=logo_link)
 
 @app.route('/create_sponsor', methods=['GET', 'POST'])
 def create_sponsor():
@@ -378,6 +384,7 @@ def create_student():
 
 #create ticket (probably get rid of)
 @app.route('/create_ticket', methods=['GET', 'POST'])
+#@login_required
 def create_ticket():
     form = createTicket()
     title = "Report Error"
@@ -448,26 +455,17 @@ def notifications():
 
 
 @app.route('/user_resume')
+#@login_required
 def user_resume():
     title = "Resume"
     logo_link = "/"
     resume_location = "..\static\img\s_resume.jpg"
     return render_template('user_resume.html', title=title, resume=resume_location, logo_link=logo_link)
 
-
-@app.route('/register')
-def register():
-    title = "Register"
-    return render_template('register.html', title=title)
-
-
-@app.route('/search')
-def search():
-    return render_template('search.html')
-
 #view and search
 @app.route('/internships', methods=["GET","POST"])
 #@login_required
+# @roles_required('admin')
 def internships():
 	title = "Opportunities"
 	logo_link = "/"
@@ -484,6 +482,7 @@ def internships():
 
 @app.route('/students', methods=["GET","POST"])
 #@login_required
+# @roles_required('admin')
 def students():
 	title = "Students"
 	logo_link = "/"
@@ -498,6 +497,7 @@ def students():
 	return render_template('internships.html',title=title, data=data, form=form, logo_link=logo_link)
 
 @app.route('/results', methods=["GET","POST"])
+#@login.required
 def search_results(search):
 #	title = "Opportunities"
 	logo_link = "/"
