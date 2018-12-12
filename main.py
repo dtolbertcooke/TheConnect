@@ -248,7 +248,7 @@ def sponsor_profile(UserID):
 			phone1 = row3[5]
 
 
-	
+
 
 	profile_pic = "https://raw.githubusercontent.com/scsu-csc330-400/blu-test/help_jason/Static/img/\
 	b.jpg?token=AoQ7TSJDqVpIdxBM_4hwk9J2QSluOd47ks5b7GhvwA%3D%3D"
@@ -387,31 +387,31 @@ def admin_home():
 @app.route('/create_internship', methods=['GET', 'POST'])
 #@login_required
 def create_internship():
-	form = createInternship()
-	title = "Internship"
-	logo_link = "/"
-	name = current_user.getID()
-	c.execute('Select company from Sponsor where UserID = %s' %(name))
-	data = c.fetchall()
-	for row in data:
-                company = row[0]
+    form = createInternship()
+    title = "Internship"
+    logo_link = "/"
+    name = current_user.getID()
+    c.execute('Select company from Sponsor where UserID = %s' %(name))
+    data = c.fetchall()
+    for row in data:
+        blah = row[0]
 
-	if form.validate_on_submit():
-		#company = form.company.data
-		heading = form.heading.data
-		body = form.body.data
-		startDate = form.startDate.data
-		endDate = form.endDate.data
-		gpa = form.gpa.data
-		pay = form.pay.data
-		approved = 0
-		referral = form.referral.data
-		postID = str(random.randrange(100000,1000000))
+    if form.validate_on_submit():
+	    company = blah
+	    heading = form.heading.data
+	    body = form.body.data
+	    startDate = form.startDate.data
+	    endDate = form.endDate.data
+	    gpa = form.gpa.data
+	    pay = form.pay.data
+	    approved = 0
+	    referral = form.referral.data
+	    postID = str(random.randrange(100000,1000000))
 
-		c.execute('INSERT INTO Internship values("%s","%s","%s","%s","%s","%s","%s","%s","%s","%s")' %(company,heading,body,startDate,endDate,gpa,pay,approved,referral,postID))
-		db.commit()
-		return redirect(url_for('home'))
-	return render_template('create_internship.html', form=form, title=title, logo_link=logo_link)
+	    c.execute('INSERT INTO Internship values("%s","%s","%s","%s","%s","%s","%s","%s","%s","%s")' %(company,heading,body,startDate,endDate,gpa,pay,approved,referral,postID))
+	    db.commit()
+	    return redirect(url_for('home'))
+    return render_template('create_internship.html', form=form, title=title, logo_link=logo_link)
 
 @app.route('/create_sponsor', methods=['GET', 'POST'])
 def create_sponsor():
@@ -623,7 +623,7 @@ def viewInternship(postID):
 		pay = row[6]
 		post = postID
 
-		
+
 	return render_template('view_internship.html', data=data, logo_link=logo_link, company=company, title=title,
 						   body=body, start=start, end=end, gpa=gpa, pay=pay, post=post)
 
@@ -634,7 +634,7 @@ def submitApplication():
 	sql = ('SELECT * FROM Student WHERE UserID=%s' %(user))
 	c.execute(sql)
 	student_data = c.fetchall()
-	
+
 	applicationID = str(random.randrange(100000,1000000))
 	for row in student_data:
 		f_name = row[1]
