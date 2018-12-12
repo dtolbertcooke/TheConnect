@@ -391,9 +391,13 @@ def create_internship():
 	title = "Internship"
 	logo_link = "/"
 	name = current_user.getID()
+	c.execute('Select company from Sponsor where UserID = %s' %(name))
+	data = c.fetchall()
+	for row in data:
+                company = row[0]
 
 	if form.validate_on_submit():
-		company = form.company.data
+		#company = form.company.data
 		heading = form.heading.data
 		body = form.body.data
 		startDate = form.startDate.data
@@ -404,7 +408,7 @@ def create_internship():
 		referral = form.referral.data
 		postID = str(random.randrange(100000,1000000))
 
-		c.execute('INSERT INTO Internship values("%s","%s","%s","%s","%s","%s","%s","s","s","%s")' %(company,heading,body,startDate,endDate,gpa,pay,approved,referral,postID))
+		c.execute('INSERT INTO Internship values("%s","%s","%s","%s","%s","%s","%s","%s","%s","%s")' %(company,heading,body,startDate,endDate,gpa,pay,approved,referral,postID))
 		db.commit()
 		return redirect(url_for('home'))
 	return render_template('create_internship.html', form=form, title=title, logo_link=logo_link)
