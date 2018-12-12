@@ -4,11 +4,11 @@ from flask_bootstrap import Bootstrap
 from flask_moment import Moment
 from flask_wtf import FlaskForm
 from flask_login import LoginManager, UserMixin, login_user, logout_user, \
-                        current_user, login_required
+						current_user, login_required
 from werkzeug.urls import url_parse
 from werkzeug.security import check_password_hash, generate_password_hash
 from wtforms import Form, StringField, SubmitField, IntegerField, PasswordField, \
-                     SelectField, DecimalField, TextAreaField, DateField, SelectMultipleField, validators
+					 SelectField, DecimalField, TextAreaField, DateField, SelectMultipleField, validators
 import pymysql
 from flask_user import roles_required   # we will have three roles; admin, intern, sponsor
 import sys
@@ -16,57 +16,57 @@ from wtforms.validators import DataRequired, NumberRange, EqualTo, Email, Length
 
 #login
 class loginForm(FlaskForm):
-    UserID = StringField('UserID',validators=[DataRequired()])
-    password = PasswordField('Password', validators=[DataRequired()])
-    submit = SubmitField('Submit')
+	UserID = StringField('UserID',validators=[DataRequired()])
+	password = PasswordField('Password', validators=[DataRequired()])
+	submit = SubmitField('Submit')
 
 class editInternProfileForm(FlaskForm):
-    degree = StringField('Degree')
-    gpa = DecimalField('GPA',places=1)
-    phone = StringField('Phone')
-    interest = StringField('Interests')
-    availability = TextAreaField('Availability')
-    bio = TextAreaField('Biography', validators=[Length(min=0, max=500)])
-    submit = SubmitField('Submit')
+	degree = StringField('Degree')
+	gpa = DecimalField('GPA',places=1)
+	phone = StringField('Phone')
+	interest = StringField('Interests')
+	availability = TextAreaField('Availability')
+	bio = TextAreaField('Biography', validators=[Length(min=0, max=500)])
+	submit = SubmitField('Submit')
 
 class editSponsorProfileForm(FlaskForm):
-    company = StringField('Organization Name')
-    website = StringField('Organization website')
-    phone = StringField('Organization Contact Phone')
-    address = StringField('Organization Address')
-    city = StringField('Organization City')
-    state = SelectField('Organization State',choices=[('ct', 'Connecticut'), ('ma', 'Massachussets'), ('ny', 'New York')])
-    zipcode = StringField('Organization Zip')
-    description = TextAreaField('Organization description')
-    submit = SubmitField('Submit')
+	company = StringField('Organization Name')
+	website = StringField('Organization website')
+	phone = StringField('Organization Contact Phone')
+	address = StringField('Organization Address')
+	city = StringField('Organization City')
+	state = SelectField('Organization State',choices=[('ct', 'Connecticut'), ('ma', 'Massachussets'), ('ny', 'New York')])
+	zipcode = StringField('Organization Zip')
+	description = TextAreaField('Organization description')
+	submit = SubmitField('Submit')
 
 #new internship
 class createInternship(FlaskForm):
 
-    company = StringField('Organization Name', validators=[DataRequired()])
-    heading = StringField('Internship Title', validators=[DataRequired()])
-    body = TextAreaField('Internship Description', validators=[DataRequired()])
-    startDate = DateField('Start Date', format='%m-%d-%Y', validators=[DataRequired()])
-    endDate = DateField('End Date', format='%m-%d-%Y')
-    gpa = DecimalField('Minimum GPA',places =1,validators=[DataRequired()])
-    pay = DecimalField('Pay Rate $',places=2)
-    referral = SelectField('Public listing or by referral only ', choices=[('0', 'Public'), ('1', 'Referral')])
-    submit = SubmitField('Submit')
+	company = StringField('Organization Name', validators=[DataRequired()])
+	heading = StringField('Internship Title', validators=[DataRequired()])
+	body = TextAreaField('Internship Description', validators=[DataRequired()])
+	startDate = DateField('Start Date', format='%m-%d-%Y', validators=[DataRequired()])
+	endDate = DateField('End Date', format='%m-%d-%Y')
+	gpa = DecimalField('Minimum GPA',places =1,validators=[DataRequired()])
+	pay = DecimalField('Pay Rate $',places=2)
+	referral = SelectField('Public listing or by referral only ', choices=[('0', 'Public'), ('1', 'Referral')])
+	submit = SubmitField('Submit')
 
 #new sponsor
 class createSponsor(FlaskForm):
-    email = StringField('Email Address', validators=[DataRequired()])
-    password = PasswordField('Password', validators=[DataRequired(), EqualTo('confirm', message='Passwords must match')])
-    confirm = PasswordField('Repeat Password')
-    company = StringField('Organization Name', validators=[DataRequired()])
-    website = StringField('Organization website', validators=[DataRequired()])
-    phone = StringField('Organization Contact Phone', validators=[DataRequired()])
-    address = StringField('Organization Address',validators=[DataRequired()])
-    city = StringField('Organization City',validators=[DataRequired()])
-    state = SelectField('Organization State',choices=[('ct', 'Connecticut'), ('ma', 'Massachussets'), ('ny', 'New York')])
-    zipcode = StringField('Organization Zip' ,validators=[DataRequired()])
-    description = TextAreaField('Organization description', validators=[DataRequired()])
-    submit = SubmitField('Submit')
+	email = StringField('Email Address', validators=[DataRequired()])
+	password = PasswordField('Password', validators=[DataRequired(), EqualTo('confirm', message='Passwords must match')])
+	confirm = PasswordField('Repeat Password')
+	company = StringField('Organization Name', validators=[DataRequired()])
+	website = StringField('Organization website', validators=[DataRequired()])
+	phone = StringField('Organization Contact Phone', validators=[DataRequired()])
+	address = StringField('Organization Address',validators=[DataRequired()])
+	city = StringField('Organization City',validators=[DataRequired()])
+	state = SelectField('Organization State',choices=[('ct', 'Connecticut'), ('ma', 'Massachussets'), ('ny', 'New York')])
+	zipcode = StringField('Organization Zip' ,validators=[DataRequired()])
+	description = TextAreaField('Organization description', validators=[DataRequired()])
+	submit = SubmitField('Submit')
 
 #new student
 class createStudent(FlaskForm):
@@ -153,17 +153,17 @@ class internshipSearch(FlaskForm):
 class studentSearch(FlaskForm):
 	choices = [('heading', 'heading'),('Company', 'Company'),('startDate', 'startDate'),('endDate','endDate'),('gpa','gpa'),('pay','pay')]
 	search = StringField("Search")
-        select = SelectField("Search by",choices=choices)
+	select = SelectField("Search by",choices=choices)
 
 
 class View(FlaskForm):
-    View = SubmitField("View")
+	View = SubmitField("View")
 
 class Delete(FlaskForm):
-    Delete = SubmitField("Delete")
+	Delete = SubmitField("Delete")
 
 class Approve(FlaskForm):
-    approve = SubmitField("Approve")
+	approve = SubmitField("Approve")
 
 class Deny(FlaskForm):
-    deny = SubmitField("Deny")
+	deny = SubmitField("Deny")

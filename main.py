@@ -190,9 +190,9 @@ def intern_profile(UserID):
 	img/b.jpg?token=AoQ7TSJDqVpIdxBM_4hwk9J2QSluOd47ks5b7GhvwA%3D%3D"
 	biography = biography
 
-	return render_template('intern_profile.html',UserID=UserID, profile_pic=profile_pic, logo_link=logo_link, edit=edit, first_name=f_name, last_name=l_name, \
-						   degree=degree, school=school, gpa=gpa, email=email, phone=phone, interest=interest, \
-						   biography=biography,availability=availability)
+	return render_template('intern_profile.html',UserID=UserID, profile_pic=profile_pic, logo_link=logo_link, edit=edit,
+						   first_name=f_name, last_name=l_name, degree=degree, school=school, gpa=gpa, email=email,
+						   phone=phone, interest=interest, biography=biography,availability=availability)
 
 
 @app.route('/sponsor/<UserID>')
@@ -216,28 +216,28 @@ def sponsor_profile(UserID):
 		description = row[7]
 		state = row[8]
 
-    c.execute('Select postID, heading, startDate, endDate from Internship where company like "%s"' %(company))
-    data2 = c.fetchall()
+	c.execute('Select postID, heading, startDate, endDate from Internship where company like "%s"' %(company))
+	data2 = c.fetchall()
 
-    if len(data2)==0:
-        postID = 0
-        heading=''
-        startDate=''
-        endDate=''
-    elif len(data2)>=1:
-        for row2 in data2:
-            postID = row2[0]
-            heading = row2[1]
-            startDate = row2[2]
-            endDate = row2[3]
+	if len(data2)==0:
+		postID = 0
+		heading=''
+		startDate=''
+		endDate=''
+	elif len(data2)>=1:
+		for row2 in data2:
+			postID = row2[0]
+			heading = row2[1]
+			startDate = row2[2]
+			endDate = row2[3]
 
-    profile_pic = "https://raw.githubusercontent.com/scsu-csc330-400/blu-test/help_jason/Static/img/\
-    b.jpg?token=AoQ7TSJDqVpIdxBM_4hwk9J2QSluOd47ks5b7GhvwA%3D%3D"
+	profile_pic = "https://raw.githubusercontent.com/scsu-csc330-400/blu-test/help_jason/Static/img/\
+	b.jpg?token=AoQ7TSJDqVpIdxBM_4hwk9J2QSluOd47ks5b7GhvwA%3D%3D"
 
-    return render_template('sponsor_profile.html', UserID=UserID, profile_pic=profile_pic, company=company, address=address, \
-                           website=website, phone=phone, zipcode=zipcode, city=city, description=description, \
-                           state=state, edit=edit, data2=data2, postID=postID, heading=heading, startDate=startDate, \
-                           endDate=endDate)
+	return render_template('sponsor_profile.html', UserID=UserID, profile_pic=profile_pic, company=company, address=address,
+						   website=website, phone=phone, zipcode=zipcode, city=city, description=description,
+						   state=state, edit=edit, data2=data2, postID=postID, heading=heading, startDate=startDate,
+						   endDate=endDate)
 
 @app.route('/edit_profile/intern/<UserID>', methods=['GET', 'POST'])
 @login_required
@@ -361,17 +361,17 @@ def admin_home():
 						   form_den=form_den, unq_id=unq_id, intern_data=intern_data, sponsor_data=sponsor_data,
 						   contact_data=contact_data, ticket_data=ticket_data, referral_requested_data=referral_requested_data,
 						   internship_data = internship_data, form_view=form_view,form_delete=form_delete,
-                           all_sponsor_data=all_sponsor_data)
+						   all_sponsor_data=all_sponsor_data)
 
 
 #create users
 @app.route('/create_internship', methods=['GET', 'POST'])
 #@login_required
 def create_internship():
-    form = createInternship()
-    title = "Internship"
-    logo_link = "/"
-    name = current_user.getID()
+	form = createInternship()
+	title = "Internship"
+	logo_link = "/"
+	name = current_user.getID()
 
 	if form.validate_on_submit():
 		company = form.company.data
@@ -599,10 +599,10 @@ def viewInternship(postID):
 		gpa = row[5]
 		pay = row[6]
 		post = postID
-	if request.method == "POST":
-		submitApplication()
+
 		
-	return render_template('view_internship.html', data=data, logo_link=logo_link, company=company, title=title, body=body, start=start, end=end, gpa=gpa, pay=pay, post=post)
+	return render_template('view_internship.html', data=data, logo_link=logo_link, company=company, title=title,
+						   body=body, start=start, end=end, gpa=gpa, pay=pay, post=post)
 
 @app.route('/submit_application', methods=["GET","POST"])
 #login.required
