@@ -41,8 +41,7 @@ class editSponsorProfileForm(FlaskForm):
 
 #new internship
 class createInternship(FlaskForm):
-
-	#company = StringField('Organization Name', validators=[DataRequired()])
+	company = StringField('Organization Name', validators=[DataRequired()])
 	heading = StringField('Internship Title', validators=[DataRequired()])
 	body = TextAreaField('Internship Description', validators=[DataRequired()])
 	startDate = DateField('Start Date', format='%m-%d-%Y', validators=[DataRequired()])
@@ -121,25 +120,6 @@ class contactForm(FlaskForm):
 class changePassword(FlaskForm):
 	password = PasswordField('Password', validators=[DataRequired(), EqualTo('confirm', message='Passwords must match')])
 	confirm = PasswordField('Repeat Password')
-	submit = SubmitField('Submit')
-
-class editStudent(FlaskForm):
-	email = StringField('Email address', validators=[DataRequired()])
-	password = PasswordField('Password', validators=[DataRequired(), EqualTo('confirm', message='Passwords must match')])
-	confirm = PasswordField('Repeat Password')
-	fname = StringField('First Name', validators=[DataRequired()])
-	lname = StringField('Last Name', validators=[DataRequired()])
-	phone = StringField('Phone', validators=[DataRequired()])
-	address = StringField('Address',validators=[DataRequired()])
-	address2 = StringField('Address 2')
-	city = StringField('City',validators=[DataRequired()])
-	state = SelectField('State',choices=[('ct', 'Connecticut'), ('ma', 'Massachussets'), ('ny', 'New York')])
-	zipcode = StringField('Zip' ,validators=[DataRequired()])
-	major = StringField('Major',validators=[DataRequired()])
-	gpa = DecimalField('GPA',places=1,validators=[DataRequired()])
-	interest = TextAreaField('Student Interest')
-	biography = TextAreaField('Biography')
-	availability = SelectMultipleField('Availability',choices=[('Sunday', 'Sunday'), ('Monday', 'Monday'), ('Tuesday', 'Tuesday'),('Wednesday', 'Wednesday'), ('Thursday', 'Thursday'), ('Friday', 'Friday'),('Saturday','Saturday')])
 	submit = SubmitField('Submit')
 
 #Internship Search Form
