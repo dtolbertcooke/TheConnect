@@ -3,11 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="f239e7f2-439b-4737-89aa-af16eb2bc80e" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/Templates/base.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Templates/base_profile.html" beforeDir="false" afterPath="$PROJECT_DIR$/Templates/base_profile.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Templates/internships.html" beforeDir="false" afterPath="$PROJECT_DIR$/Templates/internships.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Templates/view_internship.html" beforeDir="false" afterPath="$PROJECT_DIR$/Templates/view_internship.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/forms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -66,7 +63,7 @@
     <session id="165001535">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="6" />
+          <entry key="project.closed" value="7" />
           <entry key="project.open.time.10" value="1" />
           <entry key="project.open.time.2" value="1" />
           <entry key="project.open.time.20" value="1" />
@@ -104,7 +101,7 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="9300">
+            <state relative-caret-position="9000">
               <caret line="474" lean-forward="true" selection-start-line="474" selection-end-line="474" />
               <folding>
                 <element signature="e#14#107#0" expanded="true" />
@@ -227,7 +224,7 @@
       <path value="$PROJECT_DIR$/Templates/package.json" />
     </packageJsonPaths>
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="34" />
     <option name="y" value="-17" />
     <option name="width" value="1159" />
@@ -291,7 +288,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Unknown.blu-prod1927449733">
+  <component name="RunManager" selected="Unknown.blu-prod487075749">
     <configuration name="NomNomGame.html" type="JavascriptDebugType" factoryName="JavaScript Debug" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/blu-prod/NomNomGame.html">
       <method v="2" />
     </configuration>
@@ -365,7 +362,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.14120126" />
       <window_info id="Structure" order="1" weight="0.25" />
@@ -436,7 +432,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="9300">
+        <state relative-caret-position="9000">
           <caret line="474" lean-forward="true" selection-start-line="474" selection-end-line="474" />
           <folding>
             <element signature="e#14#107#0" expanded="true" />
