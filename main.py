@@ -237,8 +237,9 @@ def sponsor_profile(UserID):
 	if len(data3)==0:
 		fName = 'First'
 		lName = 'Last'
-		startDate='01/01/18'
-		endDate='12/31/18'
+		degree= 'Computer Science'
+		gpa = '4.0'
+		phone1 = '888-888-8888'
 	elif len(data3)>=1:
 		for row3 in data3:
 			fName = row3[1]
