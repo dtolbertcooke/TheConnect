@@ -63,8 +63,6 @@
 										<tbody>
 
 										{% for row in intern_data %}
-											{% set x = loop.index * 1 %} {# range > 1 #}
-											{% set y = loop.index * -1 %} {# range > 1 #}
 											<tr id="{{ loop.index * 1.01 }}">
 												<th scope="row" id="{{ loop.index }}" class="student_verifier">{{ row[0] }}</th>
 												{# UserID #}
