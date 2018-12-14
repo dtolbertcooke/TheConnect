@@ -42,8 +42,6 @@ class editSponsorProfileForm(FlaskForm):
 
 #new internship
 class createInternship(FlaskForm):
-
-	
 	heading = StringField('Internship Title', validators=[DataRequired()])
 	body = TextAreaField('Internship Description', validators=[DataRequired()])
 	startDate = DateField('Start Date', format='%m-%d-%Y', validators=[DataRequired()])
