@@ -1,0 +1,12 @@
+After you download to the VM
+
+in the command prompt type
+
+--------------------------------
+pip3 install -r requirements.txt
+--------------------------------
+
+it should install all the modules we have then do
+
+-------------------------------
+python3 main.py

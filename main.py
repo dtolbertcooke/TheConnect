@@ -42,9 +42,11 @@ moment = Moment(app)  # invokes bootstrap
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
-db = pymysql.connect(host='35.231.51.121', user='root', password='connect1234', db='theConnect')
-c = db.cursor()
-
+try:
+	db = pymysql.connect(host='35.231.51.121', user='root', password='connect1234', db='theConnect')
+	c = db.cursor()
+except:
+	print("no db access")
 
 # user roles
 def is_faculty():
@@ -767,4 +769,4 @@ def reco():
 
 
 if __name__ == '__main__':  # You can run the main.py and type "localhost:8080" in your
-    app.run(host='0.0.0.0', port=8080, debug=True)  # browser to test the main.py in your computer.
+    app.run(host='0.0.0.0', port=8080, debug=False)  # broswer to test the main.py in your computer.
